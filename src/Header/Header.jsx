@@ -1,11 +1,4 @@
 import React, { useEffect, useState } from "react";
-import {
-  motion,
-  AnimatePresence,
-  useMotionValue,
-  useSpring,
-  useTransform,
-} from "framer-motion";
 
 import {
   FaGithub,
@@ -20,7 +13,6 @@ import {
   FaCode,
   FaReact,
   FaNodeJs,
-  FaEnvelope,
 } from "react-icons/fa";
 
 import {
@@ -142,7 +134,8 @@ const Header = () => {
   ];
 
   /* =========================================================
-     ROLE ANIMATION
+     ROLE CHANGE
+     No animation
   ========================================================= */
 
   useEffect(() => {
@@ -188,46 +181,6 @@ const Header = () => {
   }, []);
 
   /* =========================================================
-     MOUSE 3D
-  ========================================================= */
-
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const smoothX = useSpring(mouseX, {
-    stiffness: 100,
-    damping: 20,
-  });
-
-  const smoothY = useSpring(mouseY, {
-    stiffness: 100,
-    damping: 20,
-  });
-
-  const rotateX = useTransform(smoothY, [-1, 1], [6, -6]);
-  const rotateY = useTransform(smoothX, [-1, 1], [-6, 6]);
-
-  const handleMouseMove = (event) => {
-    if (window.innerWidth < 1024) return;
-
-    const rect = event.currentTarget.getBoundingClientRect();
-
-    const x =
-      ((event.clientX - rect.left) / rect.width - 0.5) * 2;
-
-    const y =
-      ((event.clientY - rect.top) / rect.height - 0.5) * 2;
-
-    mouseX.set(x);
-    mouseY.set(y);
-  };
-
-  const handleMouseLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-  };
-
-  /* =========================================================
      SCROLL
   ========================================================= */
 
@@ -247,8 +200,6 @@ const Header = () => {
   return (
     <section
       id="home"
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
       className="
         relative
         min-h-screen
@@ -259,11 +210,12 @@ const Header = () => {
       "
     >
       {/* =====================================================
-          PREMIUM BACKGROUND
+          PREMIUM STATIC BACKGROUND
       ====================================================== */}
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {/* Main gradient */}
+        {/* Main Gradient */}
+
         <div
           className="
             absolute
@@ -275,18 +227,9 @@ const Header = () => {
           "
         />
 
-        {/* Blue ambient glow */}
-        <motion.div
-          animate={{
-            x: [0, 100, 0],
-            y: [0, -50, 0],
-            scale: [1, 1.18, 1],
-          }}
-          transition={{
-            duration: 13,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+        {/* Static Blue Glow */}
+
+        <div
           className="
             absolute
             -left-32
@@ -299,18 +242,9 @@ const Header = () => {
           "
         />
 
-        {/* Purple ambient glow */}
-        <motion.div
-          animate={{
-            x: [0, -90, 0],
-            y: [0, 60, 0],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+        {/* Static Purple Glow */}
+
+        <div
           className="
             absolute
             -right-32
@@ -323,18 +257,9 @@ const Header = () => {
           "
         />
 
-        {/* Cyan glow */}
-        <motion.div
-          animate={{
-            x: [0, 70, 0],
-            opacity: [0.18, 0.34, 0.18],
-            scale: [1, 1.15, 1],
-          }}
-          transition={{
-            duration: 11,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+        {/* Static Cyan Glow */}
+
+        <div
           className="
             absolute
             bottom-[-180px]
@@ -348,6 +273,7 @@ const Header = () => {
         />
 
         {/* Grid */}
+
         <div
           className="
             absolute
@@ -367,7 +293,8 @@ const Header = () => {
           }}
         />
 
-        {/* Top light */}
+        {/* Top Light */}
+
         <div
           className="
             absolute
@@ -384,6 +311,7 @@ const Header = () => {
         />
 
         {/* Vignette */}
+
         <div
           className="
             absolute
@@ -391,46 +319,13 @@ const Header = () => {
             bg-[radial-gradient(circle_at_center,transparent_30%,rgba(2,6,23,0.7)_100%)]
           "
         />
-
-        {/* Floating particles */}
-        {[...Array(18)].map((_, index) => (
-          <motion.span
-            key={index}
-            initial={{
-              opacity: 0,
-              y: 30,
-            }}
-            animate={{
-              opacity: [0, 0.7, 0],
-              y: [-10, -100, -180],
-              x: [0, index % 2 === 0 ? 25 : -25, 0],
-            }}
-            transition={{
-              duration: 5 + (index % 4),
-              delay: index * 0.3,
-              repeat: Infinity,
-              ease: "easeOut",
-            }}
-            className="
-              absolute
-              h-1
-              w-1
-              rounded-full
-              bg-indigo-300/50
-            "
-            style={{
-              left: `${(index * 17) % 100}%`,
-              top: `${55 + ((index * 9) % 35)}%`,
-            }}
-          />
-        ))}
       </div>
 
       {/* =====================================================
           NAVBAR
       ====================================================== */}
 
-    
+     
 
       {/* =====================================================
           HERO
@@ -468,18 +363,7 @@ const Header = () => {
               LEFT CONTENT
           ================================================== */}
 
-          <motion.div
-            initial={{
-              opacity: 0,
-              x: -45,
-            }}
-            animate={{
-              opacity: 1,
-              x: 0,
-            }}
-            transition={{
-              duration: 0.8,
-            }}
+          <div
             className="
               relative
               z-20
@@ -489,18 +373,7 @@ const Header = () => {
           >
             {/* STATUS */}
 
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: 10,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
-              transition={{
-                delay: 0.15,
-              }}
+            <div
               className="
                 mx-auto
                 mb-5
@@ -513,14 +386,10 @@ const Header = () => {
                 bg-emerald-400/[0.05]
                 px-3.5
                 py-2
-                shadow-[0_0_25px_rgba(52,211,153,.04)]
                 lg:mx-0
               "
             >
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inset-0 animate-ping rounded-full bg-emerald-400/70" />
-                <span className="relative h-2 w-2 rounded-full bg-emerald-400" />
-              </span>
+              <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,.7)]" />
 
               <span
                 className="
@@ -534,20 +403,11 @@ const Header = () => {
               >
                 Available for freelance
               </span>
-            </motion.div>
+            </div>
 
             {/* HELLO */}
 
-            <motion.p
-              initial={{
-                opacity: 0,
-              }}
-              animate={{
-                opacity: 1,
-              }}
-              transition={{
-                delay: 0.25,
-              }}
+            <p
               className="
                 text-[10px]
                 font-bold
@@ -558,23 +418,11 @@ const Header = () => {
               "
             >
               Hello, I'm
-            </motion.p>
+            </p>
 
             {/* NAME */}
 
-            <motion.h1
-              initial={{
-                opacity: 0,
-                y: 25,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
-              transition={{
-                delay: 0.35,
-                duration: 0.7,
-              }}
+            <h1
               className="
                 mt-3
                 text-[3.2rem]
@@ -600,8 +448,9 @@ const Header = () => {
               >
                 Gupta
               </span>
+
               <span className="text-indigo-400">.</span>
-            </motion.h1>
+            </h1>
 
             {/* ROLE */}
 
@@ -609,75 +458,43 @@ const Header = () => {
               className="
                 mt-6
                 h-8
-                overflow-hidden
                 sm:mt-7
                 sm:h-9
               "
             >
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={roleIndex}
-                  initial={{
-                    opacity: 0,
-                    y: 18,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  exit={{
-                    opacity: 0,
-                    y: -18,
-                  }}
-                  transition={{
-                    duration: 0.35,
-                  }}
+              <div
+                className="
+                  flex
+                  items-center
+                  justify-center
+                  gap-2
+                  text-base
+                  font-bold
+                  sm:text-xl
+                  lg:justify-start
+                  lg:text-2xl
+                "
+              >
+                <span className="text-slate-600">&</span>
+
+                <span
                   className="
-                    flex
-                    items-center
-                    justify-center
-                    gap-2
-                    text-base
-                    font-bold
-                    sm:text-xl
-                    lg:justify-start
-                    lg:text-2xl
+                    bg-gradient-to-r
+                    from-cyan-400
+                    via-indigo-400
+                    to-purple-400
+                    bg-clip-text
+                    text-transparent
                   "
                 >
-                  <span className="text-slate-600">
-                    &
-                  </span>
-
-                  <span
-                    className="
-                      bg-gradient-to-r
-                      from-cyan-400
-                      via-indigo-400
-                      to-purple-400
-                      bg-clip-text
-                      text-transparent
-                    "
-                  >
-                    {roles[roleIndex]}
-                  </span>
-                </motion.div>
-              </AnimatePresence>
+                  {roles[roleIndex]}
+                </span>
+              </div>
             </div>
 
             {/* DESCRIPTION */}
 
-            <motion.p
-              initial={{
-                opacity: 0,
-                y: 15,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
-              transition={{
-                delay: 0.55,
-              }}
+            <p
               className="
                 mx-auto
                 mt-5
@@ -700,22 +517,11 @@ const Header = () => {
               <span className="font-semibold text-indigo-300">
                 AI-powered experiences.
               </span>
-            </motion.p>
+            </p>
 
             {/* BUTTONS */}
 
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: 15,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
-              transition={{
-                delay: 0.65,
-              }}
+            <div
               className="
                 mt-7
                 flex
@@ -726,18 +532,9 @@ const Header = () => {
                 lg:justify-start
               "
             >
-              <motion.button
+              <button
                 type="button"
-                onClick={() =>
-                  scrollToSection("#projects")
-                }
-                whileHover={{
-                  scale: 1.03,
-                  y: -3,
-                }}
-                whileTap={{
-                  scale: 0.97,
-                }}
+                onClick={() => scrollToSection("#projects")}
                 className="
                   group
                   flex
@@ -755,6 +552,10 @@ const Header = () => {
                   text-xs
                   font-black
                   shadow-[0_15px_45px_rgba(99,102,241,.25)]
+                  transition-all
+                  duration-200
+                  hover:-translate-y-1
+                  hover:shadow-[0_20px_55px_rgba(99,102,241,.35)]
                   sm:w-auto
                   sm:text-sm
                 "
@@ -763,21 +564,11 @@ const Header = () => {
 
                 <FaArrowRight
                   size={12}
-                  className="
-                    transition-transform
-                    group-hover:translate-x-1
-                  "
+                  className="transition-transform duration-200 group-hover:translate-x-1"
                 />
-              </motion.button>
+              </button>
 
-              <motion.a
-                whileHover={{
-                  scale: 1.03,
-                  y: -3,
-                }}
-                whileTap={{
-                  scale: 0.97,
-                }}
+              <a
                 href="/resume.pdf"
                 download
                 className="
@@ -796,7 +587,9 @@ const Header = () => {
                   font-bold
                   text-slate-300
                   backdrop-blur-xl
-                  transition
+                  transition-all
+                  duration-200
+                  hover:-translate-y-1
                   hover:border-indigo-400/30
                   hover:bg-indigo-500/10
                   hover:text-white
@@ -806,8 +599,8 @@ const Header = () => {
               >
                 <FaDownload size={12} />
                 Download CV
-              </motion.a>
-            </motion.div>
+              </a>
+            </div>
 
             {/* FEATURES */}
 
@@ -850,19 +643,12 @@ const Header = () => {
                 const Icon = social.icon;
 
                 return (
-                  <motion.a
+                  <a
                     key={social.label}
                     href={social.link}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    whileHover={{
-                      y: -5,
-                      scale: 1.08,
-                    }}
-                    whileTap={{
-                      scale: 0.95,
-                    }}
                     className="
                       flex
                       h-10
@@ -876,13 +662,15 @@ const Header = () => {
                       text-slate-500
                       shadow-[0_8px_25px_rgba(0,0,0,.2)]
                       transition-all
+                      duration-200
+                      hover:-translate-y-1
                       hover:border-indigo-400/30
                       hover:bg-indigo-500/10
                       hover:text-indigo-300
                     "
                   >
                     <Icon size={14} />
-                  </motion.a>
+                  </a>
                 );
               })}
             </div>
@@ -905,12 +693,10 @@ const Header = () => {
                 lg:mx-0
               "
             >
-              <div className="text-center lg:text-left lg:pl-4">
+              <div className="text-center lg:pl-4 lg:text-left">
                 <p className="text-xl font-black sm:text-2xl">
                   20
-                  <span className="text-indigo-400">
-                    +
-                  </span>
+                  <span className="text-indigo-400">+</span>
                 </p>
 
                 <p className="mt-1 text-[7px] uppercase tracking-[0.15em] text-slate-600 sm:text-[9px]">
@@ -929,9 +715,7 @@ const Header = () => {
               >
                 <p className="text-xl font-black sm:text-2xl">
                   10
-                  <span className="text-cyan-400">
-                    +
-                  </span>
+                  <span className="text-cyan-400">+</span>
                 </p>
 
                 <p className="mt-1 text-[7px] uppercase tracking-[0.15em] text-slate-600 sm:text-[9px]">
@@ -948,34 +732,20 @@ const Header = () => {
                   lg:text-left
                 "
               >
-                <p className="text-xl font-black sm:text-2xl">
-                  AI
-                </p>
+                <p className="text-xl font-black sm:text-2xl">AI</p>
 
                 <p className="mt-1 text-[7px] uppercase tracking-[0.15em] text-slate-600 sm:text-[9px]">
                   Integration
                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* =================================================
               RIGHT VISUAL
           ================================================== */}
 
-          <motion.div
-            initial={{
-              opacity: 0,
-              scale: 0.88,
-            }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-            }}
-            transition={{
-              duration: 1,
-              delay: 0.25,
-            }}
+          <div
             className="
               relative
               flex
@@ -987,18 +757,9 @@ const Header = () => {
               lg:min-h-[600px]
             "
           >
-            {/* BIG AMBIENT GLOW */}
+            {/* BIG STATIC GLOW */}
 
-            <motion.div
-              animate={{
-                scale: [1, 1.15, 1],
-                opacity: [0.12, 0.25, 0.12],
-              }}
-              transition={{
-                duration: 6,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+            <div
               className="
                 absolute
                 h-[280px]
@@ -1011,12 +772,9 @@ const Header = () => {
               "
             />
 
-            <motion.div
-              style={{
-                rotateX,
-                rotateY,
-                transformPerspective: 1200,
-              }}
+            {/* MAIN ORBIT CONTAINER */}
+
+            <div
               className="
                 relative
                 h-[300px]
@@ -1031,15 +789,7 @@ const Header = () => {
             >
               {/* OUTER ORBIT */}
 
-              <motion.div
-                animate={{
-                  rotate: 360,
-                }}
-                transition={{
-                  duration: 30,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
+              <div
                 className="
                   absolute
                   inset-0
@@ -1064,19 +814,11 @@ const Header = () => {
                     sm:w-2.5
                   "
                 />
-              </motion.div>
+              </div>
 
               {/* SECOND ORBIT */}
 
-              <motion.div
-                animate={{
-                  rotate: -360,
-                }}
-                transition={{
-                  duration: 20,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
+              <div
                 className="
                   absolute
                   inset-[28px]
@@ -1100,19 +842,11 @@ const Header = () => {
                     shadow-[0_0_18px_#22d3ee]
                   "
                 />
-              </motion.div>
+              </div>
 
               {/* THIRD ORBIT */}
 
-              <motion.div
-                animate={{
-                  rotate: 360,
-                }}
-                transition={{
-                  duration: 14,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
+              <div
                 className="
                   absolute
                   inset-[55px]
@@ -1126,15 +860,7 @@ const Header = () => {
 
               {/* FOURTH ORBIT */}
 
-              <motion.div
-                animate={{
-                  rotate: -360,
-                }}
-                transition={{
-                  duration: 18,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
+              <div
                 className="
                   absolute
                   inset-[82px]
@@ -1148,16 +874,7 @@ const Header = () => {
 
               {/* CENTER GLOW */}
 
-              <motion.div
-                animate={{
-                  scale: [1, 1.12, 1],
-                  opacity: [0.2, 0.42, 0.2],
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+              <div
                 className="
                   absolute
                   left-1/2
@@ -1177,15 +894,7 @@ const Header = () => {
 
               {/* MAIN CARD */}
 
-              <motion.div
-                animate={{
-                  y: [0, -8, 0],
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+              <div
                 className="
                   absolute
                   left-1/2
@@ -1301,16 +1010,7 @@ const Header = () => {
 
                   {/* AG LOGO */}
 
-                  <motion.div
-                    animate={{
-                      scale: [1, 1.04, 1],
-                      rotate: [0, 1, 0],
-                    }}
-                    transition={{
-                      duration: 4,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
+                  <div
                     className="
                       relative
                       z-10
@@ -1390,7 +1090,7 @@ const Header = () => {
                         sm:w-5
                       "
                     />
-                  </motion.div>
+                  </div>
 
                   {/* CARD TEXT */}
 
@@ -1429,24 +1129,16 @@ const Header = () => {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
 
-              {/* FLOATING TECHNOLOGIES */}
+              {/* FLOATING TECHNOLOGIES - STATIC */}
 
-              {technologies.map((tech, index) => {
+              {technologies.map((tech) => {
                 const Icon = tech.icon;
 
                 return (
-                  <motion.div
+                  <div
                     key={tech.name}
-                    animate={{
-                      y: [0, -7, 0],
-                    }}
-                    transition={{
-                      duration: 3.5 + index,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
                     className={`
                       absolute
                       ${tech.position}
@@ -1462,6 +1154,10 @@ const Header = () => {
                       py-2
                       shadow-[0_15px_40px_rgba(0,0,0,.45)]
                       backdrop-blur-xl
+                      transition-all
+                      duration-200
+                      hover:-translate-y-1
+                      hover:border-indigo-400/30
                       sm:gap-2
                       sm:rounded-xl
                       sm:px-3
@@ -1475,22 +1171,13 @@ const Header = () => {
                     <span className="text-[7px] font-bold text-slate-300 sm:text-xs">
                       {tech.name}
                     </span>
-                  </motion.div>
+                  </div>
                 );
               })}
 
               {/* CODE BADGE */}
 
-              <motion.div
-                animate={{
-                  y: [0, -7, 0],
-                  rotate: [-1, 1, -1],
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+              <div
                 className="
                   absolute
                   left-[0%]
@@ -1522,19 +1209,11 @@ const Header = () => {
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </div>
 
               {/* AI BADGE */}
 
-              <motion.div
-                animate={{
-                  y: [0, 7, 0],
-                }}
-                transition={{
-                  duration: 4.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+              <div
                 className="
                   absolute
                   right-[0%]
@@ -1581,19 +1260,11 @@ const Header = () => {
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </div>
 
               {/* EXPERIENCE BADGE */}
 
-              <motion.div
-                animate={{
-                  y: [0, -5, 0],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+              <div
                 className="
                   absolute
                   bottom-[3%]
@@ -1619,9 +1290,9 @@ const Header = () => {
                     Modern Web • AI • Cloud
                   </span>
                 </div>
-              </motion.div>
-            </motion.div>
-          </motion.div>
+              </div>
+            </div>
+          </div>
         </div>
       </main>
 
@@ -1659,18 +1330,16 @@ const Header = () => {
           "
         >
           {stack.map(([Icon, name, color]) => (
-            <motion.div
+            <div
               key={name}
-              whileHover={{
-                y: -4,
-                scale: 1.05,
-              }}
               className="
                 flex
                 items-center
                 gap-1.5
                 text-slate-600
                 transition
+                duration-200
+                hover:-translate-y-1
                 hover:text-slate-300
               "
             >
@@ -1681,7 +1350,7 @@ const Header = () => {
               <span className="text-[8px] font-bold uppercase tracking-wider sm:text-[9px]">
                 {name}
               </span>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

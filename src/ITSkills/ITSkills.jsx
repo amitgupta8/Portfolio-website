@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import {
   Code2,
   Database,
@@ -16,7 +15,6 @@ import {
 
 const ITSkills = () => {
   const [activeCategory, setActiveCategory] = useState("All");
-  const [hoveredSkill, setHoveredSkill] = useState(null);
 
   const skills = [
     {
@@ -195,7 +193,7 @@ const ITSkills = () => {
       text: "text-cyan-300",
       border: "border-cyan-400/30",
       gradient: "from-cyan-300 via-blue-400 to-indigo-500",
-      glow: "rgba(34,211,238,.45)",
+      glow: "rgba(34,211,238,.35)",
       bg: "bg-cyan-400/10",
     },
 
@@ -203,7 +201,7 @@ const ITSkills = () => {
       text: "text-blue-300",
       border: "border-blue-400/30",
       gradient: "from-blue-300 via-indigo-400 to-purple-500",
-      glow: "rgba(59,130,246,.45)",
+      glow: "rgba(59,130,246,.35)",
       bg: "bg-blue-400/10",
     },
 
@@ -211,7 +209,7 @@ const ITSkills = () => {
       text: "text-emerald-300",
       border: "border-emerald-400/30",
       gradient: "from-green-300 via-emerald-400 to-cyan-500",
-      glow: "rgba(16,185,129,.45)",
+      glow: "rgba(16,185,129,.35)",
       bg: "bg-emerald-400/10",
     },
 
@@ -219,7 +217,7 @@ const ITSkills = () => {
       text: "text-purple-300",
       border: "border-purple-400/30",
       gradient: "from-purple-300 via-fuchsia-400 to-indigo-500",
-      glow: "rgba(168,85,247,.45)",
+      glow: "rgba(168,85,247,.35)",
       bg: "bg-purple-400/10",
     },
 
@@ -227,7 +225,7 @@ const ITSkills = () => {
       text: "text-orange-300",
       border: "border-orange-400/30",
       gradient: "from-orange-300 via-red-400 to-pink-500",
-      glow: "rgba(249,115,22,.45)",
+      glow: "rgba(249,115,22,.35)",
       bg: "bg-orange-400/10",
     },
 
@@ -235,7 +233,7 @@ const ITSkills = () => {
       text: "text-yellow-300",
       border: "border-yellow-400/30",
       gradient: "from-yellow-300 via-orange-400 to-red-500",
-      glow: "rgba(234,179,8,.45)",
+      glow: "rgba(234,179,8,.35)",
       bg: "bg-yellow-400/10",
     },
 
@@ -243,7 +241,7 @@ const ITSkills = () => {
       text: "text-white",
       border: "border-white/20",
       gradient: "from-white via-gray-300 to-gray-500",
-      glow: "rgba(255,255,255,.22)",
+      glow: "rgba(255,255,255,.18)",
       bg: "bg-white/10",
     },
 
@@ -251,7 +249,7 @@ const ITSkills = () => {
       text: "text-emerald-300",
       border: "border-emerald-400/30",
       gradient: "from-emerald-300 via-cyan-400 to-blue-500",
-      glow: "rgba(16,185,129,.45)",
+      glow: "rgba(16,185,129,.35)",
       bg: "bg-emerald-400/10",
     },
   };
@@ -283,17 +281,17 @@ const ITSkills = () => {
         background: `
           radial-gradient(
             circle at 8% 10%,
-            rgba(34,211,238,.11),
+            rgba(34,211,238,.08),
             transparent 24%
           ),
           radial-gradient(
             circle at 92% 15%,
-            rgba(139,92,246,.12),
+            rgba(139,92,246,.08),
             transparent 26%
           ),
           radial-gradient(
             circle at 50% 100%,
-            rgba(59,130,246,.10),
+            rgba(59,130,246,.07),
             transparent 32%
           ),
           linear-gradient(
@@ -308,23 +306,12 @@ const ITSkills = () => {
       }}
     >
       {/* =====================================================
-          BACKGROUND
+          STATIC BACKGROUND
       ====================================================== */}
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {/* Cyan Orb */}
-
-        <motion.div
-          animate={{
-            x: [0, 80, -60, 0],
-            y: [0, -45, 50, 0],
-            scale: [1, 1.1, 0.95, 1],
-          }}
-          transition={{
-            duration: 18,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+        {/* Static Cyan Glow */}
+        <div
           className="
             absolute
             -left-32
@@ -339,19 +326,8 @@ const ITSkills = () => {
           "
         />
 
-        {/* Violet Orb */}
-
-        <motion.div
-          animate={{
-            x: [0, -70, 60, 0],
-            y: [0, 50, -50, 0],
-            scale: [1, 0.9, 1.15, 1],
-          }}
-          transition={{
-            duration: 21,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+        {/* Static Violet Glow */}
+        <div
           className="
             absolute
             -right-32
@@ -366,18 +342,8 @@ const ITSkills = () => {
           "
         />
 
-        {/* Bottom Orb */}
-
-        <motion.div
-          animate={{
-            x: [0, 70, -70, 0],
-            opacity: [0.05, 0.14, 0.05],
-          }}
-          transition={{
-            duration: 14,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+        {/* Static Bottom Glow */}
+        <div
           className="
             absolute
             -bottom-32
@@ -391,8 +357,7 @@ const ITSkills = () => {
           "
         />
 
-        {/* Grid */}
-
+        {/* Static Grid */}
         <div
           className="
             absolute
@@ -415,35 +380,6 @@ const ITSkills = () => {
             backgroundSize: "50px 50px",
           }}
         />
-
-        {/* Particles */}
-
-        {Array.from({ length: 20 }).map((_, index) => (
-          <motion.span
-            key={index}
-            animate={{
-              y: [0, -45, 0],
-              opacity: [0, 0.4, 0],
-            }}
-            transition={{
-              duration: 4 + (index % 4),
-              delay: index * 0.2,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="
-              absolute
-              h-[3px]
-              w-[3px]
-              rounded-full
-              bg-cyan-300
-            "
-            style={{
-              left: `${(index * 37) % 100}%`,
-              top: `${(index * 23) % 100}%`,
-            }}
-          />
-        ))}
       </div>
 
       {/* =====================================================
@@ -456,22 +392,7 @@ const ITSkills = () => {
             HEADER
         ====================================================== */}
 
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 25,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.2,
-          }}
-          transition={{
-            duration: 0.7,
-          }}
+        <div
           className="
             mx-auto
             mb-9
@@ -482,10 +403,7 @@ const ITSkills = () => {
         >
           {/* Badge */}
 
-          <motion.div
-            whileHover={{
-              scale: 1.03,
-            }}
+          <div
             className="
               mb-4
               inline-flex
@@ -525,12 +443,11 @@ const ITSkills = () => {
               className="
                 h-1.5
                 w-1.5
-                animate-pulse
                 rounded-full
                 bg-emerald-400
               "
             />
-          </motion.div>
+          </div>
 
           {/* Heading */}
 
@@ -580,7 +497,7 @@ const ITSkills = () => {
             scalable and high-performance digital experiences.
           </p>
 
-          {/* Divider */}
+          {/* Static Divider */}
 
           <div
             className="
@@ -604,15 +521,7 @@ const ITSkills = () => {
               "
             />
 
-            <motion.div
-              animate={{
-                rotate: 360,
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: "linear",
-              }}
+            <div
               className="
                 h-1.5
                 w-1.5
@@ -636,7 +545,7 @@ const ITSkills = () => {
               "
             />
           </div>
-        </motion.div>
+        </div>
 
         {/* =====================================================
             FILTER
@@ -676,15 +585,8 @@ const ITSkills = () => {
                 activeCategory === category;
 
               return (
-                <motion.button
+                <button
                   key={category}
-                  whileHover={{
-                    y: -2,
-                    scale: 1.02,
-                  }}
-                  whileTap={{
-                    scale: 0.96,
-                  }}
                   onClick={() =>
                     setActiveCategory(category)
                   }
@@ -702,8 +604,8 @@ const ITSkills = () => {
                     font-black
                     uppercase
                     tracking-wider
-                    transition-all
-                    duration-300
+                    transition-colors
+                    duration-200
                     sm:px-4
                     sm:text-[9px]
 
@@ -715,7 +617,6 @@ const ITSkills = () => {
                           from-cyan-400/10
                           to-violet-500/10
                           text-cyan-300
-                          shadow-[0_0_25px_rgba(34,211,238,.08)]
                         `
                         : `
                           border-white/[0.07]
@@ -729,18 +630,17 @@ const ITSkills = () => {
                 >
                   <Icon size={12} />
                   {category}
-                </motion.button>
+                </button>
               );
             })}
           </div>
         </div>
 
         {/* =====================================================
-            COMPACT SKILLS GRID
+            SKILLS GRID
         ====================================================== */}
 
-        <motion.div
-          layout
+        <div
           className="
             grid
             grid-cols-1
@@ -752,429 +652,324 @@ const ITSkills = () => {
             xl:grid-cols-5
           "
         >
-          <AnimatePresence mode="popLayout">
-            {filteredSkills.map((skill, index) => {
-              const colors =
-                colorMap[skill.color];
+          {filteredSkills.map((skill) => {
+            const colors =
+              colorMap[skill.color];
 
-              const hovered =
-                hoveredSkill === skill.name;
+            return (
+              <article
+                key={skill.name}
+                className="group relative"
+              >
+                {/* Card */}
 
-              return (
-                <motion.article
-                  layout
-                  key={skill.name}
-                  initial={{
-                    opacity: 0,
-                    y: 20,
-                    scale: 0.96,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                  }}
-                  exit={{
-                    opacity: 0,
-                    scale: 0.92,
-                  }}
-                  transition={{
-                    duration: 0.35,
-                    delay: index * 0.025,
-                  }}
-                  onMouseEnter={() =>
-                    setHoveredSkill(skill.name)
-                  }
-                  onMouseLeave={() =>
-                    setHoveredSkill(null)
-                  }
-                  className="group relative"
+                <div
+                  className="
+                    relative
+                    min-h-[225px]
+                    overflow-hidden
+                    rounded-[19px]
+                    border
+                    border-white/[0.075]
+                    bg-[#061124]/80
+                    p-3
+                    backdrop-blur-2xl
+                    transition-colors
+                    duration-300
+                    group-hover:border-white/[0.15]
+                    group-hover:bg-[#08162c]/90
+                    sm:min-h-[230px]
+                    sm:p-3.5
+                  "
                 >
-                  {/* Glow */}
+                  {/* Gradient */}
 
-                  <motion.div
-                    animate={{
-                      opacity: hovered ? 0.65 : 0,
-                    }}
-                    transition={{
-                      duration: 0.25,
-                    }}
-                    className="
+                  <div
+                    className={`
+                      pointer-events-none
                       absolute
-                      -inset-1.5
-                      rounded-[22px]
-                      blur-xl
-                    "
-                    style={{
-                      background:
-                        colors.glow,
-                    }}
+                      inset-0
+                      bg-gradient-to-br
+                      ${colors.gradient}
+                      opacity-0
+                      transition-opacity
+                      duration-300
+                      group-hover:opacity-[0.055]
+                    `}
                   />
 
-                  {/* Card */}
+                  {/* Top Shine */}
 
-                  <motion.div
-                    whileHover={{
-                      y: -5,
-                    }}
-                    transition={{
-                      duration: 0.22,
-                    }}
+                  <div
+                    className="
+                      absolute
+                      left-1/2
+                      top-0
+                      h-px
+                      w-0
+                      -translate-x-1/2
+                      bg-gradient-to-r
+                      from-transparent
+                      via-white
+                      to-transparent
+                      transition-all
+                      duration-300
+                      group-hover:w-2/3
+                    "
+                  />
+
+                  {/* Featured */}
+
+                  {skill.featured && (
+                    <div
+                      className="
+                        absolute
+                        right-2.5
+                        top-2.5
+                        flex
+                        items-center
+                        gap-1
+                        rounded-full
+                        border
+                        border-yellow-400/15
+                        bg-yellow-400/[0.07]
+                        px-1.5
+                        py-1
+                        text-[5.5px]
+                        font-black
+                        uppercase
+                        tracking-wider
+                        text-yellow-300
+                      "
+                    >
+                      <Zap size={7} />
+                      Core
+                    </div>
+                  )}
+
+                  {/* Icon */}
+
+                  <div
                     className="
                       relative
-                      min-h-[225px]
-                      overflow-hidden
-                      rounded-[19px]
+                      mx-auto
+                      mb-2.5
+                      flex
+                      h-12
+                      w-12
+                      items-center
+                      justify-center
+                      rounded-[15px]
                       border
-                      border-white/[0.075]
-                      bg-[#061124]/80
-                      p-3
-                      backdrop-blur-2xl
-                      transition-all
-                      duration-400
-                      group-hover:border-white/[0.15]
-                      group-hover:bg-[#08162c]/90
-                      sm:min-h-[230px]
-                      sm:p-3.5
+                      border-white/[0.08]
+                      bg-white/[0.045]
+                      shadow-[inset_0_1px_0_rgba(255,255,255,.07)]
                     "
                   >
-                    {/* Gradient Overlay */}
+                    <span
+                      className={`
+                        ${colors.text}
+                        font-black
+                        ${
+                          skill.icon.length > 2
+                            ? "text-[11px]"
+                            : "text-xl"
+                        }
+                      `}
+                      style={{
+                        textShadow: `
+                          0 0 16px
+                          ${colors.glow}
+                        `,
+                      }}
+                    >
+                      {skill.icon}
+                    </span>
+
+                    {/* Static Ring */}
 
                     <div
                       className={`
-                        pointer-events-none
                         absolute
-                        inset-0
-                        bg-gradient-to-br
-                        ${colors.gradient}
+                        -inset-1
+                        rounded-[17px]
+                        border
+                        border-dashed
+                        ${colors.border}
                         opacity-0
                         transition-opacity
-                        duration-500
-                        group-hover:opacity-[0.055]
+                        duration-300
+                        group-hover:opacity-100
                       `}
                     />
+                  </div>
 
-                    {/* Top Shine */}
+                  {/* Name */}
 
+                  <h3
+                    className="
+                      relative
+                      truncate
+                      text-center
+                      text-[13px]
+                      font-black
+                      leading-5
+                      text-white
+                    "
+                  >
+                    {skill.name}
+                  </h3>
+
+                  {/* Category */}
+
+                  <div className="relative mt-1 text-center">
+                    <span
+                      className={`
+                        inline-flex
+                        rounded-full
+                        ${colors.bg}
+                        px-2
+                        py-0.5
+                        text-[5.5px]
+                        font-bold
+                        uppercase
+                        tracking-[0.14em]
+                        ${colors.text}
+                      `}
+                    >
+                      {skill.category}
+                    </span>
+                  </div>
+
+                  {/* Description */}
+
+                  <p
+                    className="
+                      relative
+                      mx-auto
+                      mt-2
+                      line-clamp-2
+                      min-h-[25px]
+                      max-w-[190px]
+                      text-center
+                      text-[7.5px]
+                      leading-3.5
+                      text-slate-500
+                    "
+                  >
+                    {skill.description}
+                  </p>
+
+                  {/* Expertise */}
+
+                  <div className="relative mt-3">
                     <div
                       className="
-                        absolute
-                        left-1/2
-                        top-0
-                        h-px
-                        w-0
-                        -translate-x-1/2
-                        bg-gradient-to-r
-                        from-transparent
-                        via-white
-                        to-transparent
-                        transition-all
-                        duration-500
-                        group-hover:w-2/3
-                      "
-                    />
-
-                    {/* Featured */}
-
-                    {skill.featured && (
-                      <div
-                        className="
-                          absolute
-                          right-2.5
-                          top-2.5
-                          flex
-                          items-center
-                          gap-1
-                          rounded-full
-                          border
-                          border-yellow-400/15
-                          bg-yellow-400/[0.07]
-                          px-1.5
-                          py-1
-                          text-[5.5px]
-                          font-black
-                          uppercase
-                          tracking-wider
-                          text-yellow-300
-                        "
-                      >
-                        <Zap size={7} />
-                        Core
-                      </div>
-                    )}
-
-                    {/* Icon */}
-
-                    <motion.div
-                      animate={{
-                        y: hovered ? -3 : 0,
-                      }}
-                      transition={{
-                        duration: 0.25,
-                      }}
-                      className="
-                        relative
-                        mx-auto
-                        mb-2.5
-                        flex
-                        h-12
-                        w-12
-                        items-center
-                        justify-center
-                        rounded-[15px]
-                        border
-                        border-white/[0.08]
-                        bg-white/[0.045]
-                        shadow-[inset_0_1px_0_rgba(255,255,255,.07)]
-                      "
-                    >
-                      <span
-                        className={`
-                          ${colors.text}
-                          font-black
-                          ${
-                            skill.icon.length > 2
-                              ? "text-[11px]"
-                              : "text-xl"
-                          }
-                        `}
-                        style={{
-                          textShadow: `
-                            0 0 16px
-                            ${colors.glow}
-                          `,
-                        }}
-                      >
-                        {skill.icon}
-                      </span>
-
-                      {/* Ring */}
-
-                      <motion.div
-                        animate={{
-                          rotate:
-                            hovered
-                              ? 360
-                              : 0,
-                        }}
-                        transition={{
-                          duration: 1.2,
-                          ease: "linear",
-                        }}
-                        className={`
-                          absolute
-                          -inset-1
-                          rounded-[17px]
-                          border
-                          border-dashed
-                          ${colors.border}
-                          opacity-0
-                          transition-opacity
-                          duration-300
-                          group-hover:opacity-100
-                        `}
-                      />
-                    </motion.div>
-
-                    {/* Name */}
-
-                    <h3
-                      className="
-                        relative
-                        truncate
-                        text-center
-                        text-[13px]
-                        font-black
-                        leading-5
-                        text-white
-                      "
-                    >
-                      {skill.name}
-                    </h3>
-
-                    {/* Category */}
-
-                    <div className="relative mt-1 text-center">
-                      <span
-                        className={`
-                          inline-flex
-                          rounded-full
-                          ${colors.bg}
-                          px-2
-                          py-0.5
-                          text-[5.5px]
-                          font-bold
-                          uppercase
-                          tracking-[0.14em]
-                          ${colors.text}
-                        `}
-                      >
-                        {skill.category}
-                      </span>
-                    </div>
-
-                    {/* Description */}
-
-                    <p
-                      className="
-                        relative
-                        mx-auto
-                        mt-2
-                        line-clamp-2
-                        min-h-[25px]
-                        max-w-[190px]
-                        text-center
-                        text-[7.5px]
-                        leading-3.5
-                        text-slate-500
-                      "
-                    >
-                      {skill.description}
-                    </p>
-
-                    {/* Expertise */}
-
-                    <div className="relative mt-3">
-                      <div
-                        className="
-                          mb-1.5
-                          flex
-                          items-center
-                          justify-between
-                        "
-                      >
-                        <div className="flex items-center gap-1">
-                          <Activity
-                            size={9}
-                            className="text-slate-600"
-                          />
-
-                          <span
-                            className="
-                              text-[6px]
-                              font-bold
-                              uppercase
-                              tracking-wider
-                              text-slate-600
-                            "
-                          >
-                            Expertise
-                          </span>
-                        </div>
-
-                        <span
-                          className={`
-                            text-[8px]
-                            font-black
-                            ${colors.text}
-                          `}
-                        >
-                          {skill.level}%
-                        </span>
-                      </div>
-
-                      <div
-                        className="
-                          h-1
-                          overflow-hidden
-                          rounded-full
-                          bg-white/[0.07]
-                        "
-                      >
-                        <motion.div
-                          initial={{
-                            width: 0,
-                          }}
-                          whileInView={{
-                            width: `${skill.level}%`,
-                          }}
-                          viewport={{
-                            once: true,
-                            amount: 0.4,
-                          }}
-                          transition={{
-                            duration: 0.8,
-                            ease: "easeOut",
-                          }}
-                          className={`
-                            h-full
-                            rounded-full
-                            bg-gradient-to-r
-                            ${colors.gradient}
-                          `}
-                          style={{
-                            boxShadow: `
-                              0 0 8px
-                              ${colors.glow}
-                            `,
-                          }}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Bottom */}
-
-                    <div
-                      className="
-                        relative
-                        mt-2.5
+                        mb-1.5
                         flex
                         items-center
                         justify-between
-                        border-t
-                        border-white/[0.05]
-                        pt-2
                       "
                     >
-                      <span
-                        className="
-                          text-[5.5px]
-                          font-bold
-                          uppercase
-                          tracking-[0.12em]
-                          text-slate-600
-                        "
-                      >
-                        {skill.experience}
-                      </span>
-
-                      <motion.div
-                        animate={{
-                          x: hovered ? 3 : 0,
-                        }}
-                        className={colors.text}
-                      >
-                        <ArrowUpRight
-                          size={12}
+                      <div className="flex items-center gap-1">
+                        <Activity
+                          size={9}
+                          className="text-slate-600"
                         />
-                      </motion.div>
+
+                        <span
+                          className="
+                            text-[6px]
+                            font-bold
+                            uppercase
+                            tracking-wider
+                            text-slate-600
+                          "
+                        >
+                          Expertise
+                        </span>
+                      </div>
+
+                      <span
+                        className={`
+                          text-[8px]
+                          font-black
+                          ${colors.text}
+                        `}
+                      >
+                        {skill.level}%
+                      </span>
                     </div>
-                  </motion.div>
-                </motion.article>
-              );
-            })}
-          </AnimatePresence>
-        </motion.div>
+
+                    <div
+                      className="
+                        h-1
+                        overflow-hidden
+                        rounded-full
+                        bg-white/[0.07]
+                      "
+                    >
+                      {/* STATIC PROGRESS */}
+
+                      <div
+                        className={`
+                          h-full
+                          rounded-full
+                          bg-gradient-to-r
+                          ${colors.gradient}
+                        `}
+                        style={{
+                          width: `${skill.level}%`,
+                          boxShadow: `
+                            0 0 8px
+                            ${colors.glow}
+                          `,
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Bottom */}
+
+                  <div
+                    className="
+                      relative
+                      mt-2.5
+                      flex
+                      items-center
+                      justify-between
+                      border-t
+                      border-white/[0.05]
+                      pt-2
+                    "
+                  >
+                    <span
+                      className="
+                        text-[5.5px]
+                        font-bold
+                        uppercase
+                        tracking-[0.12em]
+                        text-slate-600
+                      "
+                    >
+                      {skill.experience}
+                    </span>
+
+                    <div className={colors.text}>
+                      <ArrowUpRight size={12} />
+                    </div>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
 
         {/* =====================================================
-            COMPACT STATS
+            STATS
         ====================================================== */}
 
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 20,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-          }}
-          transition={{
-            duration: 0.7,
-          }}
+        <div
           className="
             mt-10
             grid
@@ -1210,12 +1005,8 @@ const ITSkills = () => {
             const Icon = stat.icon;
 
             return (
-              <motion.div
+              <div
                 key={stat.title}
-                whileHover={{
-                  y: -3,
-                  scale: 1.01,
-                }}
                 className="
                   group
                   relative
@@ -1227,6 +1018,10 @@ const ITSkills = () => {
                   p-3
                   text-center
                   backdrop-blur-xl
+                  transition-colors
+                  duration-300
+                  hover:border-cyan-400/20
+                  hover:bg-white/[0.04]
                   sm:p-3.5
                 "
               >
@@ -1238,8 +1033,8 @@ const ITSkills = () => {
                     from-cyan-400/[0.04]
                     to-violet-500/[0.04]
                     opacity-0
-                    transition
-                    duration-500
+                    transition-opacity
+                    duration-300
                     group-hover:opacity-100
                   "
                 />
@@ -1285,16 +1080,10 @@ const ITSkills = () => {
                 >
                   {stat.title}
                 </div>
-              </motion.div>
+              </div>
             );
           })}
-        </motion.div>
-
-        {/* =====================================================
-            FOOT TEXT
-        ====================================================== */}
-
-      
+        </div>
       </div>
 
       {/* =====================================================
@@ -1314,17 +1103,6 @@ const ITSkills = () => {
         @media (max-width: 639px) {
           #skills {
             scroll-margin-top: 70px;
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: 0.01ms !important;
-            scroll-behavior: auto !important;
           }
         }
       `}</style>

@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 
 import {
   FaGithub,
@@ -32,23 +31,20 @@ import Image from "../assets/man.jpeg";
 
 const StatCard = ({ icon: Icon, value, label }) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      whileHover={{
-        y: -6,
-        scale: 1.02,
-      }}
-      transition={{ duration: 0.3 }}
+    <div
       className="
-        group relative overflow-hidden
+        group
+        relative
+        overflow-hidden
         rounded-2xl
-        border border-white/[0.08]
+        border
+        border-white/[0.08]
         bg-[#0d1b2e]/80
         p-4
         backdrop-blur-xl
-        transition-all duration-300
+        transition-all
+        duration-300
+        hover:-translate-y-1
         hover:border-cyan-400/30
         hover:bg-[#10233b]
         hover:shadow-[0_15px_40px_rgba(34,211,238,0.08)]
@@ -68,7 +64,7 @@ const StatCard = ({ icon: Icon, value, label }) => {
           bg-cyan-400/[0.06]
           blur-2xl
           transition-all
-          duration-500
+          duration-300
           group-hover:bg-cyan-400/[0.12]
         "
       />
@@ -85,7 +81,8 @@ const StatCard = ({ icon: Icon, value, label }) => {
           items-center
           justify-center
           rounded-xl
-          border border-cyan-400/10
+          border
+          border-cyan-400/10
           bg-cyan-400/[0.08]
           text-cyan-400
           transition-all
@@ -104,7 +101,7 @@ const StatCard = ({ icon: Icon, value, label }) => {
       <p className="relative mt-1 text-[10px] text-slate-500 sm:text-xs">
         {label}
       </p>
-    </motion.div>
+    </div>
   );
 };
 
@@ -114,24 +111,21 @@ const StatCard = ({ icon: Icon, value, label }) => {
 
 const TechCard = ({ icon: Icon, name, text }) => {
   return (
-    <motion.div
-      whileHover={{
-        y: -5,
-        scale: 1.015,
-      }}
-      transition={{ duration: 0.25 }}
+    <div
       className="
         group
         flex
         items-center
         gap-3
         rounded-xl
-        border border-white/[0.08]
+        border
+        border-white/[0.08]
         bg-[#0b192b]/80
         p-3
         backdrop-blur-xl
         transition-all
         duration-300
+        hover:-translate-y-1
         hover:border-cyan-400/25
         hover:bg-[#10233b]
       "
@@ -145,7 +139,8 @@ const TechCard = ({ icon: Icon, name, text }) => {
           items-center
           justify-center
           rounded-xl
-          border border-white/[0.08]
+          border
+          border-white/[0.08]
           bg-white/[0.035]
           transition-all
           duration-300
@@ -165,7 +160,7 @@ const TechCard = ({ icon: Icon, name, text }) => {
           {text}
         </p>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
@@ -250,24 +245,14 @@ const AboutMe = () => {
       "
     >
       {/* =====================================================
-          PREMIUM ANIMATED BACKGROUND
+          STATIC BACKGROUND
       ====================================================== */}
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
 
         {/* Top Left Cyan Glow */}
 
-        <motion.div
-          animate={{
-            x: [0, 30, 0],
-            y: [0, 20, 0],
-            scale: [1, 1.08, 1],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+        <div
           className="
             absolute
             -left-40
@@ -282,17 +267,7 @@ const AboutMe = () => {
 
         {/* Right Indigo Glow */}
 
-        <motion.div
-          animate={{
-            x: [0, -30, 0],
-            y: [0, 30, 0],
-            scale: [1, 1.1, 1],
-          }}
-          transition={{
-            duration: 12,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+        <div
           className="
             absolute
             -right-40
@@ -307,16 +282,7 @@ const AboutMe = () => {
 
         {/* Bottom Violet Glow */}
 
-        <motion.div
-          animate={{
-            x: [0, 25, 0],
-            scale: [1, 1.12, 1],
-          }}
-          transition={{
-            duration: 14,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+        <div
           className="
             absolute
             bottom-[-220px]
@@ -346,7 +312,7 @@ const AboutMe = () => {
           "
         />
 
-        {/* Subtle Grid */}
+        {/* Static Grid */}
 
         <div
           className="absolute inset-0 opacity-[0.035]"
@@ -407,42 +373,15 @@ const AboutMe = () => {
             SECTION HEADER
         ==================================================== */}
 
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 25,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.2,
-          }}
-          transition={{
-            duration: 0.7,
-          }}
-          className="mb-12 sm:mb-16"
-        >
+        <div className="mb-12 sm:mb-16">
+
           {/* Label */}
 
           <div className="flex items-center gap-3">
-            <motion.span
-              initial={{
-                width: 0,
-              }}
-              whileInView={{
-                width: "48px",
-              }}
-              viewport={{
-                once: true,
-              }}
-              transition={{
-                duration: 0.7,
-              }}
+            <span
               className="
                 h-[2px]
+                w-12
                 bg-gradient-to-r
                 from-cyan-400
                 to-indigo-500
@@ -505,7 +444,7 @@ const AboutMe = () => {
             Passionate about creating modern, scalable and
             user-friendly web applications.
           </p>
-        </motion.div>
+        </div>
 
         {/* ===================================================
             MAIN CONTENT
@@ -525,39 +464,12 @@ const AboutMe = () => {
               IMAGE AREA
           ================================================== */}
 
-          <motion.div
-            initial={{
-              opacity: 0,
-              x: -50,
-            }}
-            whileInView={{
-              opacity: 1,
-              x: 0,
-            }}
-            viewport={{
-              once: true,
-              amount: 0.2,
-            }}
-            transition={{
-              duration: 0.8,
-              ease: "easeOut",
-            }}
-            className="flex justify-center"
-          >
+          <div className="flex justify-center">
             <div className="relative">
 
               {/* Main Image Glow */}
 
-              <motion.div
-                animate={{
-                  scale: [1, 1.08, 1],
-                  opacity: [0.35, 0.55, 0.35],
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+              <div
                 className="
                   absolute
                   inset-5
@@ -567,17 +479,9 @@ const AboutMe = () => {
                 "
               />
 
-              {/* Outer Ring */}
+              {/* Static Outer Ring */}
 
-              <motion.div
-                animate={{
-                  rotate: 360,
-                }}
-                transition={{
-                  duration: 25,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
+              <div
                 className="
                   absolute
                   -inset-4
@@ -590,14 +494,9 @@ const AboutMe = () => {
 
               {/* Image */}
 
-              <motion.div
-                whileHover={{
-                  scale: 1.025,
-                }}
-                transition={{
-                  duration: 0.3,
-                }}
+              <div
                 className="
+                  group
                   relative
                   h-[230px]
                   w-[230px]
@@ -620,8 +519,8 @@ const AboutMe = () => {
                     w-full
                     object-cover
                     transition-transform
-                    duration-700
-                    hover:scale-105
+                    duration-500
+                    group-hover:scale-105
                   "
                 />
 
@@ -637,19 +536,11 @@ const AboutMe = () => {
                     to-cyan-300/[0.06]
                   "
                 />
-              </motion.div>
+              </div>
 
               {/* Available Badge */}
 
-              <motion.div
-                animate={{
-                  y: [0, -5, 0],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+              <div
                 className="
                   absolute
                   right-[-5px]
@@ -670,28 +561,7 @@ const AboutMe = () => {
                   sm:py-2
                 "
               >
-                <span className="relative flex h-2 w-2">
-                  <span
-                    className="
-                      absolute
-                      h-full
-                      w-full
-                      animate-ping
-                      rounded-full
-                      bg-emerald-400
-                    "
-                  />
-
-                  <span
-                    className="
-                      relative
-                      h-2
-                      w-2
-                      rounded-full
-                      bg-emerald-400
-                    "
-                  />
-                </span>
+                <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_12px_#34d399]" />
 
                 <span
                   className="
@@ -703,19 +573,11 @@ const AboutMe = () => {
                 >
                   Available
                 </span>
-              </motion.div>
+              </div>
 
               {/* MERN Badge */}
 
-              <motion.div
-                animate={{
-                  y: [0, 5, 0],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+              <div
                 className="
                   absolute
                   bottom-[5%]
@@ -756,32 +618,15 @@ const AboutMe = () => {
                 >
                   MERN Stack
                 </p>
-              </motion.div>
+              </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* =================================================
               INFORMATION
           ================================================== */}
 
-          <motion.div
-            initial={{
-              opacity: 0,
-              x: 50,
-            }}
-            whileInView={{
-              opacity: 1,
-              x: 0,
-            }}
-            viewport={{
-              once: true,
-              amount: 0.2,
-            }}
-            transition={{
-              duration: 0.8,
-              ease: "easeOut",
-            }}
-          >
+          <div>
 
             {/* Small Heading */}
 
@@ -946,27 +791,11 @@ const AboutMe = () => {
                   sm:grid-cols-3
                 "
               >
-                {technologies.map((tech, index) => (
-                  <motion.div
+                {technologies.map((tech) => (
+                  <TechCard
                     key={tech.name}
-                    initial={{
-                      opacity: 0,
-                      y: 15,
-                    }}
-                    whileInView={{
-                      opacity: 1,
-                      y: 0,
-                    }}
-                    viewport={{
-                      once: true,
-                    }}
-                    transition={{
-                      delay: index * 0.06,
-                      duration: 0.35,
-                    }}
-                  >
-                    <TechCard {...tech} />
-                  </motion.div>
+                    {...tech}
+                  />
                 ))}
               </div>
             </div>
@@ -986,22 +815,14 @@ const AboutMe = () => {
             >
               {/* Work Button */}
 
-              <motion.a
+              <a
                 href="mailto:amitgupta99393@gmail.com"
-                whileHover={{
-                  y: -3,
-                }}
-                whileTap={{
-                  scale: 0.98,
-                }}
                 className="
                   group
-                  relative
                   flex
                   items-center
                   justify-center
                   gap-2
-                  overflow-hidden
                   rounded-xl
                   bg-gradient-to-r
                   from-cyan-500
@@ -1013,56 +834,29 @@ const AboutMe = () => {
                   font-bold
                   text-white
                   shadow-[0_10px_35px_rgba(34,211,238,.16)]
+                  transition-all
+                  duration-300
+                  hover:-translate-y-1
+                  hover:shadow-[0_15px_40px_rgba(34,211,238,.25)]
                 "
               >
-                {/* Shine */}
-
-                <motion.span
-                  animate={{
-                    x: ["-120%", "120%"],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    repeatDelay: 2,
-                    ease: "easeInOut",
-                  }}
-                  className="
-                    absolute
-                    inset-y-0
-                    w-10
-                    rotate-[25deg]
-                    bg-white/20
-                    blur-md
-                  "
-                />
-
-                <span className="relative">
-                  Let's Work Together
-                </span>
+                <span>Let's Work Together</span>
 
                 <FaArrowRight
                   size={12}
                   className="
-                    relative
                     transition-transform
                     duration-300
                     group-hover:translate-x-1
                   "
                 />
-              </motion.a>
+              </a>
 
               {/* Resume Button */}
 
-              <motion.a
+              <a
                 href="/resume.pdf"
                 download
-                whileHover={{
-                  y: -3,
-                }}
-                whileTap={{
-                  scale: 0.98,
-                }}
                 className="
                   flex
                   items-center
@@ -1078,8 +872,9 @@ const AboutMe = () => {
                   font-bold
                   text-white
                   backdrop-blur-xl
-                  transition
+                  transition-all
                   duration-300
+                  hover:-translate-y-1
                   hover:border-cyan-400/30
                   hover:bg-cyan-400/[0.06]
                 "
@@ -1090,7 +885,7 @@ const AboutMe = () => {
                 />
 
                 Download Resume
-              </motion.a>
+              </a>
             </div>
 
             {/* =================================================
@@ -1098,23 +893,16 @@ const AboutMe = () => {
             ================================================== */}
 
             <div className="mt-6 flex gap-2.5">
-              {socials.map((item, index) => {
+              {socials.map((item) => {
                 const Icon = item.icon;
 
                 return (
-                  <motion.a
-                    key={index}
+                  <a
+                    key={item.label}
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={item.label}
-                    whileHover={{
-                      y: -5,
-                      scale: 1.07,
-                    }}
-                    whileTap={{
-                      scale: 0.95,
-                    }}
                     className="
                       flex
                       h-10
@@ -1127,26 +915,21 @@ const AboutMe = () => {
                       bg-white/[0.035]
                       text-slate-400
                       backdrop-blur-xl
-                      transition
+                      transition-all
                       duration-300
+                      hover:-translate-y-1
                       hover:border-cyan-400/30
                       hover:bg-cyan-400/[0.07]
                       hover:text-cyan-300
                     "
                   >
                     <Icon size={15} />
-                  </motion.a>
+                  </a>
                 );
               })}
             </div>
-          </motion.div>
+          </div>
         </div>
-
-        {/* ===================================================
-            BOTTOM LINE
-        ==================================================== */}
-
-       
       </div>
 
       {/* =====================================================

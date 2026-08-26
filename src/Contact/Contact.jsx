@@ -2,7 +2,6 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { motion } from "framer-motion";
 import {
   FaUser,
   FaEnvelope,
@@ -54,7 +53,6 @@ const Contact = () => {
         });
 
         toast.success("Message sent successfully!");
-
         reset();
       } else {
         toast.error(result.message || "Something went wrong");
@@ -80,58 +78,19 @@ const Contact = () => {
         }}
       />
 
-      {/* =====================================================
-          BACKGROUND
-      ====================================================== */}
+      {/* ================= BACKGROUND ================= */}
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {/* Top Glow */}
-
-        <motion.div
-          animate={{
-            scale: [1, 1.08, 1],
-            opacity: [0.08, 0.16, 0.08],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute left-1/2 top-[-280px] h-[500px] w-[650px] -translate-x-1/2 rounded-full bg-cyan-500 blur-[140px]"
-        />
+        <div className="absolute left-1/2 top-[-280px] h-[500px] w-[650px] -translate-x-1/2 rounded-full bg-cyan-500/[0.08] blur-[140px]" />
 
         {/* Left Glow */}
-
-        <motion.div
-          animate={{
-            x: [0, 30, 0],
-            y: [0, -20, 0],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute left-[-220px] top-[35%] h-[320px] w-[320px] rounded-full bg-blue-600/[0.05] blur-[110px]"
-        />
+        <div className="absolute left-[-220px] top-[35%] h-[320px] w-[320px] rounded-full bg-blue-600/[0.05] blur-[110px]" />
 
         {/* Right Glow */}
-
-        <motion.div
-          animate={{
-            x: [0, -30, 0],
-            y: [0, 25, 0],
-          }}
-          transition={{
-            duration: 9,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute bottom-[-180px] right-[-180px] h-[400px] w-[400px] rounded-full bg-purple-600/[0.06] blur-[120px]"
-        />
+        <div className="absolute bottom-[-180px] right-[-180px] h-[400px] w-[400px] rounded-full bg-purple-600/[0.06] blur-[120px]" />
 
         {/* Grid */}
-
         <div
           className="absolute inset-0 opacity-[0.015]"
           style={{
@@ -142,30 +101,13 @@ const Contact = () => {
         />
       </div>
 
-      {/* =====================================================
-          MAIN
-      ====================================================== */}
+      {/* ================= MAIN ================= */}
 
       <div className="relative z-10 mx-auto max-w-5xl">
+
         {/* ================= HEADER ================= */}
 
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 20,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-          }}
-          transition={{
-            duration: 0.6,
-          }}
-          className="mx-auto mb-10 max-w-2xl text-center"
-        >
+        <div className="mx-auto mb-10 max-w-2xl text-center">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-cyan-400/10 bg-cyan-500/[0.05] px-3 py-1.5 text-[9px] font-bold tracking-[0.18em] text-slate-400 backdrop-blur-xl">
             <FaEnvelopeOpenText className="text-cyan-400" />
             GET IN TOUCH
@@ -186,47 +128,19 @@ const Contact = () => {
           <div className="mx-auto mt-5 flex items-center justify-center gap-2">
             <span className="h-px w-10 bg-gradient-to-r from-transparent to-cyan-500/60" />
 
-            <motion.span
-              animate={{
-                scale: [1, 1.5, 1],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-              }}
-              className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,.8)]"
-            />
+            <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,.8)]" />
 
             <span className="h-px w-10 bg-gradient-to-l from-transparent to-purple-500/60" />
           </div>
-        </motion.div>
+        </div>
 
-        {/* =====================================================
-            GRID
-        ====================================================== */}
+        {/* ================= GRID ================= */}
 
         <div className="grid items-center gap-8 lg:grid-cols-[0.85fr_1.15fr]">
-          {/* ===================================================
-              LEFT CONTENT
-          ==================================================== */}
 
-          <motion.div
-            initial={{
-              opacity: 0,
-              x: -35,
-            }}
-            whileInView={{
-              opacity: 1,
-              x: 0,
-            }}
-            viewport={{
-              once: true,
-            }}
-            transition={{
-              duration: 0.65,
-            }}
-            className="order-2 lg:order-1"
-          >
+          {/* ================= LEFT CONTENT ================= */}
+
+          <div className="order-2 lg:order-1">
             <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-cyan-400">
               Start a conversation
             </span>
@@ -251,24 +165,10 @@ const Contact = () => {
                 "Modern & responsive interfaces",
                 "Scalable full-stack solutions",
                 "Clean and maintainable code",
-              ].map((item, index) => (
-                <motion.div
+              ].map((item) => (
+                <div
                   key={item}
-                  initial={{
-                    opacity: 0,
-                    x: -15,
-                  }}
-                  whileInView={{
-                    opacity: 1,
-                    x: 0,
-                  }}
-                  viewport={{
-                    once: true,
-                  }}
-                  transition={{
-                    delay: 0.15 + index * 0.08,
-                  }}
-                  className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] px-3 py-2.5 transition-colors hover:border-cyan-400/15 hover:bg-cyan-400/[0.025]"
+                  className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] px-3 py-2.5 transition-colors duration-300 hover:border-cyan-400/15 hover:bg-cyan-400/[0.025]"
                 >
                   <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-400/[0.08]">
                     <FaCheckCircle className="text-[10px] text-emerald-400" />
@@ -277,7 +177,7 @@ const Contact = () => {
                   <span className="text-[10px] font-medium text-slate-400">
                     {item}
                   </span>
-                </motion.div>
+                </div>
               ))}
             </div>
 
@@ -287,31 +187,12 @@ const Contact = () => {
               <span>Let's create something great</span>
               <FaArrowRight className="text-cyan-400" />
             </div>
-          </motion.div>
+          </div>
 
-          {/* ===================================================
-              FORM
-          ==================================================== */}
+          {/* ================= FORM ================= */}
 
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 30,
-              scale: 0.97,
-            }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-              scale: 1,
-            }}
-            viewport={{
-              once: true,
-            }}
-            transition={{
-              duration: 0.65,
-            }}
-            className="relative order-1 lg:order-2"
-          >
+          <div className="relative order-1 lg:order-2">
+
             {/* Outer Glow */}
 
             <div className="absolute -inset-[1px] rounded-[22px] bg-gradient-to-r from-cyan-500/40 via-blue-500/20 to-purple-500/40 opacity-70 blur-sm" />
@@ -319,28 +200,21 @@ const Contact = () => {
             {/* Form Card */}
 
             <div className="relative overflow-hidden rounded-[21px] border border-white/[0.08] bg-[#080d18]/95 shadow-[0_20px_60px_rgba(0,0,0,.4)] backdrop-blur-2xl">
+
               {/* Top Line */}
 
               <div className="h-[2px] bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500" />
 
               <div className="p-5 sm:p-6">
+
                 {/* Form Header */}
 
                 <div className="mb-5 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <motion.div
-                      animate={{
-                        rotate: [0, -8, 8, 0],
-                      }}
-                      transition={{
-                        duration: 4,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                      className="flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-400/10 bg-cyan-500/[0.07]"
-                    >
+
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-400/10 bg-cyan-500/[0.07]">
                       <FaEnvelopeOpenText className="text-base text-cyan-400" />
-                    </motion.div>
+                    </div>
 
                     <div>
                       <h3 className="text-base font-bold text-white">
@@ -358,10 +232,13 @@ const Contact = () => {
                   </span>
                 </div>
 
+                {/* ================= FORM ================= */}
+
                 <form
                   onSubmit={handleSubmit(onSubmit)}
                   className="space-y-3.5"
                 >
+
                   {/* NAME */}
 
                   <div>
@@ -439,46 +316,27 @@ const Contact = () => {
 
                   {/* BUTTON */}
 
-                  <motion.button
+                  <button
                     type="submit"
                     disabled={isSubmitting}
-                    whileHover={{
-                      scale: isSubmitting ? 1 : 1.015,
-                    }}
-                    whileTap={{
-                      scale: isSubmitting ? 1 : 0.97,
-                    }}
-                    className="group relative mt-1 flex h-11 w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 text-[10px] font-extrabold uppercase tracking-[0.12em] text-white shadow-[0_8px_25px_rgba(59,130,246,.18)] transition-all disabled:cursor-not-allowed disabled:opacity-60"
+                    className="group relative mt-1 flex h-11 w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 text-[10px] font-extrabold uppercase tracking-[0.12em] text-white shadow-[0_8px_25px_rgba(59,130,246,.18)] transition-all hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    {/* Button Shine */}
-
-                    <span className="absolute inset-0 -translate-x-full bg-white/20 transition-transform duration-700 group-hover:translate-x-full" />
-
                     <span className="relative flex items-center gap-2">
                       {isSubmitting ? (
                         <>
-                          <motion.span
-                            animate={{
-                              rotate: 360,
-                            }}
-                            transition={{
-                              duration: 0.8,
-                              repeat: Infinity,
-                              ease: "linear",
-                            }}
-                            className="h-3 w-3 rounded-full border-2 border-white/30 border-t-white"
-                          />
+                          <span className="h-3 w-3 rounded-full border-2 border-white/30 border-t-white animate-spin" />
 
                           Sending...
                         </>
                       ) : (
                         <>
                           Send Message
+
                           <FaPaperPlane className="text-[9px] transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" />
                         </>
                       )}
                     </span>
-                  </motion.button>
+                  </button>
                 </form>
 
                 {/* Privacy Text */}
@@ -488,7 +346,7 @@ const Contact = () => {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Bottom Line */}

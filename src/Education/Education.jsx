@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 import {
   FaAward,
   FaMapMarkerAlt,
@@ -59,57 +58,20 @@ const Education = () => {
       className="relative overflow-hidden bg-[#050816] px-4 py-20 text-white sm:px-6 md:py-24 lg:px-10"
     >
       {/* =========================================================
-          BACKGROUND
+          BACKGROUND - STATIC
       ========================================================== */}
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {/* Top Glow */}
-
-        <motion.div
-          animate={{
-            scale: [1, 1.12, 1],
-            opacity: [0.35, 0.6, 0.35],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute left-1/2 top-[-280px] h-[500px] w-[650px] -translate-x-1/2 rounded-full bg-indigo-600/[0.08] blur-[130px]"
-        />
+        <div className="absolute left-1/2 top-[-280px] h-[500px] w-[650px] -translate-x-1/2 rounded-full bg-indigo-600/[0.08] blur-[130px]" />
 
         {/* Left Glow */}
-
-        <motion.div
-          animate={{
-            x: [0, 30, 0],
-            y: [0, -20, 0],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute left-[-250px] top-[35%] h-[400px] w-[400px] rounded-full bg-blue-600/[0.05] blur-[120px]"
-        />
+        <div className="absolute left-[-250px] top-[35%] h-[400px] w-[400px] rounded-full bg-blue-600/[0.05] blur-[120px]" />
 
         {/* Right Glow */}
-
-        <motion.div
-          animate={{
-            x: [0, -25, 0],
-            y: [0, 30, 0],
-          }}
-          transition={{
-            duration: 9,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute bottom-[5%] right-[-250px] h-[420px] w-[420px] rounded-full bg-purple-600/[0.05] blur-[120px]"
-        />
+        <div className="absolute bottom-[5%] right-[-250px] h-[420px] w-[420px] rounded-full bg-purple-600/[0.05] blur-[120px]" />
 
         {/* Grid */}
-
         <div
           className="absolute inset-0 opacity-[0.018]"
           style={{
@@ -119,31 +81,10 @@ const Education = () => {
           }}
         />
 
-        {/* Small Floating Dots */}
+        {/* Static Dots */}
+        <div className="absolute left-[12%] top-[22%] h-1 w-1 rounded-full bg-indigo-400 opacity-40" />
 
-        <motion.div
-          animate={{
-            y: [0, -20, 0],
-            opacity: [0.2, 0.5, 0.2],
-          }}
-          transition={{
-            duration: 5,
-            repeat: Infinity,
-          }}
-          className="absolute left-[12%] top-[22%] h-1 w-1 rounded-full bg-indigo-400"
-        />
-
-        <motion.div
-          animate={{
-            y: [0, 25, 0],
-            opacity: [0.2, 0.6, 0.2],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-          }}
-          className="absolute right-[15%] top-[30%] h-1 w-1 rounded-full bg-purple-400"
-        />
+        <div className="absolute right-[15%] top-[30%] h-1 w-1 rounded-full bg-purple-400 opacity-40" />
       </div>
 
       {/* =========================================================
@@ -155,29 +96,13 @@ const Education = () => {
             HEADER
         ======================================================== */}
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{
-            duration: 0.7,
-            ease: "easeOut",
-          }}
-          className="mx-auto mb-12 max-w-2xl text-center"
-        >
+        <div className="mx-auto mb-12 max-w-2xl text-center">
           {/* Badge */}
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            whileHover={{ scale: 1.05 }}
-            className="mb-4 inline-flex items-center gap-2 rounded-full border border-indigo-400/15 bg-white/[0.035] px-4 py-2 text-[10px] font-bold tracking-[0.18em] text-slate-300 shadow-[0_0_30px_rgba(99,102,241,0.08)] backdrop-blur-xl"
-          >
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-indigo-400/15 bg-white/[0.035] px-4 py-2 text-[10px] font-bold tracking-[0.18em] text-slate-300 shadow-[0_0_30px_rgba(99,102,241,0.08)] backdrop-blur-xl">
             <FaGraduationCap className="text-indigo-400" />
             EDUCATION
-          </motion.div>
+          </div>
 
           {/* Heading */}
 
@@ -198,21 +123,11 @@ const Education = () => {
           <div className="mx-auto mt-6 flex items-center justify-center gap-2">
             <span className="h-px w-12 bg-gradient-to-r from-transparent to-indigo-500/60" />
 
-            <motion.span
-              animate={{
-                scale: [1, 1.4, 1],
-                opacity: [0.6, 1, 0.6],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-              }}
-              className="h-1.5 w-1.5 rounded-full bg-indigo-400 shadow-[0_0_12px_rgba(99,102,241,0.8)]"
-            />
+            <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 shadow-[0_0_12px_rgba(99,102,241,0.8)]" />
 
             <span className="h-px w-12 bg-gradient-to-l from-transparent to-purple-500/60" />
           </div>
-        </motion.div>
+        </div>
 
         {/* =======================================================
             EDUCATION GRID
@@ -220,43 +135,19 @@ const Education = () => {
 
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {EDUCATION_DATA.map((edu, index) => (
-            <motion.article
+            <article
               key={edu.degree}
-              initial={{
-                opacity: 0,
-                y: 45,
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{
-                once: true,
-                amount: 0.15,
-              }}
-              transition={{
-                duration: 0.65,
-                delay: index * 0.12,
-                ease: "easeOut",
-              }}
-              whileHover={{
-                y: -8,
-              }}
               className="group relative"
             >
-              {/* =================================================
-                  OUTER GLOW
-              ================================================== */}
+              {/* Outer Glow */}
 
               <div
                 className={`absolute -inset-[1px] rounded-[22px] bg-gradient-to-r ${edu.gradient} opacity-0 blur-md transition-all duration-500 group-hover:opacity-45`}
               />
 
-              {/* =================================================
-                  CARD
-              ================================================== */}
+              {/* Card */}
 
-              <div className="relative h-full overflow-hidden rounded-[22px] border border-white/[0.07] bg-[#0a1020]/95 shadow-[0_15px_45px_rgba(0,0,0,0.22)] backdrop-blur-xl transition-all duration-500 group-hover:border-white/[0.14] group-hover:shadow-[0_25px_65px_rgba(0,0,0,0.35)]">
+              <div className="relative h-full overflow-hidden rounded-[22px] border border-white/[0.07] bg-[#0a1020]/95 shadow-[0_15px_45px_rgba(0,0,0,0.22)] backdrop-blur-xl transition-all duration-500 group-hover:-translate-y-2 group-hover:border-white/[0.14] group-hover:shadow-[0_25px_65px_rgba(0,0,0,0.35)]">
                 {/* Top Gradient */}
 
                 <div
@@ -272,21 +163,16 @@ const Education = () => {
                     src={edu.image}
                     alt={edu.degree}
                     loading="lazy"
-                    className="h-full w-full object-cover transition-all duration-700 ease-out group-hover:scale-110"
+                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                   />
 
                   {/* Dark Overlay */}
 
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0a1020] via-[#0a1020]/20 to-black/20" />
 
-                  {/* Image Shine */}
+                  {/* Image Shine - CSS only */}
 
-                  <motion.div
-                    initial={{ x: "-120%" }}
-                    whileHover={{ x: "120%" }}
-                    transition={{ duration: 0.8 }}
-                    className="absolute inset-y-0 w-1/3 skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/[0.12] to-transparent"
-                  />
+                  <div className="pointer-events-none absolute inset-y-0 left-[-100%] w-1/3 skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/[0.12] to-transparent transition-all duration-700 group-hover:left-[120%]" />
 
                   {/* Year */}
 
@@ -307,18 +193,13 @@ const Education = () => {
 
                   {/* Degree Badge */}
 
-                  <motion.div
-                    whileHover={{
-                      scale: 1.08,
-                    }}
-                    className="absolute bottom-3 right-4"
-                  >
+                  <div className="absolute bottom-3 right-4">
                     <div
-                      className={`rounded-lg border border-white/10 bg-gradient-to-r ${edu.gradient} bg-clip-padding px-3 py-1.5 text-[9px] font-black tracking-wider text-white shadow-lg backdrop-blur-md`}
+                      className={`rounded-lg border border-white/10 bg-gradient-to-r ${edu.gradient} px-3 py-1.5 text-[9px] font-black tracking-wider text-white shadow-lg backdrop-blur-md transition-transform duration-300 group-hover:scale-105`}
                     >
                       {edu.short}
                     </div>
-                  </motion.div>
+                  </div>
                 </div>
 
                 {/* =================================================
@@ -407,40 +288,26 @@ const Education = () => {
 
                     {/* Certificate */}
 
-                    <motion.button
-                      whileHover={{
-                        scale: 1.04,
-                      }}
-                      whileTap={{
-                        scale: 0.96,
-                      }}
+                    <button
                       type="button"
-                      className="group/btn flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2 text-[9px] font-bold text-slate-300 transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/10 hover:text-white"
+                      className="group/btn flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2 text-[9px] font-bold text-slate-300 transition-all duration-300 hover:scale-[1.04] hover:border-indigo-400/30 hover:bg-indigo-500/10 hover:text-white active:scale-[0.96]"
                     >
                       Certificate
 
                       <FaExternalLinkAlt className="text-[7px] text-indigo-400 transition-transform duration-300 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5" />
-                    </motion.button>
+                    </button>
                   </div>
                 </div>
 
                 {/* Bottom Progress Line */}
 
                 <div className="relative h-[2px] w-full overflow-hidden bg-white/[0.025]">
-                  <motion.div
-                    initial={{ width: "0%" }}
-                    whileInView={{ width: "100%" }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 1.2,
-                      delay: index * 0.15 + 0.5,
-                      ease: "easeOut",
-                    }}
-                    className={`h-full bg-gradient-to-r ${edu.gradient}`}
+                  <div
+                    className={`h-full w-full bg-gradient-to-r ${edu.gradient}`}
                   />
                 </div>
               </div>
-            </motion.article>
+            </article>
           ))}
         </div>
 
@@ -448,24 +315,7 @@ const Education = () => {
             BOTTOM MESSAGE
         ======================================================== */}
 
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 15,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-          }}
-          transition={{
-            duration: 0.7,
-            delay: 0.3,
-          }}
-          className="mx-auto mt-11 max-w-xl text-center"
-        >
+        <div className="mx-auto mt-11 max-w-xl text-center">
           <div className="mx-auto mb-4 h-px w-20 bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent" />
 
           <p className="text-[11px] leading-6 text-slate-600 sm:text-xs">
@@ -475,7 +325,7 @@ const Education = () => {
               keep learning and keep improving.
             </span>
           </p>
-        </motion.div>
+        </div>
 
         {/* Bottom Line */}
 
