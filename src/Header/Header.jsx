@@ -1,200 +1,58 @@
 import React, { useEffect, useState } from "react";
-
-import {
-  FaGithub,
-  FaLinkedin,
-  FaInstagram,
-  FaTelegram,
-  FaTwitter,
-  FaArrowRight,
-  FaDownload,
-  FaBars,
-  FaTimes,
-  FaCode,
-  FaReact,
-  FaNodeJs,
+import { motion, AnimatePresence } from "framer-motion";
+import { 
+  FaArrowRight, 
+  FaStar, 
+  FaTerminal, 
+  FaCheckCircle, 
+  FaLaptopCode, 
+  FaCode, 
+  FaReact, 
+  FaNodeJs, 
+  FaBrain 
 } from "react-icons/fa";
 
-import {
-  SiMongodb,
-  SiExpress,
-  SiNextdotjs,
-  SiJavascript,
-  SiTypescript,
-  SiTailwindcss,
-  SiGit,
-} from "react-icons/si";
-
 const Header = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [roleIndex, setRoleIndex] = useState(0);
-  const [scrolled, setScrolled] = useState(false);
-
-  /* =========================================================
-     ROLES
-  ========================================================= */
 
   const roles = [
     "AI MERN Developer",
-    "Full Stack Developer",
-    "React Developer",
-    "Node.js Developer",
+    "Full Stack Architect",
+    "React & Next.js Pro",
+    "Node.js Backend Master",
     "AI Integration Engineer",
   ];
 
-  /* =========================================================
-     NAVIGATION
-  ========================================================= */
-
-  const navItems = [
-    ["Home", "#home"],
-    ["About", "#about"],
-    ["Skills", "#skills"],
-    ["Projects", "#projects"],
-    ["Contact", "#contact"],
-  ];
-
-  /* =========================================================
-     SOCIALS
-  ========================================================= */
-
-  const socials = [
-    {
-      icon: FaGithub,
-      link: "https://github.com/",
-      label: "GitHub",
-    },
-    {
-      icon: FaLinkedin,
-      link: "https://linkedin.com/",
-      label: "LinkedIn",
-    },
-    {
-      icon: FaInstagram,
-      link: "https://instagram.com/",
-      label: "Instagram",
-    },
-    {
-      icon: FaTelegram,
-      link: "https://telegram.org/",
-      label: "Telegram",
-    },
-    {
-      icon: FaTwitter,
-      link: "https://twitter.com/",
-      label: "Twitter",
-    },
-  ];
-
-  /* =========================================================
-     TECHNOLOGIES
-  ========================================================= */
-
-  const technologies = [
-    {
-      name: "React",
-      icon: FaReact,
-      color: "text-cyan-400",
-      position: "left-[0%] top-[14%] sm:left-[1%] sm:top-[15%]",
-    },
-    {
-      name: "Node.js",
-      icon: FaNodeJs,
-      color: "text-green-400",
-      position: "right-[0%] top-[19%] sm:right-[1%] sm:top-[20%]",
-    },
-    {
-      name: "MongoDB",
-      icon: SiMongodb,
-      color: "text-green-500",
-      position: "left-[1%] bottom-[17%] sm:left-[4%] sm:bottom-[18%]",
-    },
-    {
-      name: "Next.js",
-      icon: SiNextdotjs,
-      color: "text-white",
-      position: "right-[0%] bottom-[15%] sm:right-[4%] sm:bottom-[14%]",
-    },
-  ];
-
-  /* =========================================================
-     STACK
-  ========================================================= */
-
-  const stack = [
-    [FaReact, "React", "text-cyan-400"],
-    [FaNodeJs, "Node.js", "text-green-400"],
-    [SiMongodb, "MongoDB", "text-green-500"],
-    [SiExpress, "Express", "text-gray-300"],
-    [SiNextdotjs, "Next.js", "text-white"],
-    [SiJavascript, "JavaScript", "text-yellow-300"],
-    [SiTypescript, "TypeScript", "text-blue-400"],
-    [SiTailwindcss, "Tailwind", "text-cyan-300"],
-    [SiGit, "Git", "text-orange-400"],
-  ];
-
-  /* =========================================================
-     ROLE CHANGE
-     No animation
-  ========================================================= */
+  const scrollToSection = (link) => {
+    const element = document.querySelector(link);
+    if (element) {
+      const offset = 92;
+      const targetPosition = element.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top: targetPosition, behavior: "smooth" });
+    }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
       setRoleIndex((prev) => (prev + 1) % roles.length);
-    }, 2600);
-
+    }, 2800);
     return () => clearInterval(timer);
   }, []);
 
-  /* =========================================================
-     SCROLL EFFECT
-  ========================================================= */
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
+      },
+    },
+  };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 30);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  /* =========================================================
-     CLOSE MENU ON RESIZE
-  ========================================================= */
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setMenuOpen(false);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  /* =========================================================
-     SCROLL
-  ========================================================= */
-
-  const scrollToSection = (link) => {
-    setMenuOpen(false);
-
-    const element = document.querySelector(link);
-
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
   };
 
   return (
@@ -205,1223 +63,352 @@ const Header = () => {
         min-h-screen
         w-full
         overflow-hidden
-        bg-[#030712]
-        text-white
+        bg-emerald-50/50
+        text-slate-900
+        transition-colors
+        duration-500
+        dark:bg-[#061a14]
+        dark:text-slate-100
       "
     >
-      {/* =====================================================
-          PREMIUM STATIC BACKGROUND
-      ====================================================== */}
-
+      {/* Background 3D Dynamic Glows & Tech Grid */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {/* Main Gradient */}
+        <div className="absolute -left-1/4 -top-1/4 h-[400px] w-[400px] sm:h-[750px] sm:w-[750px] rounded-full bg-emerald-500/15 blur-[120px] sm:blur-[160px] dark:bg-emerald-500/10" />
+        <div className="absolute -right-1/3 top-1/3 h-[350px] w-[350px] sm:h-[650px] sm:w-[650px] rounded-full bg-teal-600/15 blur-[130px] sm:blur-[170px] dark:bg-teal-600/10" />
 
         <div
-          className="
-            absolute
-            inset-0
-            bg-[radial-gradient(circle_at_12%_18%,rgba(59,130,246,0.18),transparent_30%),
-            radial-gradient(circle_at_88%_20%,rgba(168,85,247,0.18),transparent_32%),
-            radial-gradient(circle_at_50%_95%,rgba(6,182,212,0.12),transparent_34%),
-            linear-gradient(135deg,#020617_0%,#07111f_45%,#0b0820_100%)]
-          "
-        />
-
-        {/* Static Blue Glow */}
-
-        <div
-          className="
-            absolute
-            -left-32
-            top-10
-            h-[420px]
-            w-[420px]
-            rounded-full
-            bg-blue-600/10
-            blur-[120px]
-          "
-        />
-
-        {/* Static Purple Glow */}
-
-        <div
-          className="
-            absolute
-            -right-32
-            top-24
-            h-[460px]
-            w-[460px]
-            rounded-full
-            bg-purple-600/10
-            blur-[130px]
-          "
-        />
-
-        {/* Static Cyan Glow */}
-
-        <div
-          className="
-            absolute
-            bottom-[-180px]
-            left-[30%]
-            h-[450px]
-            w-[450px]
-            rounded-full
-            bg-cyan-500/10
-            blur-[130px]
-          "
-        />
-
-        {/* Grid */}
-
-        <div
-          className="
-            absolute
-            inset-0
-            opacity-[0.035]
-          "
+          className="absolute inset-0 opacity-[0.04] dark:opacity-[0.07]"
           style={{
-            backgroundImage: `
-              linear-gradient(rgba(129,140,248,0.8) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(129,140,248,0.8) 1px, transparent 1px)
-            `,
-            backgroundSize: "55px 55px",
-            maskImage:
-              "radial-gradient(circle at center, black 15%, transparent 82%)",
-            WebkitMaskImage:
-              "radial-gradient(circle at center, black 15%, transparent 82%)",
+            backgroundImage: `radial-gradient(#10b981 1.5px, transparent 1.5px), radial-gradient(#10b981 1.5px, transparent 1.5px)`,
+            backgroundPosition: `0 0, 40px 40px`,
+            backgroundSize: `80px 80px`,
           }}
-        />
-
-        {/* Top Light */}
-
-        <div
-          className="
-            absolute
-            left-1/2
-            top-0
-            h-px
-            w-[75%]
-            -translate-x-1/2
-            bg-gradient-to-r
-            from-transparent
-            via-indigo-400/40
-            to-transparent
-          "
-        />
-
-        {/* Vignette */}
-
-        <div
-          className="
-            absolute
-            inset-0
-            bg-[radial-gradient(circle_at_center,transparent_30%,rgba(2,6,23,0.7)_100%)]
-          "
         />
       </div>
 
-      {/* =====================================================
-          NAVBAR
-      ====================================================== */}
-
-     
-
-      {/* =====================================================
-          HERO
-      ====================================================== */}
-
-      <main
+      <div
         className="
           relative
           z-10
           mx-auto
           flex
           min-h-screen
+          w-full
           max-w-7xl
+          flex-col
           items-center
+          justify-center
           px-4
-          pb-12
-          pt-28
+          py-24
           sm:px-6
-          sm:pb-16
-          sm:pt-32
-          lg:px-8
+          sm:py-28
+          lg:px-10
+          lg:py-32
         "
       >
-        <div
-          className="
-            grid
-            w-full
-            items-center
-            gap-10
-            lg:grid-cols-[1fr_0.95fr]
-            lg:gap-6
-          "
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="grid w-full items-center gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-12 my-auto"
         >
-          {/* =================================================
-              LEFT CONTENT
-          ================================================== */}
-
-          <div
-            className="
-              relative
-              z-20
-              text-center
-              lg:text-left
-            "
-          >
-            {/* STATUS */}
-
-            <div
-              className="
-                mx-auto
-                mb-5
-                inline-flex
-                items-center
-                gap-2
-                rounded-full
-                border
-                border-emerald-400/20
-                bg-emerald-400/[0.05]
-                px-3.5
-                py-2
-                lg:mx-0
-              "
+          {/* Left Content */}
+          <div className="text-center lg:text-left relative flex flex-col items-center lg:items-start">
+            
+            {/* Floating code snippet tag - hidden on very small screens to avoid clutter */}
+            <motion.div
+              animate={{ y: [-6, 6, -6], x: [-3, 3, -3] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -left-4 -top-8 hidden md:flex items-center gap-2 rounded-xl border border-emerald-300/60 bg-white/80 px-3 py-1.5 text-[11px] font-bold text-slate-700 shadow-sm backdrop-blur-md dark:bg-slate-900/60 dark:text-emerald-300 dark:border-emerald-500/30"
             >
-              <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,.7)]" />
+              <FaCode className="text-emerald-500" /> const developer = "Amit";
+            </motion.div>
 
-              <span
-                className="
-                  text-[8px]
-                  font-bold
-                  uppercase
-                  tracking-[0.16em]
-                  text-emerald-300
-                  sm:text-[9px]
-                "
-              >
-                Available for freelance
-              </span>
-            </div>
-
-            {/* HELLO */}
-
-            <p
-              className="
-                text-[10px]
-                font-bold
-                uppercase
-                tracking-[0.3em]
-                text-indigo-400
-                sm:text-xs
-              "
-            >
-              Hello, I'm
-            </p>
-
-            {/* NAME */}
-
-            <h1
-              className="
-                mt-3
-                text-[3.2rem]
-                font-black
-                leading-[0.9]
-                tracking-[-0.07em]
-                sm:text-7xl
-                md:text-8xl
-                lg:text-[5.1rem]
-                xl:text-[6rem]
-              "
-            >
-              Amit{" "}
-              <span
-                className="
-                  bg-gradient-to-r
-                  from-indigo-400
-                  via-purple-400
-                  to-cyan-400
-                  bg-clip-text
-                  text-transparent
-                "
-              >
-                Gupta
-              </span>
-
-              <span className="text-indigo-400">.</span>
-            </h1>
-
-            {/* ROLE */}
-
-            <div
-              className="
-                mt-6
-                h-8
-                sm:mt-7
-                sm:h-9
-              "
-            >
+            {/* Top Badges Row */}
+            <motion.div variants={itemVariants} className="mb-5 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 lg:justify-start">
               <div
                 className="
-                  flex
+                  inline-flex
                   items-center
-                  justify-center
                   gap-2
-                  text-base
-                  font-bold
-                  sm:text-xl
-                  lg:justify-start
-                  lg:text-2xl
+                  rounded-full
+                  border
+                  border-emerald-300/80
+                  bg-white/80
+                  px-3.5
+                  py-1.5
+                  sm:px-4
+                  sm:py-2
+                  text-[10px]
+                  sm:text-[11px]
+                  font-extrabold
+                  tracking-wider
+                  text-emerald-900
+                  shadow-lg
+                  shadow-emerald-500/10
+                  backdrop-blur-md
+                  dark:border-emerald-500/30
+                  dark:bg-slate-900/60
+                  dark:text-emerald-300
                 "
               >
-                <span className="text-slate-600">&</span>
-
-                <span
-                  className="
-                    bg-gradient-to-r
-                    from-cyan-400
-                    via-indigo-400
-                    to-purple-400
-                    bg-clip-text
-                    text-transparent
-                  "
-                >
-                  {roles[roleIndex]}
-                </span>
+                <FaStar className="text-emerald-400 animate-spin" style={{ animationDuration: "6s" }} />
+                KAIZEN AI INNOVATOR
               </div>
-            </div>
 
-            {/* DESCRIPTION */}
+              <div
+                className="
+                  inline-flex
+                  items-center
+                  gap-2
+                  rounded-full
+                  border
+                  border-emerald-500/30
+                  bg-emerald-500/10
+                  px-3
+                  py-1.5
+                  sm:px-3.5
+                  sm:py-2
+                  text-[10px]
+                  sm:text-[11px]
+                  font-bold
+                  text-emerald-600
+                  dark:text-emerald-400
+                  backdrop-blur-md
+                "
+              >
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
+                Open for Projects
+              </div>
+            </motion.div>
 
-            <p
+            <motion.h1
+              variants={itemVariants}
               className="
-                mx-auto
-                mt-5
-                max-w-xl
-                text-sm
-                leading-7
-                text-slate-400
-                sm:mt-6
-                sm:text-base
-                sm:leading-8
-                lg:mx-0
-                lg:text-lg
+                text-3xl
+                xs:text-4xl
+                font-black
+                leading-[1.1]
+                tracking-[-0.04em]
+                text-slate-950
+                sm:text-6xl
+                lg:text-7xl
+                dark:text-white
               "
             >
-              I build{" "}
-              <span className="font-semibold text-white">
-                scalable web applications
-              </span>{" "}
-              with modern UI, powerful backend systems and{" "}
-              <span className="font-semibold text-indigo-300">
-                AI-powered experiences.
+              HI, I'M{" "}
+              <span className="bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-600 bg-clip-text text-transparent drop-shadow-sm">
+                AMIT GUPTA
               </span>
-            </p>
+            </motion.h1>
 
-            {/* BUTTONS */}
+            {/* Dynamic Role Switcher */}
+            <motion.div variants={itemVariants} className="mt-4 sm:mt-6 min-h-[40px] sm:min-h-[48px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={roles[roleIndex]}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.35, ease: "easeInOut" }}
+                  className="flex items-center justify-center gap-2.5 sm:gap-3 text-lg sm:text-xl lg:text-2xl font-extrabold text-slate-700 lg:justify-start dark:text-slate-200"
+                >
+                  <span className="h-6 sm:h-7 w-1.5 rounded-full bg-gradient-to-b from-emerald-400 to-teal-600 shadow-[0_0_12px_rgba(52,211,153,0.9)]" />
+                  {roles[roleIndex]}
+                </motion.div>
+              </AnimatePresence>
+            </motion.div>
 
-            <div
-              className="
-                mt-7
-                flex
-                flex-col
-                gap-3
-                sm:flex-row
-                sm:justify-center
-                lg:justify-start
-              "
+            <motion.p
+              variants={itemVariants}
+              className="mt-4 sm:mt-6 max-w-xl text-sm sm:text-base lg:text-lg leading-7 sm:leading-8 text-slate-600 dark:text-slate-400"
             >
-              <button
-                type="button"
+              Building next-gen intelligent web architectures, scalable full-stack applications, and high-performance AI integrations with <span className="font-bold text-slate-900 dark:text-white">React, Node.js & Machine Learning workflows</span>.
+            </motion.p>
+
+            {/* Quick Skill Highlights Checklist */}
+            <motion.div variants={itemVariants} className="mt-5 sm:mt-6 flex flex-wrap items-center justify-center gap-3 sm:gap-4 lg:justify-start text-xs font-bold text-slate-600 dark:text-slate-300">
+              <span className="flex items-center gap-1.5"><FaCheckCircle className="text-emerald-500" /> Clean Code</span>
+              <span className="flex items-center gap-1.5"><FaCheckCircle className="text-emerald-500" /> Real-time APIs</span>
+              <span className="flex items-center gap-1.5"><FaCheckCircle className="text-emerald-500" /> UI/UX Expert</span>
+            </motion.div>
+
+            {/* Action Buttons */}
+            <motion.div
+              variants={itemVariants}
+              className="mt-7 sm:mt-8 flex w-full flex-col items-center justify-center gap-3.5 sm:flex-row sm:w-auto lg:justify-start"
+            >
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => scrollToSection("#projects")}
                 className="
                   group
-                  flex
+                  inline-flex
                   w-full
+                  sm:w-auto
                   items-center
                   justify-center
                   gap-3
-                  rounded-xl
+                  rounded-2xl
                   bg-gradient-to-r
-                  from-indigo-600
-                  via-purple-600
-                  to-cyan-500
-                  px-6
+                  from-emerald-500
+                  via-teal-500
+                  to-cyan-600
+                  px-7
                   py-3.5
-                  text-xs
+                  sm:px-8
+                  sm:py-4
+                  text-sm
                   font-black
-                  shadow-[0_15px_45px_rgba(99,102,241,.25)]
+                  text-white
+                  shadow-[0_10px_25px_rgba(52,211,153,0.35)]
                   transition-all
-                  duration-200
-                  hover:-translate-y-1
-                  hover:shadow-[0_20px_55px_rgba(99,102,241,.35)]
-                  sm:w-auto
-                  sm:text-sm
+                  duration-300
+                  hover:shadow-[0_15px_30px_rgba(52,211,153,0.5)]
                 "
               >
-                Explore Projects
+                Explore Portfolio
+                <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1.5" />
+              </motion.button>
 
-                <FaArrowRight
-                  size={12}
-                  className="transition-transform duration-200 group-hover:translate-x-1"
-                />
-              </button>
-
-              <a
-                href="/resume.pdf"
-                download
+              <motion.a
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+                href="#contact"
                 className="
-                  flex
+                  inline-flex
                   w-full
+                  sm:w-auto
                   items-center
                   justify-center
                   gap-3
-                  rounded-xl
-                  border
-                  border-white/10
-                  bg-white/[0.035]
-                  px-6
+                  rounded-2xl
+                  border-2
+                  border-emerald-300/80
+                  bg-white/80
+                  px-7
                   py-3.5
-                  text-xs
-                  font-bold
-                  text-slate-300
-                  backdrop-blur-xl
+                  sm:px-8
+                  sm:py-4
+                  text-sm
+                  font-black
+                  text-slate-800
+                  shadow-lg
+                  shadow-emerald-500/5
+                  backdrop-blur-md
                   transition-all
-                  duration-200
-                  hover:-translate-y-1
-                  hover:border-indigo-400/30
-                  hover:bg-indigo-500/10
-                  hover:text-white
-                  sm:w-auto
-                  sm:text-sm
+                  hover:border-emerald-400
+                  hover:bg-emerald-50
+                  dark:border-emerald-500/30
+                  dark:bg-slate-900/60
+                  dark:text-white
+                  dark:hover:bg-slate-800/80
                 "
               >
-                <FaDownload size={12} />
-                Download CV
-              </a>
-            </div>
-
-            {/* FEATURES */}
-
-            <div
-              className="
-                mt-5
-                flex
-                flex-wrap
-                items-center
-                justify-center
-                gap-x-3
-                gap-y-2
-                text-[8px]
-                uppercase
-                tracking-wider
-                text-slate-600
-                sm:text-[9px]
-                lg:justify-start
-              "
-            >
-              <span>Clean Code</span>
-              <span className="text-indigo-500">•</span>
-              <span>Responsive UI</span>
-              <span className="text-indigo-500">•</span>
-              <span>Scalable Backend</span>
-            </div>
-
-            {/* SOCIALS */}
-
-            <div
-              className="
-                mt-7
-                flex
-                justify-center
-                gap-2
-                lg:justify-start
-              "
-            >
-              {socials.map((social) => {
-                const Icon = social.icon;
-
-                return (
-                  <a
-                    key={social.label}
-                    href={social.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={social.label}
-                    className="
-                      flex
-                      h-10
-                      w-10
-                      items-center
-                      justify-center
-                      rounded-xl
-                      border
-                      border-white/10
-                      bg-white/[0.025]
-                      text-slate-500
-                      shadow-[0_8px_25px_rgba(0,0,0,.2)]
-                      transition-all
-                      duration-200
-                      hover:-translate-y-1
-                      hover:border-indigo-400/30
-                      hover:bg-indigo-500/10
-                      hover:text-indigo-300
-                    "
-                  >
-                    <Icon size={14} />
-                  </a>
-                );
-              })}
-            </div>
-
-            {/* STATS */}
-
-            <div
-              className="
-                mx-auto
-                mt-7
-                grid
-                max-w-xl
-                grid-cols-3
-                rounded-2xl
-                border
-                border-white/[0.07]
-                bg-white/[0.02]
-                py-4
-                backdrop-blur-xl
-                lg:mx-0
-              "
-            >
-              <div className="text-center lg:pl-4 lg:text-left">
-                <p className="text-xl font-black sm:text-2xl">
-                  20
-                  <span className="text-indigo-400">+</span>
-                </p>
-
-                <p className="mt-1 text-[7px] uppercase tracking-[0.15em] text-slate-600 sm:text-[9px]">
-                  Projects
-                </p>
-              </div>
-
-              <div
-                className="
-                  border-l
-                  border-white/[0.07]
-                  text-center
-                  lg:pl-5
-                  lg:text-left
-                "
-              >
-                <p className="text-xl font-black sm:text-2xl">
-                  10
-                  <span className="text-cyan-400">+</span>
-                </p>
-
-                <p className="mt-1 text-[7px] uppercase tracking-[0.15em] text-slate-600 sm:text-[9px]">
-                  Technologies
-                </p>
-              </div>
-
-              <div
-                className="
-                  border-l
-                  border-white/[0.07]
-                  text-center
-                  lg:pl-5
-                  lg:text-left
-                "
-              >
-                <p className="text-xl font-black sm:text-2xl">AI</p>
-
-                <p className="mt-1 text-[7px] uppercase tracking-[0.15em] text-slate-600 sm:text-[9px]">
-                  Integration
-                </p>
-              </div>
-            </div>
+                Let's Talk
+              </motion.a>
+            </motion.div>
           </div>
 
-          {/* =================================================
-              RIGHT VISUAL
-          ================================================== */}
-
-          <div
-            className="
-              relative
-              flex
-              min-h-[350px]
-              items-center
-              justify-center
-              sm:min-h-[460px]
-              md:min-h-[520px]
-              lg:min-h-[600px]
-            "
+          {/* Right Profile Photo & Interactive Floating Tech Orbit (Fully Responsive Box) */}
+          <motion.div
+            variants={itemVariants}
+            className="relative mx-auto flex h-[380px] xs:h-[420px] sm:h-[460px] w-full max-w-sm sm:max-w-md items-center justify-center lg:h-[500px] lg:max-w-none"
           >
-            {/* BIG STATIC GLOW */}
+            <div className="absolute inset-0 rounded-[30px] sm:rounded-[40px] bg-gradient-to-tr from-emerald-500/20 via-teal-500/20 to-cyan-500/20 blur-2xl -z-10" />
 
-            <div
-              className="
-                absolute
-                h-[280px]
-                w-[280px]
-                rounded-full
-                bg-indigo-500/20
-                blur-[100px]
-                sm:h-[420px]
-                sm:w-[420px]
-              "
-            />
+            <div className="relative h-[300px] w-[260px] xs:h-[350px] xs:w-[300px] sm:h-[400px] sm:w-[340px] overflow-hidden rounded-[28px] sm:rounded-[36px] border-[5px] sm:border-[6px] border-white bg-white shadow-2xl backdrop-blur-xl dark:border-slate-900 dark:bg-slate-900">
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-100 via-teal-50 to-cyan-100 dark:from-[#061a14] dark:via-slate-900 dark:to-slate-950" />
 
-            {/* MAIN ORBIT CONTAINER */}
-
-            <div
-              className="
-                relative
-                h-[300px]
-                w-[300px]
-                sm:h-[410px]
-                sm:w-[410px]
-                md:h-[470px]
-                md:w-[470px]
-                lg:h-[510px]
-                lg:w-[510px]
-              "
-            >
-              {/* OUTER ORBIT */}
-
-              <div
+              <img
+                src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=600&auto=format&fit=crop"
+                alt="Amit Gupta, AI MERN Developer"
                 className="
-                  absolute
-                  inset-0
-                  rounded-full
-                  border
-                  border-indigo-400/20
-                  shadow-[0_0_50px_rgba(99,102,241,.04)]
+                  relative
+                  z-10
+                  h-full
+                  w-full
+                  object-cover
+                  object-center
+                  scale-105
+                  opacity-90
+                  transition-transform
+                  duration-700
+                  hover:scale-110
                 "
-              >
-                <span
-                  className="
-                    absolute
-                    left-1/2
-                    top-[-4px]
-                    h-2
-                    w-2
-                    -translate-x-1/2
-                    rounded-full
-                    bg-indigo-400
-                    shadow-[0_0_18px_#818cf8]
-                    sm:h-2.5
-                    sm:w-2.5
-                  "
-                />
-              </div>
-
-              {/* SECOND ORBIT */}
-
-              <div
-                className="
-                  absolute
-                  inset-[28px]
-                  rounded-full
-                  border
-                  border-dashed
-                  border-cyan-400/20
-                  sm:inset-[40px]
-                  md:inset-[50px]
-                "
-              >
-                <span
-                  className="
-                    absolute
-                    right-[8%]
-                    top-[5%]
-                    h-2
-                    w-2
-                    rounded-full
-                    bg-cyan-400
-                    shadow-[0_0_18px_#22d3ee]
-                  "
-                />
-              </div>
-
-              {/* THIRD ORBIT */}
-
-              <div
-                className="
-                  absolute
-                  inset-[55px]
-                  rounded-full
-                  border
-                  border-purple-400/15
-                  sm:inset-[75px]
-                  md:inset-[90px]
-                "
+                style={{
+                  filter: "grayscale(100%) brightness(1.05) contrast(1.1)",
+                }}
               />
 
-              {/* FOURTH ORBIT */}
-
-              <div
-                className="
-                  absolute
-                  inset-[82px]
-                  rounded-full
-                  border
-                  border-white/[0.04]
-                  sm:inset-[105px]
-                  md:inset-[125px]
-                "
-              />
-
-              {/* CENTER GLOW */}
-
-              <div
-                className="
-                  absolute
-                  left-1/2
-                  top-1/2
-                  h-[180px]
-                  w-[180px]
-                  -translate-x-1/2
-                  -translate-y-1/2
-                  rounded-full
-                  bg-indigo-600/20
-                  blur-[70px]
-                  sm:h-[260px]
-                  sm:w-[260px]
-                  sm:blur-[90px]
-                "
-              />
-
-              {/* MAIN CARD */}
-
-              <div
-                className="
-                  absolute
-                  left-1/2
-                  top-1/2
-                  h-[210px]
-                  w-[210px]
-                  -translate-x-1/2
-                  -translate-y-1/2
-                  rounded-[2rem]
-                  border
-                  border-white/10
-                  bg-white/[0.035]
-                  p-2
-                  shadow-[0_30px_100px_rgba(0,0,0,.7)]
-                  backdrop-blur-2xl
-                  sm:h-[285px]
-                  sm:w-[285px]
-                  sm:rounded-[2.5rem]
-                  sm:p-3
-                  md:h-[325px]
-                  md:w-[325px]
-                "
-              >
-                <div
-                  className="
-                    relative
-                    flex
-                    h-full
-                    w-full
-                    flex-col
-                    items-center
-                    justify-center
-                    overflow-hidden
-                    rounded-[1.7rem]
-                    border
-                    border-indigo-400/20
-                    bg-gradient-to-br
-                    from-[#111a46]
-                    via-[#050b18]
-                    to-[#062d3c]
-                    sm:rounded-[2.1rem]
-                  "
-                >
-                  {/* CARD GLOW */}
-
-                  <div
-                    className="
-                      absolute
-                      -right-16
-                      -top-16
-                      h-32
-                      w-32
-                      rounded-full
-                      bg-cyan-400/10
-                      blur-[60px]
-                    "
-                  />
-
-                  <div
-                    className="
-                      absolute
-                      -bottom-16
-                      -left-16
-                      h-32
-                      w-32
-                      rounded-full
-                      bg-purple-500/10
-                      blur-[60px]
-                    "
-                  />
-
-                  {/* INNER GRID */}
-
-                  <div
-                    className="
-                      absolute
-                      inset-0
-                      opacity-[0.07]
-                    "
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(#818cf8 1px, transparent 1px), linear-gradient(90deg,#818cf8 1px,transparent 1px)",
-                      backgroundSize: "18px 18px",
-                    }}
-                  />
-
-                  {/* TOP BAR */}
-
-                  <div
-                    className="
-                      absolute
-                      left-4
-                      right-4
-                      top-4
-                      flex
-                      items-center
-                      justify-between
-                      sm:left-6
-                      sm:right-6
-                      sm:top-5
-                    "
-                  >
-                    <div className="flex gap-1">
-                      <span className="h-1.5 w-1.5 rounded-full bg-red-400" />
-                      <span className="h-1.5 w-1.5 rounded-full bg-yellow-400" />
-                      <span className="h-1.5 w-1.5 rounded-full bg-green-400" />
-                    </div>
-
-                    <span className="text-[6px] uppercase tracking-[0.2em] text-slate-600 sm:text-[7px]">
-                      amit.dev
-                    </span>
-                  </div>
-
-                  {/* AG LOGO */}
-
-                  <div
-                    className="
-                      relative
-                      z-10
-                      flex
-                      h-24
-                      w-24
-                      items-center
-                      justify-center
-                      rounded-full
-                      border
-                      border-indigo-400/30
-                      bg-gradient-to-br
-                      from-indigo-600
-                      via-purple-600
-                      to-cyan-500
-                      shadow-[0_0_70px_rgba(99,102,241,.4)]
-                      sm:h-36
-                      sm:w-36
-                      md:h-40
-                      md:w-40
-                    "
-                  >
-                    <div
-                      className="
-                        flex
-                        h-[92%]
-                        w-[92%]
-                        items-center
-                        justify-center
-                        rounded-full
-                        bg-[#030712]
-                      "
-                    >
-                      <div className="text-center">
-                        <p
-                          className="
-                            text-3xl
-                            font-black
-                            tracking-[-0.08em]
-                            sm:text-5xl
-                            md:text-6xl
-                          "
-                        >
-                          AG
-                        </p>
-
-                        <p
-                          className="
-                            mt-1
-                            text-[6px]
-                            uppercase
-                            tracking-[0.3em]
-                            text-indigo-300
-                            sm:text-[7px]
-                          "
-                        >
-                          Developer
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* ONLINE */}
-
-                    <span
-                      className="
-                        absolute
-                        bottom-0
-                        right-0
-                        h-4
-                        w-4
-                        rounded-full
-                        border-2
-                        border-[#030712]
-                        bg-emerald-400
-                        shadow-[0_0_15px_#34d399]
-                        sm:h-5
-                        sm:w-5
-                      "
-                    />
-                  </div>
-
-                  {/* CARD TEXT */}
-
-                  <div
-                    className="
-                      absolute
-                      bottom-3
-                      left-3
-                      right-3
-                      rounded-xl
-                      border
-                      border-white/10
-                      bg-black/30
-                      px-3
-                      py-2
-                      backdrop-blur-xl
-                      sm:bottom-4
-                      sm:left-4
-                      sm:right-4
-                      sm:px-4
-                      sm:py-3
-                    "
-                  >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-[6px] uppercase tracking-[0.2em] text-slate-600 sm:text-[7px]">
-                          AI + MERN
-                        </p>
-
-                        <p className="mt-1 text-[8px] font-bold text-slate-200 sm:text-xs">
-                          Building Digital Systems
-                        </p>
-                      </div>
-
-                      <FaCode className="text-indigo-400" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* FLOATING TECHNOLOGIES - STATIC */}
-
-              {technologies.map((tech) => {
-                const Icon = tech.icon;
-
-                return (
-                  <div
-                    key={tech.name}
-                    className={`
-                      absolute
-                      ${tech.position}
-                      z-30
-                      flex
-                      items-center
-                      gap-1.5
-                      rounded-lg
-                      border
-                      border-white/10
-                      bg-[#07101f]/90
-                      px-2
-                      py-2
-                      shadow-[0_15px_40px_rgba(0,0,0,.45)]
-                      backdrop-blur-xl
-                      transition-all
-                      duration-200
-                      hover:-translate-y-1
-                      hover:border-indigo-400/30
-                      sm:gap-2
-                      sm:rounded-xl
-                      sm:px-3
-                      sm:py-2.5
-                    `}
-                  >
-                    <Icon
-                      className={`text-sm sm:text-lg ${tech.color}`}
-                    />
-
-                    <span className="text-[7px] font-bold text-slate-300 sm:text-xs">
-                      {tech.name}
-                    </span>
-                  </div>
-                );
-              })}
-
-              {/* CODE BADGE */}
-
-              <div
-                className="
-                  absolute
-                  left-[0%]
-                  top-[39%]
-                  z-40
-                  hidden
-                  rounded-xl
-                  border
-                  border-indigo-400/20
-                  bg-[#030712]/90
-                  px-3
-                  py-2.5
-                  shadow-[0_20px_50px_rgba(0,0,0,.6)]
-                  backdrop-blur-xl
-                  sm:block
-                  lg:left-[-5%]
-                "
-              >
-                <div className="flex items-center gap-2">
-                  <FaCode className="text-indigo-400" />
-
-                  <div>
-                    <p className="text-[6px] uppercase tracking-wider text-slate-600">
-                      Stack
-                    </p>
-
-                    <p className="text-[8px] font-bold text-indigo-200">
-                      Full Stack
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* AI BADGE */}
-
-              <div
-                className="
-                  absolute
-                  right-[0%]
-                  top-[43%]
-                  z-40
-                  hidden
-                  rounded-xl
-                  border
-                  border-purple-400/20
-                  bg-[#12091f]/90
-                  px-3
-                  py-2.5
-                  shadow-[0_20px_50px_rgba(0,0,0,.6)]
-                  backdrop-blur-xl
-                  sm:block
-                  lg:right-[-5%]
-                "
-              >
-                <div className="flex items-center gap-2">
-                  <div
-                    className="
-                      flex
-                      h-7
-                      w-7
-                      items-center
-                      justify-center
-                      rounded-lg
-                      bg-purple-500/10
-                      text-[9px]
-                      font-black
-                      text-purple-300
-                    "
-                  >
-                    AI
-                  </div>
-
-                  <div>
-                    <p className="text-[6px] uppercase tracking-wider text-slate-600">
-                      Focus
-                    </p>
-
-                    <p className="text-[8px] font-bold text-purple-200">
-                      AI Integration
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* EXPERIENCE BADGE */}
-
-              <div
-                className="
-                  absolute
-                  bottom-[3%]
-                  left-1/2
-                  z-40
-                  hidden
-                  -translate-x-1/2
-                  rounded-full
-                  border
-                  border-cyan-400/15
-                  bg-[#06141d]/90
-                  px-4
-                  py-2
-                  shadow-[0_15px_40px_rgba(0,0,0,.5)]
-                  backdrop-blur-xl
-                  sm:block
-                "
-              >
-                <div className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_10px_#22d3ee]" />
-
-                  <span className="text-[7px] font-bold uppercase tracking-[0.15em] text-cyan-200">
-                    Modern Web • AI • Cloud
-                  </span>
-                </div>
-              </div>
+              <div className="absolute inset-0 z-20 bg-gradient-to-t from-emerald-950/60 via-transparent to-transparent" />
             </div>
-          </div>
-        </div>
-      </main>
 
-      {/* =====================================================
-          TECH STRIP
-      ====================================================== */}
+            {/* Floating Orbit Tech Badges around Image */}
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+              className="absolute inset-0 pointer-events-none z-30"
+            >
+              {/* React Badge */}
+              <div className="absolute -top-1 left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-full border border-cyan-400/50 bg-white/95 px-2.5 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-[11px] font-bold text-cyan-700 shadow-lg backdrop-blur-md dark:bg-slate-900 dark:text-cyan-300">
+                <FaReact className="text-cyan-500 animate-spin" style={{ animationDuration: "8s" }} /> React
+              </div>
 
-      <div
-        className="
-          relative
-          z-20
-          border-t
-          border-white/[0.06]
-          bg-white/[0.015]
-          backdrop-blur-xl
-        "
-      >
-        <div
-          className="
-            mx-auto
-            flex
-            max-w-7xl
-            flex-wrap
-            items-center
-            justify-center
-            gap-x-5
-            gap-y-4
-            px-4
-            py-5
-            sm:gap-x-7
-            sm:px-6
-            sm:py-6
-            lg:justify-between
-            lg:px-8
-          "
+              {/* Node Badge */}
+              <div className="absolute top-1/2 -right-3 sm:-right-6 -translate-y-1/2 flex items-center gap-1 rounded-full border border-emerald-400/50 bg-white/95 px-2.5 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-[11px] font-bold text-emerald-700 shadow-lg backdrop-blur-md dark:bg-slate-900 dark:text-emerald-300">
+                <FaNodeJs className="text-emerald-500" /> Node.js
+              </div>
+
+              {/* AI Badge */}
+              <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-full border border-teal-400/50 bg-white/95 px-2.5 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-[11px] font-bold text-teal-700 shadow-lg backdrop-blur-md dark:bg-slate-900 dark:text-teal-300">
+                <FaBrain className="text-teal-500" /> AI Flow
+              </div>
+            </motion.div>
+
+            {/* Static Card Tags */}
+            <motion.div
+              animate={{ y: [-5, 5, -5] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -left-2 sm:-left-4 top-8 sm:top-10 z-40 flex items-center gap-1.5 sm:gap-2 rounded-xl sm:rounded-2xl border border-emerald-400/40 bg-white/90 px-3 py-2 sm:px-3.5 sm:py-2.5 text-[11px] sm:text-xs font-bold text-slate-800 shadow-xl backdrop-blur-md dark:bg-slate-900/90 dark:text-white"
+            >
+              <FaLaptopCode className="text-emerald-500" /> Full Stack Pro
+            </motion.div>
+
+            <motion.div
+              animate={{ y: [5, -5, 5] }}
+              transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -right-2 sm:-right-4 bottom-8 sm:bottom-10 z-40 flex items-center gap-1.5 sm:gap-2 rounded-xl sm:rounded-2xl border border-emerald-400/40 bg-gradient-to-r from-emerald-500 to-teal-600 px-3 py-2 sm:px-3.5 sm:py-2.5 text-[11px] sm:text-xs font-bold text-white shadow-xl backdrop-blur-md"
+            >
+              <FaTerminal /> 3+ Yrs Exp
+            </motion.div>
+          </motion.div>
+        </motion.div>
+
+        {/* Bottom Glassmorphic Stats Strip */}
+        <motion.div
+          variants={itemVariants}
+          className="mt-12 sm:mt-16 grid w-full max-w-5xl grid-cols-2 gap-3 sm:gap-4 rounded-2xl sm:rounded-3xl border border-emerald-300/60 bg-white/60 p-4 sm:p-6 shadow-xl backdrop-blur-xl sm:grid-cols-4 dark:border-emerald-500/20 dark:bg-slate-900/60"
         >
-          {stack.map(([Icon, name, color]) => (
-            <div
-              key={name}
-              className="
-                flex
-                items-center
-                gap-1.5
-                text-slate-600
-                transition
-                duration-200
-                hover:-translate-y-1
-                hover:text-slate-300
-              "
-            >
-              <Icon
-                className={`text-sm sm:text-base ${color}`}
-              />
-
-              <span className="text-[8px] font-bold uppercase tracking-wider sm:text-[9px]">
-                {name}
-              </span>
-            </div>
-          ))}
-        </div>
+          <div className="text-center p-2">
+            <h4 className="text-xl xs:text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">30+</h4>
+            <p className="text-[11px] sm:text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mt-1">Projects Completed</p>
+          </div>
+          <div className="text-center p-2">
+            <h4 className="text-xl xs:text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">100%</h4>
+            <p className="text-[11px] sm:text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mt-1">Client Satisfaction</p>
+          </div>
+          <div className="text-center p-2">
+            <h4 className="text-xl xs:text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">3+</h4>
+            <p className="text-[11px] sm:text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mt-1">Years Experience</p>
+          </div>
+          <div className="text-center p-2">
+            <h4 className="text-xl xs:text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">24/7</h4>
+            <p className="text-[11px] sm:text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mt-1">Support & Scaling</p>
+          </div>
+        </motion.div>
       </div>
-
-      {/* =====================================================
-          BOTTOM LIGHT
-      ====================================================== */}
-
-      <div
-        className="
-          pointer-events-none
-          absolute
-          bottom-0
-          left-1/2
-          z-20
-          h-px
-          w-[80%]
-          -translate-x-1/2
-          bg-gradient-to-r
-          from-transparent
-          via-cyan-400/30
-          to-transparent
-        "
-      />
-
-      {/* =====================================================
-          GLOBAL STYLE
-      ====================================================== */}
-
-      <style>{`
-        html {
-          scroll-behavior: smooth;
-        }
-
-        body {
-          overflow-x: hidden;
-          background: #030712;
-        }
-
-        button,
-        a {
-          -webkit-tap-highlight-color: transparent;
-        }
-
-        ::selection {
-          background: rgba(99, 102, 241, 0.35);
-          color: white;
-        }
-
-        * {
-          scrollbar-width: thin;
-          scrollbar-color: rgba(99, 102, 241, 0.35) transparent;
-        }
-
-        *::-webkit-scrollbar {
-          width: 6px;
-        }
-
-        *::-webkit-scrollbar-track {
-          background: transparent;
-        }
-
-        *::-webkit-scrollbar-thumb {
-          background: rgba(99, 102, 241, 0.35);
-          border-radius: 999px;
-        }
-
-        *::-webkit-scrollbar-thumb:hover {
-          background: rgba(129, 140, 248, 0.6);
-        }
-      `}</style>
     </section>
   );
 };

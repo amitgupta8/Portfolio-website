@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   FaAward,
   FaMapMarkerAlt,
@@ -6,330 +7,404 @@ import {
   FaGraduationCap,
   FaCalendarAlt,
   FaCheckCircle,
+  FaCertificate,
+  FaStar,
+  FaChevronDown,
 } from "react-icons/fa";
 
 const Education = () => {
+  const [activeTab, setActiveTab] = useState("All");
+  const [expandedId, setExpandedId] = useState(null);
+
   const EDUCATION_DATA = [
     {
+      id: "bca",
       degree: "Bachelor of Computer Applications",
       short: "BCA",
+      type: "Degree",
       college: "NIET, Greater Noida",
       year: "2020 - 2023",
       status: "Completed",
       score: "76%",
-      image: "https://www.imsnoida.com/assets/img/hostel/1.jpg",
-      gradient: "from-blue-500 via-indigo-500 to-violet-500",
-      accent: "text-indigo-400",
+      image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=90",
+      badgeBg: "bg-emerald-500/15 text-emerald-700 border-emerald-300 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/30",
       description:
-        "Focused on software development, web technologies, databases and modern programming concepts.",
+        "Focused heavily on advanced software engineering principles, dynamic web technologies, and database architecture.",
+      keySubjects: ["DSA", "DBMS", "OOPs", "Web Eng.", "Software Testing"],
+      achievements: [
+        "Secured 1st position in Inter-College Web Dev Hackathon 2022.",
+        "Completed 5+ full-stack capstone projects with grade A distinction."
+      ],
+      credentialId: "NIET/BCA/2023/9482",
     },
     {
-      degree: "Intermediate",
+      id: "12th",
+      degree: "Intermediate Senior Secondary",
       short: "12th",
+      type: "Schooling",
       college: "Aapke School Ka Naam",
       year: "2018 - 2020",
       status: "Completed",
       score: "65%",
-      image: "https://www.imsnoida.com/assets/img/hostel/1.jpg",
-      gradient: "from-indigo-500 via-purple-500 to-fuchsia-500",
-      accent: "text-purple-400",
+      image: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=90",
+      badgeBg: "bg-emerald-500/15 text-emerald-700 border-emerald-300 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/30",
       description:
-        "Built a strong academic foundation with an early interest in computers, technology and problem solving.",
+        "Strengthened core mathematical proficiency, logical reasoning, and physical sciences foundation.",
+      keySubjects: ["Mathematics", "Physics", "Chemistry", "Computer Sci."],
+      achievements: [
+        "Awarded certificate of merit for excellence in Mathematics.",
+        "Active participant in regional science exhibitions."
+      ],
+      credentialId: "CBSE/12TH/2020/7812",
     },
     {
-      degree: "High School",
+      id: "10th",
+      degree: "High School Secondary Education",
       short: "10th",
+      type: "Schooling",
       college: "Aapke School Ka Naam",
       year: "2016 - 2018",
       status: "Completed",
       score: "60%",
-      image:
-        "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=90",
-      gradient: "from-purple-500 via-pink-500 to-rose-500",
-      accent: "text-pink-400",
+      image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=90",
+      badgeBg: "bg-emerald-500/15 text-emerald-700 border-emerald-300 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/30",
       description:
-        "Completed secondary education while developing the fundamentals that started my technology journey.",
+        "Built a well-rounded academic foundation, participating actively in science fairs and exhibitions.",
+      keySubjects: ["Science", "Mathematics", "Social Studies", "IT"],
+      achievements: [
+        "Maintained top quartile standing in academic assessments.",
+        "Recognized for team coordination in project presentations."
+      ],
+      credentialId: "CBSE/10TH/2018/5541",
     },
   ];
+
+  const categories = ["All", "Degree", "Schooling"];
+
+  const filteredEducation = useMemo(() => {
+    if (activeTab === "All") return EDUCATION_DATA;
+    return EDUCATION_DATA.filter((item) => item.type === activeTab);
+  }, [activeTab]);
+
+  const toggleExpand = (id) => {
+    // Fixed: Now comparing with unique `edu.id` instead of `edu.degree`
+    setExpandedId(expandedId === id ? null : id);
+  };
 
   return (
     <section
       id="education"
-      className="relative overflow-hidden bg-[#050816] px-4 py-20 text-white sm:px-6 md:py-24 lg:px-10"
+      className="
+        relative
+        min-h-screen
+        overflow-hidden
+        bg-emerald-50/50
+        px-4
+        py-16
+        text-slate-900
+        transition-colors
+        duration-500
+        sm:px-6
+        md:py-24
+        lg:px-12
+        dark:bg-[#061a14]
+        dark:text-slate-100
+      "
     >
-      {/* =========================================================
-          BACKGROUND - STATIC
-      ========================================================== */}
-
+      {/* Background Glows & Grid */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {/* Top Glow */}
-        <div className="absolute left-1/2 top-[-280px] h-[500px] w-[650px] -translate-x-1/2 rounded-full bg-indigo-600/[0.08] blur-[130px]" />
-
-        {/* Left Glow */}
-        <div className="absolute left-[-250px] top-[35%] h-[400px] w-[400px] rounded-full bg-blue-600/[0.05] blur-[120px]" />
-
-        {/* Right Glow */}
-        <div className="absolute bottom-[5%] right-[-250px] h-[420px] w-[420px] rounded-full bg-purple-600/[0.05] blur-[120px]" />
-
-        {/* Grid */}
+        <div className="absolute left-1/2 top-0 h-[400px] w-[600px] -translate-x-1/2 rounded-full bg-gradient-to-tr from-emerald-500/10 via-teal-600/10 to-cyan-600/10 blur-[120px]" />
         <div
-          className="absolute inset-0 opacity-[0.018]"
+          className="absolute inset-0 opacity-[0.04] dark:opacity-[0.06]"
           style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.8) 1px, transparent 1px)",
-            backgroundSize: "70px 70px",
+            backgroundImage: "linear-gradient(to right, rgba(16,185,129,0.8) 1px, transparent 1px), linear-gradient(to bottom, rgba(16,185,129,0.8) 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
           }}
         />
-
-        {/* Static Dots */}
-        <div className="absolute left-[12%] top-[22%] h-1 w-1 rounded-full bg-indigo-400 opacity-40" />
-
-        <div className="absolute right-[15%] top-[30%] h-1 w-1 rounded-full bg-purple-400 opacity-40" />
       </div>
 
-      {/* =========================================================
-          MAIN CONTAINER
-      ========================================================== */}
+      <div className="relative z-10 mx-auto max-w-7xl">
+        
+        {/* Section Header */}
+        <div className="mx-auto mb-10 max-w-2xl text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="
+              mb-3
+              inline-flex
+              items-center
+              gap-2
+              rounded-full
+              border
+              border-emerald-200
+              bg-white/80
+              px-4
+              py-2
+              text-[11px]
+              font-extrabold
+              tracking-[0.15em]
+              text-emerald-700
+              shadow-lg
+              backdrop-blur-md
+              dark:border-emerald-500/30
+              dark:bg-slate-900/80
+              dark:text-emerald-300
+            "
+          >
+            <FaGraduationCap className="text-emerald-500 text-xs" />
+            ACADEMIC CREDENTIALS
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.9)]" />
+          </motion.div>
 
-      <div className="relative z-10 mx-auto max-w-6xl">
-        {/* =======================================================
-            HEADER
-        ======================================================== */}
-
-        <div className="mx-auto mb-12 max-w-2xl text-center">
-          {/* Badge */}
-
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-indigo-400/15 bg-white/[0.035] px-4 py-2 text-[10px] font-bold tracking-[0.18em] text-slate-300 shadow-[0_0_30px_rgba(99,102,241,0.08)] backdrop-blur-xl">
-            <FaGraduationCap className="text-indigo-400" />
-            EDUCATION
-          </div>
-
-          {/* Heading */}
-
-          <h2 className="text-3xl font-black tracking-tight sm:text-4xl md:text-5xl">
-            My{" "}
-            <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
-              Education
+          <motion.h2 
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="text-2xl font-black tracking-tight text-slate-900 sm:text-3xl md:text-4xl dark:text-white"
+          >
+            Educational{" "}
+            <span className="bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-600 bg-clip-text text-transparent">
+              Milestones
             </span>
-          </h2>
+          </motion.h2>
 
-          <p className="mx-auto mt-4 max-w-xl text-xs leading-6 text-slate-500 sm:text-sm">
-            Academic milestones that shaped my technical foundation and
-            professional journey.
-          </p>
-
-          {/* Decoration */}
-
-          <div className="mx-auto mt-6 flex items-center justify-center gap-2">
-            <span className="h-px w-12 bg-gradient-to-r from-transparent to-indigo-500/60" />
-
-            <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 shadow-[0_0_12px_rgba(99,102,241,0.8)]" />
-
-            <span className="h-px w-12 bg-gradient-to-l from-transparent to-purple-500/60" />
-          </div>
+          <motion.p 
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.15 }}
+            className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+          >
+            Explore academic qualifications, core syllabi, and verified records seamlessly inside each card view.
+          </motion.p>
         </div>
 
-        {/* =======================================================
-            EDUCATION GRID
-        ======================================================== */}
+        {/* Category Filter Tabs */}
+        <motion.div 
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className="mb-10 flex justify-center overflow-x-auto pb-1"
+        >
+          <div className="flex w-max gap-1.5 rounded-xl border border-emerald-200/80 bg-white/90 p-1 shadow-lg backdrop-blur-xl dark:border-emerald-500/20 dark:bg-[#0a261d]/95">
+            {categories.map((category) => {
+              const active = activeTab === category;
 
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {EDUCATION_DATA.map((edu, index) => (
-            <article
-              key={edu.degree}
-              className="group relative"
-            >
-              {/* Outer Glow */}
+              return (
+                <button
+                  key={category}
+                  type="button"
+                  onClick={() => setActiveTab(category)}
+                  className={`
+                    flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer
+                    ${
+                      active
+                        ? "bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-600 text-white shadow-md shadow-emerald-500/20 scale-105"
+                        : "text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-white"
+                    }
+                  `}
+                >
+                  {category}
+                </button>
+              );
+            })}
+          </div>
+        </motion.div>
 
-              <div
-                className={`absolute -inset-[1px] rounded-[22px] bg-gradient-to-r ${edu.gradient} opacity-0 blur-md transition-all duration-500 group-hover:opacity-45`}
-              />
+        {/* Cards Grid */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {filteredEducation.map((edu, index) => {
+            const isExpanded = expandedId === edu.id;
 
-              {/* Card */}
-
-              <div className="relative h-full overflow-hidden rounded-[22px] border border-white/[0.07] bg-[#0a1020]/95 shadow-[0_15px_45px_rgba(0,0,0,0.22)] backdrop-blur-xl transition-all duration-500 group-hover:-translate-y-2 group-hover:border-white/[0.14] group-hover:shadow-[0_25px_65px_rgba(0,0,0,0.35)]">
-                {/* Top Gradient */}
-
+            return (
+              <motion.article 
+                key={edu.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                className="group relative flex flex-col"
+              >
                 <div
-                  className={`absolute left-0 right-0 top-0 z-20 h-[2px] bg-gradient-to-r ${edu.gradient}`}
-                />
+                  className="
+                    relative flex flex-col h-full overflow-hidden rounded-[24px] 
+                    border
+                    border-emerald-200/80
+                    bg-white/85
+                    p-5
+                    sm:p-6
+                    shadow-lg
+                    backdrop-blur-xl
+                    transition-all
+                    duration-400
+                    hover:-translate-y-1.5
+                    hover:border-emerald-400
+                    hover:shadow-[0_20px_50px_rgba(52,211,153,0.12)]
+                    dark:border-emerald-500/20
+                    dark:bg-gradient-to-b
+                    dark:from-[#0a261d]/95
+                    dark:to-[#061a14]/95
+                    dark:hover:border-emerald-500/50
+                  "
+                >
+                  {/* Top Glow Accent Line */}
+                  <div className="absolute inset-x-0 top-0 h-1 rounded-t-[24px] bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-600" />
 
-                {/* =================================================
-                    IMAGE
-                ================================================== */}
+                  {/* Compact Image Banner */}
+                  <div className="relative h-32 w-full overflow-hidden rounded-xl bg-slate-100 mb-4 border border-emerald-200/60 shadow-sm dark:bg-slate-900 dark:border-emerald-500/20">
+                    <img
+                      src={edu.image}
+                      alt={edu.degree}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent opacity-85 dark:from-[#061a14]" />
 
-                <div className="relative h-[155px] overflow-hidden">
-                  <img
-                    src={edu.image}
-                    alt={edu.degree}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                  />
+                    {/* Year Tag */}
+                    <div className="absolute right-2.5 top-2.5 z-10">
+                      <div className="flex items-center gap-1 rounded-lg border border-emerald-300/40 bg-white/95 px-2.5 py-1 text-[10px] font-extrabold text-slate-800 backdrop-blur-md shadow-md dark:border-emerald-500/30 dark:bg-slate-900/80 dark:text-white">
+                        <FaCalendarAlt className="text-emerald-500 text-[9px]" />
+                        {edu.year}
+                      </div>
+                    </div>
 
-                  {/* Dark Overlay */}
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a1020] via-[#0a1020]/20 to-black/20" />
-
-                  {/* Image Shine - CSS only */}
-
-                  <div className="pointer-events-none absolute inset-y-0 left-[-100%] w-1/3 skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/[0.12] to-transparent transition-all duration-700 group-hover:left-[120%]" />
-
-                  {/* Year */}
-
-                  <div className="absolute right-3 top-3">
-                    <div className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-black/35 px-2.5 py-1.5 text-[9px] font-semibold text-slate-200 shadow-lg backdrop-blur-xl">
-                      <FaCalendarAlt className="text-[8px] text-indigo-400" />
-                      {edu.year}
+                    {/* Short Tag */}
+                    <div className="absolute left-2.5 top-2.5 z-10">
+                      <div className={`rounded-lg border px-2.5 py-1 text-[10px] font-black uppercase tracking-wider ${edu.badgeBg} shadow-md bg-white/95 dark:bg-slate-900/80`}>
+                        {edu.short}
+                      </div>
                     </div>
                   </div>
 
-                  {/* Number */}
-
-                  <div className="absolute bottom-2 left-4">
-                    <span className="text-[42px] font-black leading-none text-white/[0.07]">
-                      0{index + 1}
-                    </span>
-                  </div>
-
-                  {/* Degree Badge */}
-
-                  <div className="absolute bottom-3 right-4">
-                    <div
-                      className={`rounded-lg border border-white/10 bg-gradient-to-r ${edu.gradient} px-3 py-1.5 text-[9px] font-black tracking-wider text-white shadow-lg backdrop-blur-md transition-transform duration-300 group-hover:scale-105`}
-                    >
-                      {edu.short}
-                    </div>
-                  </div>
-                </div>
-
-                {/* =================================================
-                    CONTENT
-                ================================================== */}
-
-                <div className="p-[18px]">
-                  {/* Status + Score */}
-
-                  <div className="mb-3.5 flex items-center justify-between">
-                    {/* Status */}
-
-                    <div className="flex items-center gap-1.5 rounded-full border border-emerald-400/10 bg-emerald-400/[0.055] px-2.5 py-1">
-                      <FaCheckCircle className="text-[9px] text-emerald-400" />
-
-                      <span className="text-[8px] font-bold uppercase tracking-[0.12em] text-emerald-400">
-                        {edu.status}
-                      </span>
-                    </div>
-
-                    {/* Score */}
-
-                    <div className="flex items-center gap-1.5">
-                      <FaAward className="text-[11px] text-yellow-400" />
-
-                      <span className="text-xs font-extrabold text-white">
-                        {edu.score}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Title */}
-
-                  <h3 className="min-h-[50px] text-[17px] font-extrabold leading-[1.45] text-white transition-colors duration-300 group-hover:text-indigo-300">
+                  {/* Degree Title */}
+                  <h3 className="text-base sm:text-lg font-extrabold leading-snug text-slate-900 transition-colors duration-300 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
                     {edu.degree}
                   </h3>
 
-                  {/* Institution */}
-
-                  <div className="mt-3.5 flex items-center gap-2.5">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-indigo-400/10 bg-indigo-500/[0.07] text-indigo-400 transition-all duration-300 group-hover:border-indigo-400/20 group-hover:bg-indigo-500/[0.12]">
-                      <FaMapMarkerAlt className="text-[11px]" />
+                  {/* Institution & Status Row */}
+                  <div className="mt-3 flex items-center justify-between rounded-xl border border-emerald-200/60 bg-emerald-50/40 px-3.5 py-2.5 shadow-sm dark:border-emerald-500/25 dark:bg-slate-900/40">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-500 text-white shadow-sm font-bold text-xs">
+                        <FaMapMarkerAlt />
+                      </div>
+                      <span className="truncate text-xs font-bold text-slate-800 dark:text-slate-200">{edu.college}</span>
                     </div>
-
-                    <div className="min-w-0">
-                      <p className="text-[7px] font-bold uppercase tracking-[0.16em] text-slate-600">
-                        Institution
-                      </p>
-
-                      <p className="mt-0.5 truncate text-[11px] font-semibold text-slate-300">
-                        {edu.college}
-                      </p>
+                    <div className="flex items-center gap-1 shrink-0 bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20">
+                      <FaCheckCircle className="text-[10px] text-emerald-600 dark:text-emerald-400" />
+                      <span className="text-[10px] font-extrabold text-emerald-700 dark:text-emerald-400">{edu.status}</span>
                     </div>
                   </div>
 
                   {/* Description */}
-
-                  <p className="mt-3.5 min-h-[57px] text-[11px] leading-[1.65] text-slate-500">
+                  <p className="mt-3 text-xs leading-relaxed text-slate-600 dark:text-slate-300">
                     {edu.description}
                   </p>
 
-                  {/* Divider */}
+                  {/* Expandable Inline Content Section */}
+                  <AnimatePresence>
+                    {isExpanded && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.25 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="mt-4 space-y-3.5 pt-4 border-t border-emerald-200/60 dark:border-emerald-500/20">
+                          
+                          {/* Credential ID badge */}
+                          <div className="flex items-center gap-2 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 px-2.5 py-2 border border-emerald-200 dark:border-emerald-500/20 text-[11px] font-bold text-emerald-800 dark:text-emerald-300">
+                            <FaCertificate className="text-emerald-500 shrink-0 text-xs" />
+                            <span className="truncate">ID: {edu.credentialId}</span>
+                          </div>
 
-                  <div className="my-3.5 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
+                          {/* Core Subjects */}
+                          <div>
+                            <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-1.5 flex items-center gap-1">
+                              <FaStar className="text-[10px]" /> Coursework
+                            </h4>
+                            <div className="flex flex-wrap gap-1">
+                              {edu.keySubjects.map((subject, idx) => (
+                                <span key={idx} className="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] فهم-semibold text-emerald-800 dark:text-emerald-300">
+                                  {subject}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
 
-                  {/* Bottom */}
+                          {/* Achievements */}
+                          <div>
+                            <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-1.5 flex items-center gap-1">
+                              <FaAward className="text-[10px]" /> Milestones
+                            </h4>
+                            <div className="space-y-1.5">
+                              {edu.yaml || edu.achievements.map((ach, idx) => (
+                                <div key={idx} className="flex items-start gap-1.5 text-[11px] text-slate-600 dark:text-slate-300">
+                                  <FaCheckCircle className="text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5 text-[10px]" />
+                                  <span>{ach}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
 
-                  <div className="flex items-center justify-between">
-                    {/* Score */}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
 
-                    <div>
-                      <p className="text-[7px] font-bold uppercase tracking-[0.15em] text-slate-600">
-                        Academic Score
-                      </p>
+                  <div className="my-4 h-px bg-gradient-to-r from-transparent via-emerald-200 to-transparent dark:via-emerald-500/25" />
 
-                      <div className="mt-0.5 flex items-center gap-1.5">
-                        <span className="text-sm font-extrabold text-slate-200">
-                          {edu.score}
-                        </span>
-
-                        <span className="text-[8px] text-slate-600">
-                          Overall
-                        </span>
+                  {/* Footer Action */}
+                  <div className="flex items-center justify-between pt-1 mt-auto">
+                    <div className="flex items-center gap-1.5">
+                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400">
+                        <FaAward className="text-xs" />
+                      </div>
+                      <div>
+                        <p className="text-[8px] font-extrabold uppercase tracking-widest text-slate-400">Score</p>
+                        <span className="text-xs font-black text-slate-900 dark:text-white">{edu.score}</span>
                       </div>
                     </div>
 
-                    {/* Certificate */}
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => toggleExpand(edu.id)}
+                        className="
+                          inline-flex items-center gap-1 rounded-xl border border-emerald-400/80
+                          bg-emerald-100/70 hover:bg-emerald-200 px-3 py-2 text-[11px] font-black text-emerald-800 transition-all
+                          duration-200 dark:bg-emerald-500/15 dark:text-emerald-300 dark:hover:bg-emerald-500/25
+                          shadow-sm cursor-pointer
+                        "
+                      >
+                        {isExpanded ? "Less" : "Details"}
+                        <FaChevronDown className={`text-[9px] transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`} />
+                      </button>
 
-                    <button
-                      type="button"
-                      className="group/btn flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2 text-[9px] font-bold text-slate-300 transition-all duration-300 hover:scale-[1.04] hover:border-indigo-400/30 hover:bg-indigo-500/10 hover:text-white active:scale-[0.96]"
-                    >
-                      Certificate
-
-                      <FaExternalLinkAlt className="text-[7px] text-indigo-400 transition-transform duration-300 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5" />
-                    </button>
+                      <a
+                        href="#certificate"
+                        className="
+                          inline-flex items-center gap-1 rounded-xl border border-emerald-400/80
+                          bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-600 px-3 py-2 text-[11px] font-black text-white transition-all
+                          duration-200 hover:scale-105 hover:shadow-md
+                          shadow-sm
+                        "
+                      >
+                        Cert
+                        <FaExternalLinkAlt className="text-[8px]" />
+                      </a>
+                    </div>
                   </div>
                 </div>
-
-                {/* Bottom Progress Line */}
-
-                <div className="relative h-[2px] w-full overflow-hidden bg-white/[0.025]">
-                  <div
-                    className={`h-full w-full bg-gradient-to-r ${edu.gradient}`}
-                  />
-                </div>
-              </div>
-            </article>
-          ))}
+              </motion.article>
+            );
+          })}
         </div>
-
-        {/* =======================================================
-            BOTTOM MESSAGE
-        ======================================================== */}
-
-        <div className="mx-auto mt-11 max-w-xl text-center">
-          <div className="mx-auto mb-4 h-px w-20 bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent" />
-
-          <p className="text-[11px] leading-6 text-slate-600 sm:text-xs">
-            Education is not just about degrees — it's about building the
-            mindset to{" "}
-            <span className="font-semibold text-slate-400">
-              keep learning and keep improving.
-            </span>
-          </p>
-        </div>
-
-        {/* Bottom Line */}
-
-        <div className="mx-auto mt-9 h-px max-w-5xl bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
       </div>
     </section>
   );

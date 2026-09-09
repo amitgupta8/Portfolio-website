@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,8 +8,15 @@ import {
   FaComment,
   FaPaperPlane,
   FaEnvelopeOpenText,
+  FaPhoneAlt,
+  FaMapMarkerAlt,
+  FaClock,
+  FaGithub,
+  FaLinkedinIn,
+  FaTwitter,
+  FaStar,
+  FaCopy,
   FaCheckCircle,
-  FaArrowRight,
 } from "react-icons/fa";
 
 import toast, { Toaster } from "react-hot-toast";
@@ -22,336 +29,338 @@ const schema = z.object({
 });
 
 const Contact = () => {
+  const [selectedService, setSelectedService] = useState("Full-Stack Web App");
+  const [isSuccessState, setIsSuccessState] = useState(false);
+
   const {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(schema),
   });
 
+  const watchedName = watch("name");
+  const watchedMessage = watch("message");
+  const messageLength = watchedMessage ? watchedMessage.length : 0;
+
+  const handleCopyText = (text, label) => {
+    navigator.clipboard.writeText(text);
+    toast.success(`${label} copied to clipboard!`, {
+      icon: "📋",
+    });
+  };
+
   const onSubmit = async (data) => {
+    const payload = { ...data, serviceType: selectedService };
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
     try {
-      const response = await fetch("http://localhost:5000/contact", {
+      const response = await fetch(`${API_URL}/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
 
       const result = await response.json();
 
-      if (result.success) {
+      if (response.ok && result.success) {
         confetti({
-          particleCount: 180,
-          spread: 100,
-          origin: {
-            y: 0.7,
-          },
+          particleCount: 200,
+          spread: 90,
+          origin: { y: 0.6 },
         });
 
         toast.success("Message sent successfully!");
+        setIsSuccessState(true);
         reset();
       } else {
-        toast.error(result.message || "Something went wrong");
+        toast.error(result.message || "Something went wrong. Please try again.");
       }
     } catch (error) {
-      toast.error("Server not connected");
+      toast.error("Network error. Please check your connection.");
     }
   };
 
   return (
     <section
       id="contact"
-      className="relative overflow-hidden bg-[#030712] px-4 py-16 text-white sm:px-6 md:py-20 lg:px-8"
+      className="relative overflow-hidden bg-emerald-50/40 px-4 py-16 text-slate-900 transition-colors duration-500 sm:px-6 md:py-20 lg:px-8 dark:bg-[#05130f] dark:text-white"
     >
       <Toaster
         position="top-right"
         toastOptions={{
           style: {
-            background: "#0b1220",
+            background: "#0a261d",
             color: "#fff",
-            border: "1px solid rgba(255,255,255,.08)",
+            border: "1px solid rgba(16,185,129,.2)",
           },
         }}
       />
 
-      {/* ================= BACKGROUND ================= */}
-
+      {/* BACKGROUND GLOWS */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {/* Top Glow */}
-        <div className="absolute left-1/2 top-[-280px] h-[500px] w-[650px] -translate-x-1/2 rounded-full bg-cyan-500/[0.08] blur-[140px]" />
-
-        {/* Left Glow */}
-        <div className="absolute left-[-220px] top-[35%] h-[320px] w-[320px] rounded-full bg-blue-600/[0.05] blur-[110px]" />
-
-        {/* Right Glow */}
-        <div className="absolute bottom-[-180px] right-[-180px] h-[400px] w-[400px] rounded-full bg-purple-600/[0.06] blur-[120px]" />
-
-        {/* Grid */}
+        <div className="absolute left-1/2 top-[-300px] h-[500px] w-[600px] -translate-x-1/2 rounded-full bg-emerald-500/10 blur-[150px]" />
+        <div className="absolute left-[-150px] top-[40%] h-[350px] w-[350px] rounded-full bg-teal-500/10 blur-[120px]" />
+        <div className="absolute bottom-[-150px] right-[-150px] h-[400px] w-[400px] rounded-full bg-cyan-500/10 blur-[130px]" />
         <div
-          className="absolute inset-0 opacity-[0.015]"
+          className="absolute inset-0 opacity-[0.07] dark:opacity-[0.1]"
           style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,.8) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.8) 1px,transparent 1px)",
-            backgroundSize: "65px 65px",
+            backgroundImage: "radial-gradient(rgba(16, 185, 129, 0.4) 1px, transparent 1px)",
+            backgroundSize: "32px 32px",
           }}
         />
       </div>
 
-      {/* ================= MAIN ================= */}
-
-      <div className="relative z-10 mx-auto max-w-5xl">
-
-        {/* ================= HEADER ================= */}
-
-        <div className="mx-auto mb-10 max-w-2xl text-center">
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-cyan-400/10 bg-cyan-500/[0.05] px-3 py-1.5 text-[9px] font-bold tracking-[0.18em] text-slate-400 backdrop-blur-xl">
-            <FaEnvelopeOpenText className="text-cyan-400" />
-            GET IN TOUCH
+      <div className="relative z-10 mx-auto w-full max-w-5xl">
+        {/* HEADER */}
+        <div className="mx-auto mb-10 max-w-xl text-center">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-emerald-200/80 bg-white/80 px-3.5 py-1.5 text-[9px] font-bold tracking-[0.2em] text-emerald-700 shadow-sm backdrop-blur-xl dark:border-emerald-500/30 dark:bg-slate-900/80 dark:text-emerald-300">
+            <FaEnvelopeOpenText className="text-emerald-500 dark:text-emerald-400" />
+            GET IN TOUCH &bull; LET'S COLLABORATE
           </div>
 
-          <h2 className="text-3xl font-black tracking-tight sm:text-4xl md:text-5xl">
-            Let's{" "}
-            <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent">
-              Work Together
+          <h2 className="text-3xl font-black tracking-tight sm:text-4xl">
+            Let's Build Something{" "}
+            <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-500 bg-clip-text text-transparent">
+              Extraordinary
             </span>
           </h2>
 
-          <p className="mx-auto mt-3 max-w-lg text-xs leading-6 text-slate-500">
-            Have an idea, project or opportunity? Send me a message and
-            let's turn your idea into something great.
+          <p className="mx-auto mt-2.5 max-w-md text-xs leading-relaxed text-slate-600 sm:text-sm dark:text-slate-400">
+            Have an innovative project, creative idea, or a professional opportunity? Drop a message below and let's craft exceptional solutions together.
           </p>
-
-          <div className="mx-auto mt-5 flex items-center justify-center gap-2">
-            <span className="h-px w-10 bg-gradient-to-r from-transparent to-cyan-500/60" />
-
-            <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,.8)]" />
-
-            <span className="h-px w-10 bg-gradient-to-l from-transparent to-purple-500/60" />
-          </div>
         </div>
 
-        {/* ================= GRID ================= */}
-
-        <div className="grid items-center gap-8 lg:grid-cols-[0.85fr_1.15fr]">
-
-          {/* ================= LEFT CONTENT ================= */}
-
-          <div className="order-2 lg:order-1">
-            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-cyan-400">
-              Start a conversation
-            </span>
-
-            <h3 className="mt-3 max-w-md text-3xl font-black leading-tight text-white sm:text-4xl">
-              Build something
-              <br />
-              <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                meaningful.
+        {/* GRID LAYOUT */}
+        <div className="grid items-start gap-8 lg:grid-cols-12 lg:gap-10">
+          {/* LEFT SIDE */}
+          <div className="space-y-4 lg:col-span-5">
+            <div>
+              <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-emerald-600 dark:text-emerald-400">
+                Communication channels
               </span>
-            </h3>
+              <h3 className="mt-1 text-xl font-extrabold sm:text-2xl">
+                Ready when you are.
+              </h3>
+              <p className="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+                Whether you need a full-stack web application, a dynamic UI overhaul, or expert technical consultation, I'm ready to bring value to your team.
+              </p>
+            </div>
 
-            <p className="mt-4 max-w-md text-xs leading-6 text-slate-500">
-              I'm always interested in discussing new projects, creative
-              ideas and opportunities to build useful digital experiences.
-            </p>
-
-            {/* Feature Cards */}
-
-            <div className="mt-6 space-y-2.5">
+            <div className="grid grid-cols-1 gap-3">
               {[
-                "Modern & responsive interfaces",
-                "Scalable full-stack solutions",
-                "Clean and maintainable code",
-              ].map((item) => (
+                { icon: FaEnvelope, title: "Direct Email", value: "hello@yourdomain.com", copyable: true },
+                { icon: FaPhoneAlt, title: "Quick Call", value: "+1 (555) 019-2834", copyable: true },
+                { icon: FaMapMarkerAlt, title: "Location", value: "San Francisco, CA (Remote)", copyable: false },
+              ].map((card, idx) => (
                 <div
-                  key={item}
-                  className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] px-3 py-2.5 transition-colors duration-300 hover:border-cyan-400/15 hover:bg-cyan-400/[0.025]"
+                  key={idx}
+                  onClick={() => card.copyable && handleCopyText(card.value, card.title)}
+                  className={`group relative flex items-center justify-between rounded-2xl border border-emerald-200/60 bg-white/70 p-3 shadow-sm backdrop-blur-md transition-all duration-300 dark:border-emerald-500/20 dark:bg-emerald-500/[0.02] ${
+                    card.copyable ? "cursor-pointer hover:border-emerald-400 hover:shadow-md dark:hover:border-emerald-500/40" : ""
+                  }`}
                 >
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-400/[0.08]">
-                    <FaCheckCircle className="text-[10px] text-emerald-400" />
+                  <div className="flex items-center gap-3.5">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-emerald-100/80 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400">
+                      <card.icon className="text-xs" />
+                    </div>
+                    <div>
+                      <h4 className="text-[9px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                        {card.title}
+                      </h4>
+                      <p className="text-xs font-semibold text-slate-800 dark:text-slate-200">
+                        {card.value}
+                      </p>
+                    </div>
                   </div>
-
-                  <span className="text-[10px] font-medium text-slate-400">
-                    {item}
-                  </span>
+                  {card.copyable && (
+                    <span className="text-[10px] text-emerald-600 opacity-0 transition-opacity group-hover:opacity-100 dark:text-emerald-400">
+                      <FaCopy />
+                    </span>
+                  )}
                 </div>
               ))}
             </div>
 
-            {/* Mini CTA */}
-
-            <div className="mt-6 flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.15em] text-slate-600">
-              <span>Let's create something great</span>
-              <FaArrowRight className="text-cyan-400" />
-            </div>
-          </div>
-
-          {/* ================= FORM ================= */}
-
-          <div className="relative order-1 lg:order-2">
-
-            {/* Outer Glow */}
-
-            <div className="absolute -inset-[1px] rounded-[22px] bg-gradient-to-r from-cyan-500/40 via-blue-500/20 to-purple-500/40 opacity-70 blur-sm" />
-
-            {/* Form Card */}
-
-            <div className="relative overflow-hidden rounded-[21px] border border-white/[0.08] bg-[#080d18]/95 shadow-[0_20px_60px_rgba(0,0,0,.4)] backdrop-blur-2xl">
-
-              {/* Top Line */}
-
-              <div className="h-[2px] bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500" />
-
-              <div className="p-5 sm:p-6">
-
-                {/* Form Header */}
-
-                <div className="mb-5 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-400/10 bg-cyan-500/[0.07]">
-                      <FaEnvelopeOpenText className="text-base text-cyan-400" />
-                    </div>
-
-                    <div>
-                      <h3 className="text-base font-bold text-white">
-                        Send a Message
-                      </h3>
-
-                      <p className="mt-0.5 text-[8px] text-slate-600">
-                        I'll get back to you soon
-                      </p>
-                    </div>
-                  </div>
-
-                  <span className="hidden rounded-full border border-emerald-400/10 bg-emerald-400/[0.05] px-2 py-1 text-[7px] font-bold uppercase tracking-wider text-emerald-400 sm:block">
-                    Available
-                  </span>
-                </div>
-
-                {/* ================= FORM ================= */}
-
-                <form
-                  onSubmit={handleSubmit(onSubmit)}
-                  className="space-y-3.5"
-                >
-
-                  {/* NAME */}
-
-                  <div>
-                    <div className="group relative">
-                      <FaUser className="absolute left-3.5 top-1/2 z-10 -translate-y-1/2 text-[11px] text-slate-600 transition-colors group-focus-within:text-cyan-400" />
-
-                      <input
-                        {...register("name")}
-                        type="text"
-                        placeholder="Your name"
-                        className={`h-11 w-full rounded-xl border bg-white/[0.025] pl-10 pr-4 text-xs text-white outline-none transition-all placeholder:text-slate-700 ${
-                          errors.name
-                            ? "border-red-500/40 focus:border-red-500"
-                            : "border-white/[0.07] focus:border-cyan-400/40 focus:bg-cyan-400/[0.02]"
-                        }`}
-                      />
-                    </div>
-
-                    {errors.name && (
-                      <p className="mt-1.5 pl-1 text-[9px] text-red-400">
-                        {errors.name.message}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* EMAIL */}
-
-                  <div>
-                    <div className="group relative">
-                      <FaEnvelope className="absolute left-3.5 top-1/2 z-10 -translate-y-1/2 text-[11px] text-slate-600 transition-colors group-focus-within:text-cyan-400" />
-
-                      <input
-                        {...register("email")}
-                        type="email"
-                        placeholder="Your email"
-                        className={`h-11 w-full rounded-xl border bg-white/[0.025] pl-10 pr-4 text-xs text-white outline-none transition-all placeholder:text-slate-700 ${
-                          errors.email
-                            ? "border-red-500/40 focus:border-red-500"
-                            : "border-white/[0.07] focus:border-cyan-400/40 focus:bg-cyan-400/[0.02]"
-                        }`}
-                      />
-                    </div>
-
-                    {errors.email && (
-                      <p className="mt-1.5 pl-1 text-[9px] text-red-400">
-                        {errors.email.message}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* MESSAGE */}
-
-                  <div>
-                    <div className="group relative">
-                      <FaComment className="absolute left-3.5 top-4 text-[11px] text-slate-600 transition-colors group-focus-within:text-cyan-400" />
-
-                      <textarea
-                        {...register("message")}
-                        rows="4"
-                        placeholder="Tell me about your project..."
-                        className={`w-full resize-none rounded-xl border bg-white/[0.025] py-3.5 pl-10 pr-4 text-xs leading-5 text-white outline-none transition-all placeholder:text-slate-700 ${
-                          errors.message
-                            ? "border-red-500/40 focus:border-red-500"
-                            : "border-white/[0.07] focus:border-cyan-400/40 focus:bg-cyan-400/[0.02]"
-                        }`}
-                      />
-                    </div>
-
-                    {errors.message && (
-                      <p className="mt-1.5 pl-1 text-[9px] text-red-400">
-                        {errors.message.message}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* BUTTON */}
-
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="group relative mt-1 flex h-11 w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 text-[10px] font-extrabold uppercase tracking-[0.12em] text-white shadow-[0_8px_25px_rgba(59,130,246,.18)] transition-all hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
-                  >
-                    <span className="relative flex items-center gap-2">
-                      {isSubmitting ? (
-                        <>
-                          <span className="h-3 w-3 rounded-full border-2 border-white/30 border-t-white animate-spin" />
-
-                          Sending...
-                        </>
-                      ) : (
-                        <>
-                          Send Message
-
-                          <FaPaperPlane className="text-[9px] transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" />
-                        </>
-                      )}
-                    </span>
-                  </button>
-                </form>
-
-                {/* Privacy Text */}
-
-                <p className="mt-3 text-center text-[7px] text-slate-700">
-                  Your information is only used to respond to your message.
+            {/* LIVE PREVIEW */}
+            <div className="rounded-2xl border border-emerald-300/60 bg-gradient-to-br from-emerald-500/5 via-teal-500/10 to-transparent p-3.5 backdrop-blur-md dark:border-emerald-500/30">
+              <div className="flex items-center justify-between">
+                <span className="flex items-center gap-1.5 text-[10px] font-bold text-emerald-700 dark:text-emerald-300">
+                  <FaStar className="text-emerald-500 animate-pulse" /> Live Message Preview
+                </span>
+                <span className="rounded bg-emerald-500/10 px-2 py-0.5 font-mono text-[9px] text-emerald-600 dark:text-emerald-400">
+                  {selectedService}
+                </span>
+              </div>
+              <div className="mt-2 rounded-xl border border-emerald-200/50 bg-white/60 p-2.5 text-xs dark:border-emerald-500/10 dark:bg-slate-900/60">
+                <p className="font-bold text-slate-800 dark:text-slate-200">
+                  From: {watchedName || <span className="italic text-slate-400">Your name...</span>}
+                </p>
+                <p className="mt-1 line-clamp-2 text-[11px] text-slate-600 dark:text-slate-400">
+                  "{watchedMessage || "Your project briefing or notes will appear here in real time..."}"
                 </p>
               </div>
             </div>
           </div>
+
+          {/* RIGHT SIDE: FORM */}
+          <div className="relative lg:col-span-7">
+            <div className="absolute -inset-1 rounded-[24px] bg-gradient-to-r from-emerald-400/30 via-teal-500/20 to-cyan-500/30 opacity-75 blur-md" />
+
+            <div className="relative overflow-hidden rounded-[22px] border border-emerald-200/80 bg-white/95 p-5 shadow-xl backdrop-blur-2xl sm:p-6 dark:border-emerald-500/20 dark:bg-[#071c15]/95">
+              <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500" />
+
+              {isSuccessState ? (
+                <div className="py-10 text-center animate-fadeIn">
+                  <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400">
+                    <FaCheckCircle className="text-2xl" />
+                  </div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                    Message Received!
+                  </h3>
+                  <p className="mx-auto mt-1 max-w-xs text-xs text-slate-600 dark:text-slate-400">
+                    Thank you for reaching out. I have received your project scope and will get back to you shortly.
+                  </p>
+                  <button
+                    onClick={() => setIsSuccessState(false)}
+                    className="mt-6 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-xs font-bold text-emerald-600 transition-colors hover:bg-emerald-500 hover:text-white dark:text-emerald-400"
+                  >
+                    Send Another Message
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <div className="mb-4 flex items-center justify-between">
+                    <div>
+                      <h3 className="text-base font-bold text-slate-900 sm:text-lg dark:text-white">
+                        Send a Message
+                      </h3>
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                        Fill out the form and let's get down to business.
+                      </p>
+                    </div>
+                  </div>
+
+                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+                    {/* SERVICE SELECTION */}
+                    <div>
+                      <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+                        Select Project Scope
+                      </label>
+                      <div className="flex flex-wrap gap-1.5">
+                        {["Full-Stack Web App", "UI/UX Design", "Tech Consultation", "Custom API"].map((service) => (
+                          <button
+                            type="button"
+                            key={service}
+                            onClick={() => setSelectedService(service)}
+                            className={`rounded-xl border px-2.5 py-1 text-[10px] font-semibold transition-all ${
+                              selectedService === service
+                                ? "border-emerald-500 bg-emerald-500 text-white shadow-sm"
+                                : "border-emerald-200/80 bg-slate-50 text-slate-600 hover:border-emerald-400 dark:border-emerald-500/20 dark:bg-emerald-500/[0.03] dark:text-slate-300"
+                            }`}
+                          >
+                            {service}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* NAME */}
+                    <div>
+                      <label htmlFor="name" className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+                        Your Name
+                      </label>
+                      <div className="group relative">
+                        <FaUser className="absolute left-3.5 top-1/2 z-10 -translate-y-1/2 text-[11px] text-slate-400" />
+                        <input
+                          id="name"
+                          {...register("name")}
+                          type="text"
+                          placeholder="e.g. Alex Johnson"
+                          className={`h-10 w-full rounded-xl border bg-slate-50/80 pl-10 pr-3.5 text-xs text-slate-900 outline-none transition-all placeholder:text-slate-400 focus:bg-white dark:bg-emerald-500/[0.03] dark:text-white ${
+                            errors.name ? "border-red-400" : "border-emerald-200/80 dark:border-emerald-500/20"
+                          }`}
+                        />
+                      </div>
+                      {errors.name && <p className="mt-1 pl-1 text-[10px] text-red-500">{errors.name.message}</p>}
+                    </div>
+
+                    {/* EMAIL */}
+                    <div>
+                      <label htmlFor="email" className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+                        Email Address
+                      </label>
+                      <div className="group relative">
+                        <FaEnvelope className="absolute left-3.5 top-1/2 z-10 -translate-y-1/2 text-[11px] text-slate-400" />
+                        <input
+                          id="email"
+                          {...register("email")}
+                          type="email"
+                          placeholder="e.g. alex@company.com"
+                          className={`h-10 w-full rounded-xl border bg-slate-50/80 pl-10 pr-3.5 text-xs text-slate-900 outline-none transition-all placeholder:text-slate-400 focus:bg-white dark:bg-emerald-500/[0.03] dark:text-white ${
+                            errors.email ? "border-red-400" : "border-emerald-200/80 dark:border-emerald-500/20"
+                          }`}
+                        />
+                      </div>
+                      {errors.email && <p className="mt-1 pl-1 text-[10px] text-red-500">{errors.email.message}</p>}
+                    </div>
+
+                    {/* MESSAGE */}
+                    <div>
+                      <div className="mb-1 flex items-center justify-between">
+                        <label htmlFor="message" className="text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+                          Project Overview / Message
+                        </label>
+                        <span className={`text-[9px] ${messageLength < 10 ? 'text-amber-500' : 'text-emerald-500'}`}>
+                          {messageLength}/10 min chars
+                        </span>
+                      </div>
+                      <div className="group relative">
+                        <FaComment className="absolute left-3.5 top-3.5 text-[11px] text-slate-400" />
+                        <textarea
+                          id="message"
+                          {...register("message")}
+                          rows="3"
+                          placeholder="Tell me about your tech stack, goals, or scope..."
+                          className={`w-full resize-none rounded-xl border bg-slate-50/80 p-3 pl-10 pr-3.5 text-xs leading-relaxed text-slate-900 outline-none transition-all placeholder:text-slate-400 focus:bg-white dark:bg-emerald-500/[0.03] dark:text-white ${
+                            errors.message ? "border-red-400" : "border-emerald-200/80 dark:border-emerald-500/20"
+                          }`}
+                        />
+                      </div>
+                      {errors.message && <p className="mt-1 pl-1 text-[10px] text-red-500">{errors.message.message}</p>}
+                    </div>
+
+                    {/* SUBMIT */}
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="group relative mt-1 flex h-10 w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-600 text-xs font-extrabold uppercase tracking-widest text-white shadow-[0_10px_25px_rgba(16,185,129,0.2)] transition-all hover:-translate-y-0.5 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      <span className="relative flex items-center gap-2">
+                        {isSubmitting ? (
+                          <>
+                            <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                            Transmitting...
+                          </>
+                        ) : (
+                          <>
+                            Send Inquiry
+                            <FaPaperPlane className="text-[9px] transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" />
+                          </>
+                        )}
+                      </span>
+                    </button>
+                  </form>
+                </>
+              )}
+            </div>
+          </div>
         </div>
-
-        {/* Bottom Line */}
-
-        <div className="mx-auto mt-12 h-px max-w-4xl bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
       </div>
     </section>
   );

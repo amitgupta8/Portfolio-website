@@ -1,986 +1,283 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu,
   X,
-  ArrowUpRight,
-  Download,
-  ChevronRight,
+  Sun,
+  Moon,
+  Home,
+  Code2,
+  Layers3,
+  GraduationCap,
+  BriefcaseBusiness,
+  FolderGit2,
+  Mail,
+  MessageSquare,
 } from "lucide-react";
 
-export default function Nav() {
-  const [open, setOpen] = useState(false);
-  const [active, setActive] = useState("home");
+const Nav = ({ darkMode, setDarkMode }) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
+  const [scrolled, setScrolled] = useState(false);
 
-  const links = [
-    { name: "Skills", id: "skills" },
-    { name: "Stack", id: "stack" },
-    { name: "Education", id: "education" },
-    { name: "Projects", id: "projects" },
-    { name: "Contact", id: "contact" },
+  // 🎨 Perfect Matching Emerald & Cyber Neon Theme Config
+  const customBg = {
+    dark: "bg-[#061a14]/90 backdrop-blur-3xl", 
+    light: "bg-emerald-50/90 backdrop-blur-2xl",    
+    mobileDark: "bg-[#061a14]/95 backdrop-blur-3xl",
+    mobileLight: "bg-emerald-50/98 backdrop-blur-3xl",
+  };
+
+  const navItems = [
+    { name: "Home", id: "home", icon: Home },
+    { name: "Skills", id: "skills", icon: Code2 },
+    { name: "Stack", id: "stack", icon: Layers3 },
+    { name: "Education", id: "education", icon: GraduationCap },
+    { name: "Experience", id: "experience", icon: BriefcaseBusiness },
+    { name: "Projects", id: "projects", icon: FolderGit2 },
+    { name: "Contact", id: "contact", icon: Mail },
   ];
 
-  /* =========================================================
-     ACTIVE SECTION
-  ========================================================= */
+  const toggleTheme = () => {
+    const nextTheme = !darkMode;
+    setDarkMode(nextTheme);
+    document.documentElement.classList.toggle("dark", nextTheme);
+    localStorage.setItem("theme", nextTheme ? "dark" : "light");
+  };
 
   useEffect(() => {
-    const sections = [
-      "home",
-      "skills",
-      "stack",
-      "education",
-      "projects",
-      "contact",
-    ];
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      setDarkMode(true);
+      document.documentElement.classList.add("dark");
+    } else if (savedTheme === "light") {
+      setDarkMode(false);
+      document.documentElement.classList.remove("dark");
+    }
+  }, [setDarkMode]);
 
+  useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 180;
+      setScrolled(window.scrollY > 20);
       let current = "home";
-
-      sections.forEach((id) => {
-        const section = document.getElementById(id);
-
-        if (section && scrollPosition >= section.offsetTop) {
-          current = id;
+      navItems.forEach((item) => {
+        const section = document.getElementById(item.id);
+        if (!section) return;
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 150 && rect.bottom >= 150) {
+          current = item.id;
         }
       });
-
-      setActive(current);
+      setActiveSection(current);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  /* =========================================================
-     MOBILE BODY LOCK
-  ========================================================= */
-
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-
-    return () => {
-      document.body.style.overflow = "";
+    const handleClickOutside = (e) => {
+      if (!e.target.closest("nav") && !e.target.closest("#mobile-menu")) {
+        setMenuOpen(false);
+      }
     };
-  }, [open]);
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
 
-  /* =========================================================
-     SMOOTH SCROLL
-  ========================================================= */
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleKeyDown);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [menuOpen]);
 
-  const scrollTo = (id) => {
-    const element = document.getElementById(id);
-
-    if (!element) return;
-
-    element.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-
-    setActive(id);
-    setOpen(false);
-  };
+  const goToSection = useCallback((id) => {
+    setMenuOpen(false);
+    const section = document.getElementById(id);
+    if (!section) return;
+    const offset = 92;
+    const targetPosition =
+      section.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top: targetPosition, behavior: "smooth" });
+  }, []);
 
   return (
     <>
-      {/* =====================================================
-          BACKGROUND ATMOSPHERE
-      ===================================================== */}
-
-      <div className="pointer-events-none fixed inset-0 z-[60] overflow-hidden">
-        {/* Indigo Glow */}
-        <motion.div
-          animate={{
-            x: [0, 40, 0],
-            y: [0, -30, 0],
-            opacity: [0.08, 0.13, 0.08],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="
-            absolute
-            left-[8%]
-            top-[-180px]
-            h-[420px]
-            w-[420px]
-            rounded-full
-            bg-indigo-600/10
-            blur-[120px]
-          "
-        />
-
-        {/* Purple Glow */}
-        <motion.div
-          animate={{
-            x: [0, -35, 0],
-            y: [0, 30, 0],
-            opacity: [0.06, 0.11, 0.06],
-          }}
-          transition={{
-            duration: 12,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="
-            absolute
-            right-[5%]
-            top-[-100px]
-            h-[350px]
-            w-[350px]
-            rounded-full
-            bg-purple-600/10
-            blur-[120px]
-          "
-        />
-      </div>
-
-      {/* =====================================================
-          NAVBAR
-      ===================================================== */}
-
-      <motion.header
-        initial={{
-          y: -80,
-          opacity: 0,
-        }}
-        animate={{
-          y: 0,
-          opacity: 1,
-        }}
-        transition={{
-          duration: 0.7,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-        className="
-          fixed
-          left-0
-          right-0
-          top-3
-          z-[100]
-          px-3
-          sm:top-4
-          sm:px-5
-        "
+      <motion.nav
+        initial={{ y: -30, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className={`
+          fixed left-1/2 top-4 z-[9999] -translate-x-1/2
+          w-[calc(100%-16px)] sm:w-[calc(100%-24px)] lg:w-[calc(100%-36px)]
+          max-w-7xl rounded-2xl border transition-all duration-300
+          ${
+            darkMode
+              ? `border-emerald-500/30 ${customBg.dark} shadow-[0_20px_50px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.08)]`
+              : `border-emerald-200/80 ${customBg.light} shadow-[0_20px_40px_rgba(16,185,129,0.08),inset_0_1px_0_rgba(255,255,255,0.8)]`
+          }
+          ${scrolled ? "shadow-2xl py-0.5" : "py-1"}
+        `}
       >
-        <nav
-          className="
-            relative
-            mx-auto
-            flex
-            h-[62px]
-            max-w-6xl
-            items-center
-            justify-between
-            overflow-hidden
-            rounded-2xl
-            border
-            border-indigo-400/[0.12]
-            bg-[#020617]/85
-            px-3
-            shadow-[0_18px_70px_rgba(2,6,23,0.65)]
-            backdrop-blur-2xl
-            sm:h-[68px]
-            sm:rounded-full
-            sm:px-5
-            lg:px-6
-          "
-        >
-          {/* =================================================
-              TOP GRADIENT LINE
-          ================================================= */}
+        {/* Top Emerald Neon Accent Line */}
+        <div className="pointer-events-none absolute left-1/2 top-0 h-[2px] w-[55%] -translate-x-1/2 rounded-full bg-gradient-to-r from-transparent via-emerald-400 to-transparent opacity-95 shadow-[0_0_18px_rgba(52,211,153,0.9)]" />
 
-          <div
-            className="
-              pointer-events-none
-              absolute
-              left-[10%]
-              right-[10%]
-              top-0
-              h-px
-              bg-gradient-to-r
-              from-transparent
-              via-indigo-400/70
-              to-transparent
-            "
-          />
-
-          {/* =================================================
-              INNER GLOW
-          ================================================= */}
-
-          <div
-            className="
-              pointer-events-none
-              absolute
-              left-1/2
-              top-0
-              h-20
-              w-1/2
-              -translate-x-1/2
-              rounded-full
-              bg-indigo-500/[0.035]
-              blur-3xl
-            "
-          />
-
-          {/* =================================================
-              LOGO
-          ================================================= */}
-
-          <button
-            type="button"
-            onClick={() => scrollTo("home")}
-            className="
-              group
-              relative
-              z-10
-              flex
-              shrink-0
-              items-center
-              gap-2.5
-              text-left
-              sm:gap-3
-            "
-          >
-            {/* LOGO BOX */}
-
-            <motion.div
-              whileHover={{
-                rotate: 6,
-                scale: 1.06,
-              }}
-              whileTap={{
-                scale: 0.94,
-              }}
-              className="
-                relative
-                flex
-                h-10
-                w-10
-                items-center
-                justify-center
-                overflow-hidden
-                rounded-xl
-                border
-                border-indigo-300/20
-                bg-gradient-to-br
-                from-indigo-500
-                via-purple-600
-                to-cyan-500
-                shadow-[0_0_35px_rgba(99,102,241,0.22)]
-                sm:h-11
-                sm:w-11
-                sm:rounded-[14px]
-              "
-            >
-              {/* Logo Glow */}
-
-              <div
-                className="
-                  absolute
-                  inset-0
-                  bg-gradient-to-tr
-                  from-white/0
-                  via-white/10
-                  to-white/20
-                "
-              />
-
-              {/* Shine */}
-
-              <motion.div
-                animate={{
-                  x: ["-130%", "130%"],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  repeatDelay: 3,
-                  ease: "easeInOut",
-                }}
-                className="
-                  absolute
-                  inset-y-0
-                  w-8
-                  rotate-[25deg]
-                  bg-white/20
-                  blur-md
-                "
-              />
-
-              <span
-                className="
-                  relative
-                  z-10
-                  text-base
-                  font-black
-                  text-white
-                  sm:text-lg
-                "
-              >
-                A
+        <div className="relative flex items-center justify-between px-3 sm:px-5 lg:px-6 h-[60px]">
+          
+          {/* Logo */}
+          <button type="button" onClick={() => goToSection("home")} className="group flex items-center gap-2.5">
+            <div className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 shadow-[0_6px_20px_rgba(52,211,153,0.4)] transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
+              <span className="relative text-sm font-black text-slate-950">A</span>
+            </div>
+            <div className="flex flex-col leading-none text-left">
+              <span className={`text-[16px] font-black tracking-tight ${darkMode ? "text-white" : "text-slate-900"}`}>
+                Amit<span className="text-emerald-400">.</span>dev
               </span>
-            </motion.div>
-
-            {/* BRAND */}
-
-            <div className="leading-none">
-              <h1
-                className="
-                  text-[15px]
-                  font-black
-                  tracking-tight
-                  text-white
-                  sm:text-[17px]
-                "
-              >
-                Amit
-                <span
-                  className="
-                    bg-gradient-to-r
-                    from-indigo-400
-                    via-purple-400
-                    to-cyan-400
-                    bg-clip-text
-                    text-transparent
-                  "
-                >
-                  .dev
-                </span>
-              </h1>
-
-              <p
-                className="
-                  mt-1
-                  hidden
-                  text-[8px]
-                  font-medium
-                  uppercase
-                  tracking-[0.18em]
-                  text-white/35
-                  sm:block
-                "
-              >
-                Full Stack Developer
-              </p>
+              <span className={`mt-1 hidden sm:block text-[8px] font-bold uppercase tracking-[0.18em] ${darkMode ? "text-emerald-400/80" : "text-emerald-600"}`}>
+                AI • MERN • Full Stack
+              </span>
             </div>
           </button>
 
-          {/* =================================================
-              DESKTOP MENU
-          ================================================= */}
-
-          <div
-            className="
-              relative
-              z-10
-              hidden
-              items-center
-              gap-1
-              rounded-full
-              border
-              border-white/[0.06]
-              bg-white/[0.018]
-              p-1
-              md:flex
-            "
-          >
-            {links.map((item) => {
-              const isActive = active === item.id;
-
-              return (
-                <button
-                  type="button"
-                  key={item.id}
-                  onClick={() => scrollTo(item.id)}
-                  className="
-                    relative
-                    rounded-full
-                    px-3
-                    py-2
-                    text-[12px]
-                    font-medium
-                    transition-all
-                    duration-300
-                    lg:px-4
-                    lg:text-[13px]
-                  "
-                >
-                  {/* ACTIVE */}
-
-                  {isActive && (
-                    <motion.span
-                      layoutId="activeNav"
-                      transition={{
-                        type: "spring",
-                        stiffness: 400,
-                        damping: 30,
-                      }}
-                      className="
-                        absolute
-                        inset-0
-                        rounded-full
-                        border
-                        border-indigo-400/20
-                        bg-gradient-to-r
-                        from-indigo-500/[0.12]
-                        via-purple-500/[0.10]
-                        to-cyan-400/[0.08]
-                        shadow-[0_0_25px_rgba(99,102,241,0.10)]
-                      "
-                    />
-                  )}
-
-                  <span
-                    className={`
-                      relative
-                      z-10
-                      ${
-                        isActive
-                          ? "bg-gradient-to-r from-indigo-300 via-purple-300 to-cyan-300 bg-clip-text text-transparent"
-                          : "text-white/50 hover:text-white"
-                      }
-                    `}
-                  >
-                    {item.name}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* =================================================
-              RESUME BUTTON
-          ================================================= */}
-
-          <motion.a
-            whileHover={{
-              scale: 1.04,
-              y: -1,
-            }}
-            whileTap={{
-              scale: 0.97,
-            }}
-            href="/resume.pdf"
-            download
-            className="
-              relative
-              z-10
-              hidden
-              h-10
-              items-center
-              gap-2
-              overflow-hidden
-              rounded-full
-              border
-              border-indigo-300/20
-              bg-gradient-to-r
-              from-indigo-600
-              via-purple-600
-              to-cyan-500
-              px-4
-              text-xs
-              font-bold
-              text-white
-              shadow-[0_0_30px_rgba(99,102,241,0.18)]
-              transition
-              md:flex
-              lg:px-5
-            "
-          >
-            {/* Button shine */}
-
-            <motion.span
-              animate={{
-                x: ["-150%", "150%"],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                repeatDelay: 2,
-              }}
-              className="
-                absolute
-                inset-y-0
-                w-10
-                rotate-[20deg]
-                bg-white/15
-                blur-md
-              "
-            />
-
-            <Download size={14} />
-
-            <span className="relative z-10">Resume</span>
-
-            <ArrowUpRight size={15} />
-          </motion.a>
-
-          {/* =================================================
-              MOBILE BUTTON
-          ================================================= */}
-
-          <motion.button
-            type="button"
-            whileTap={{
-              scale: 0.9,
-            }}
-            onClick={() => setOpen(!open)}
-            aria-label="Toggle navigation menu"
-            aria-expanded={open}
-            className="
-              relative
-              z-10
-              flex
-              h-10
-              w-10
-              items-center
-              justify-center
-              rounded-xl
-              border
-              border-indigo-400/[0.12]
-              bg-white/[0.035]
-              text-white
-              transition
-              hover:border-indigo-400/30
-              hover:bg-indigo-500/[0.08]
-              md:hidden
-            "
-          >
-            <AnimatePresence
-              mode="wait"
-              initial={false}
-            >
-              {open ? (
-                <motion.div
-                  key="close"
-                  initial={{
-                    rotate: -90,
-                    opacity: 0,
-                  }}
-                  animate={{
-                    rotate: 0,
-                    opacity: 1,
-                  }}
-                  exit={{
-                    rotate: 90,
-                    opacity: 0,
-                  }}
-                >
-                  <X size={20} />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="menu"
-                  initial={{
-                    rotate: 90,
-                    opacity: 0,
-                  }}
-                  animate={{
-                    rotate: 0,
-                    opacity: 1,
-                  }}
-                  exit={{
-                    rotate: -90,
-                    opacity: 0,
-                  }}
-                >
-                  <Menu size={20} />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.button>
-        </nav>
-      </motion.header>
-
-      {/* =====================================================
-          MOBILE OVERLAY
-      ===================================================== */}
-
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-            }}
-            exit={{
-              opacity: 0,
-            }}
-            onClick={() => setOpen(false)}
-            className="
-              fixed
-              inset-0
-              z-[80]
-              bg-[#020617]/75
-              backdrop-blur-md
-              md:hidden
-            "
-          />
-        )}
-      </AnimatePresence>
-
-      {/* =====================================================
-          MOBILE SIDE MENU
-      ===================================================== */}
-
-      <AnimatePresence>
-        {open && (
-          <motion.aside
-            initial={{
-              x: "100%",
-            }}
-            animate={{
-              x: 0,
-            }}
-            exit={{
-              x: "100%",
-            }}
-            transition={{
-              type: "spring",
-              stiffness: 300,
-              damping: 30,
-            }}
-            className="
-              fixed
-              right-0
-              top-0
-              z-[90]
-              flex
-              h-screen
-              w-[min(85vw,340px)]
-              flex-col
-              overflow-hidden
-              border-l
-              border-indigo-400/[0.12]
-              bg-[#020617]/95
-              px-6
-              pt-24
-              shadow-[-25px_0_100px_rgba(2,6,23,0.75)]
-              backdrop-blur-2xl
-              md:hidden
-            "
-          >
-            {/* =================================================
-                MOBILE GLOWS
-            ================================================= */}
-
-            <div
-              className="
-                pointer-events-none
-                absolute
-                right-[-120px]
-                top-[-80px]
-                h-[320px]
-                w-[320px]
-                rounded-full
-                bg-indigo-600/15
-                blur-[110px]
-              "
-            />
-
-            <div
-              className="
-                pointer-events-none
-                absolute
-                bottom-[-100px]
-                left-[-100px]
-                h-[280px]
-                w-[280px]
-                rounded-full
-                bg-purple-600/10
-                blur-[110px]
-              "
-            />
-
-            <div
-              className="
-                pointer-events-none
-                absolute
-                bottom-[20%]
-                right-[-120px]
-                h-[220px]
-                w-[220px]
-                rounded-full
-                bg-cyan-500/[0.06]
-                blur-[100px]
-              "
-            />
-
-            {/* =================================================
-                MOBILE HEADER
-            ================================================= */}
-
-            <div className="relative mb-7 flex items-center justify-between">
-              <div>
-                <p
-                  className="
-                    text-[9px]
-                    font-bold
-                    uppercase
-                    tracking-[0.25em]
-                    text-indigo-400
-                  "
-                >
-                  Navigation
-                </p>
-
-                <h2 className="mt-1 text-xl font-black text-white">
-                  Explore
-                </h2>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                className="
-                  flex
-                  h-9
-                  w-9
-                  items-center
-                  justify-center
-                  rounded-xl
-                  border
-                  border-white/10
-                  bg-white/[0.04]
-                  text-white/60
-                  transition
-                  hover:border-indigo-400/20
-                  hover:text-white
-                "
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            {/* =================================================
-                MOBILE LINKS
-            ================================================= */}
-
-            <div className="relative space-y-2">
-              {links.map((item, index) => {
-                const isActive = active === item.id;
-
+          {/* Desktop Nav Items */}
+          <div className="hidden lg:block">
+            <div className={`flex items-center gap-1 rounded-xl border p-1 ${darkMode ? "border-emerald-500/20 bg-[#0a261d]/80 shadow-inner" : "border-emerald-200/60 bg-emerald-100/50 shadow-inner"}`}>
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const active = activeSection === item.id;
                 return (
-                  <motion.button
+                  <button
                     key={item.id}
                     type="button"
-                    initial={{
-                      opacity: 0,
-                      x: 25,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      x: 0,
-                    }}
-                    transition={{
-                      delay: index * 0.06,
-                    }}
-                    onClick={() => scrollTo(item.id)}
+                    onClick={() => goToSection(item.id)}
                     className={`
-                      group
-                      flex
-                      w-full
-                      items-center
-                      justify-between
-                      rounded-2xl
-                      border
-                      px-4
-                      py-4
-                      text-left
-                      transition-all
-                      duration-300
+                      relative group flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-[11px] font-extrabold transition-all duration-200
                       ${
-                        isActive
-                          ? "border-indigo-400/20 bg-gradient-to-r from-indigo-500/[0.10] via-purple-500/[0.07] to-transparent"
-                          : "border-transparent hover:border-white/[0.06] hover:bg-white/[0.035]"
+                        active
+                          ? "text-white"
+                          : darkMode
+                          ? "text-emerald-100/70 hover:text-white"
+                          : "text-slate-700 hover:text-emerald-800"
                       }
                     `}
                   >
-                    <div className="flex items-center gap-3">
-                      <span
-                        className={`
-                          text-[10px]
-                          font-bold
-                          ${
-                            isActive
-                              ? "text-indigo-400"
-                              : "text-white/20"
-                          }
-                        `}
-                      >
-                        0{index + 1}
-                      </span>
-
-                      <span
-                        className={`
-                          text-sm
-                          font-semibold
-                          ${
-                            isActive
-                              ? "text-white"
-                              : "text-white/60"
-                          }
-                        `}
-                      >
-                        {item.name}
-                      </span>
-                    </div>
-
-                    <ChevronRight
-                      size={16}
-                      className={`
-                        transition-all
-                        ${
-                          isActive
-                            ? "translate-x-0 text-indigo-400"
-                            : "-translate-x-1 text-white/20 group-hover:translate-x-0 group-hover:text-indigo-300"
-                        }
-                      `}
-                    />
-                  </motion.button>
+                    {active && (
+                      <motion.span
+                        layoutId="activeNav"
+                        transition={{ type: "spring", stiffness: 500, damping: 35 }}
+                        className="absolute inset-0 rounded-lg bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-600 shadow-[0_4px_15px_rgba(52,211,153,0.4)]"
+                      />
+                    )}
+                    <Icon size={14} strokeWidth={2.5} className="relative z-10 transition-transform duration-200 group-hover:-translate-y-0.5" />
+                    <span className="relative z-10">{item.name}</span>
+                  </button>
                 );
               })}
             </div>
+          </div>
 
-            {/* =================================================
-                MOBILE RESUME
-            ================================================= */}
+          {/* Controls */}
+          <div className="flex items-center gap-2.5">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              aria-label="Switch theme"
+              className={`
+                group relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border transition-all duration-300 active:scale-95 shadow-md
+                ${darkMode ? "border-emerald-500/30 bg-[#0a261d] text-emerald-400 hover:bg-[#11382b]" : "border-emerald-300 bg-white text-emerald-600 hover:bg-emerald-50"}
+              `}
+            >
+              {darkMode ? <Sun size={15} className="transition-transform group-hover:rotate-45" /> : <Moon size={15} className="transition-transform group-hover:-rotate-12" />}
+            </button>
 
-            <motion.a
-              initial={{
-                opacity: 0,
-                y: 20,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
-              transition={{
-                delay: 0.35,
-              }}
-              href="/resume.pdf"
-              download
-              onClick={() => setOpen(false)}
+            <button
+              type="button"
+              onClick={() => goToSection("contact")}
               className="
-                relative
-                mt-7
-                flex
-                h-12
-                items-center
-                justify-center
-                gap-2
-                overflow-hidden
-                rounded-2xl
-                border
-                border-indigo-300/20
-                bg-gradient-to-r
-                from-indigo-600
-                via-purple-600
-                to-cyan-500
-                text-sm
-                font-bold
-                text-white
-                shadow-[0_12px_40px_rgba(99,102,241,0.18)]
+                hidden sm:inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-600 px-4 py-2 text-xs font-black text-white shadow-[0_6px_20px_rgba(52,211,153,0.35)] transition-all duration-300 hover:scale-105 hover:shadow-[0_8px_25px_rgba(52,211,153,0.5)] active:scale-95
               "
             >
-              <Download size={16} />
+              <MessageSquare size={13} />
+              Let's Talk
+            </button>
 
-              <span className="relative z-10">
-                Download Resume
-              </span>
-
-              <ArrowUpRight size={16} />
-            </motion.a>
-
-            {/* =================================================
-                MOBILE BRAND
-            ================================================= */}
-
-            <div
-              className="
-                relative
-                mt-auto
-                border-t
-                border-white/[0.06]
-                pb-7
-                pt-6
-              "
+            <button
+              type="button"
+              aria-label="Toggle menu"
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+              onClick={() => setMenuOpen((prev) => !prev)}
+              className={`flex h-9 w-9 items-center justify-center rounded-xl border transition-all duration-200 lg:hidden shadow-md ${darkMode ? "border-emerald-500/30 bg-[#0a261d] text-white" : "border-emerald-300 bg-white text-slate-800"}`}
             >
-              <p className="text-xs font-bold text-white/50">
-                Amit
-                <span
-                  className="
-                    bg-gradient-to-r
-                    from-indigo-400
-                    via-purple-400
-                    to-cyan-400
-                    bg-clip-text
-                    text-transparent
-                  "
-                >
-                  .dev
-                </span>
-              </p>
+              {menuOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
+          </div>
+        </div>
+      </motion.nav>
 
-              <p
-                className="
-                  mt-1
-                  text-[9px]
-                  uppercase
-                  tracking-[0.18em]
-                  text-white/25
-                "
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            id="mobile-menu"
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            className={`
+              fixed inset-x-3 top-20 z-[9998] rounded-2xl border p-3 lg:hidden
+              ${
+                darkMode
+                  ? `border-emerald-500/30 ${customBg.mobileDark} shadow-[0_25px_60px_rgba(0,0,0,0.85)]`
+                  : `border-emerald-200 ${customBg.mobileLight} shadow-2xl`
+              }
+            `}
+          >
+            <div className="flex flex-col gap-1.5">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const active = activeSection === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => goToSection(item.id)}
+                    className={`
+                      flex items-center gap-3 rounded-xl px-4 py-3 text-xs font-extrabold transition-all
+                      ${
+                        active
+                          ? "bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-600 text-white shadow-md"
+                          : darkMode
+                          ? "text-emerald-100/70 hover:bg-white/[0.04]"
+                          : "text-slate-700 hover:bg-emerald-100/60"
+                      }
+                    `}
+                  >
+                    <Icon size={16} />
+                    <span>{item.name}</span>
+                  </button>
+                );
+              })}
+              
+              <button
+                type="button"
+                onClick={() => goToSection("contact")}
+                className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-600 px-4 py-3 text-xs font-black text-white shadow-lg"
               >
-                Full Stack • AI • MERN
-              </p>
+                <MessageSquare size={14} />
+                Let's Talk
+              </button>
             </div>
-          </motion.aside>
+          </motion.div>
         )}
       </AnimatePresence>
-
-      {/* =====================================================
-          GLOBAL STYLE
-      ===================================================== */}
-
-      <style>{`
-        html {
-          scroll-behavior: smooth;
-          scroll-padding-top: 100px;
-        }
-
-        body {
-          overflow-x: hidden;
-          background: #020617;
-        }
-
-        button,
-        a {
-          -webkit-tap-highlight-color: transparent;
-        }
-
-        ::selection {
-          background: rgba(99, 102, 241, 0.3);
-          color: white;
-        }
-
-        @media (max-width: 767px) {
-          html {
-            scroll-padding-top: 85px;
-          }
-        }
-      `}</style>
     </>
   );
-}
+};
+
+export default Nav;

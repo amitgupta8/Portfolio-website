@@ -1,4 +1,6 @@
-import React from "react";
+
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 import {
   FaGithub,
@@ -11,17 +13,13 @@ import {
   FaDatabase,
   FaServer,
   FaRocket,
+  FaUserCheck,
+  FaGraduationCap,
+  FaLightbulb,
   FaCheckCircle,
+  FaBriefcase,
+  FaQuoteLeft,
 } from "react-icons/fa";
-
-import {
-  SiMongodb,
-  SiExpress,
-  SiReact,
-  SiNodedotjs,
-  SiJavascript,
-  SiTailwindcss,
-} from "react-icons/si";
 
 import Image from "../assets/man.jpeg";
 
@@ -29,7 +27,7 @@ import Image from "../assets/man.jpeg";
    STAT CARD
 ========================================================= */
 
-const StatCard = ({ icon: Icon, value, label }) => {
+const StatCard = ({ icon: Icon, value, label, trend }) => {
   return (
     <div
       className="
@@ -38,20 +36,22 @@ const StatCard = ({ icon: Icon, value, label }) => {
         overflow-hidden
         rounded-2xl
         border
-        border-white/[0.08]
-        bg-[#0d1b2e]/80
+        border-emerald-200/80
+        bg-white/85
         p-4
+        shadow-sm
         backdrop-blur-xl
         transition-all
         duration-300
-        hover:-translate-y-1
-        hover:border-cyan-400/30
-        hover:bg-[#10233b]
-        hover:shadow-[0_15px_40px_rgba(34,211,238,0.08)]
+        hover:-translate-y-1.5
+        hover:border-emerald-400
+        hover:bg-white
+        hover:shadow-[0_15px_40px_rgba(52,211,153,0.15)]
+        dark:border-emerald-500/20
+        dark:bg-[#0a261d]/80
+        dark:hover:bg-[#0f382a]
       "
     >
-      {/* Card Glow */}
-
       <div
         className="
           pointer-events-none
@@ -61,105 +61,50 @@ const StatCard = ({ icon: Icon, value, label }) => {
           h-24
           w-24
           rounded-full
-          bg-cyan-400/[0.06]
+          bg-emerald-500/[0.08]
           blur-2xl
           transition-all
           duration-300
-          group-hover:bg-cyan-400/[0.12]
+          group-hover:bg-emerald-500/[0.2]
         "
       />
 
-      {/* Icon */}
-
-      <div
-        className="
-          relative
-          mb-3
-          flex
-          h-10
-          w-10
-          items-center
-          justify-center
-          rounded-xl
-          border
-          border-cyan-400/10
-          bg-cyan-400/[0.08]
-          text-cyan-400
-          transition-all
-          duration-300
-          group-hover:border-cyan-400/20
-          group-hover:bg-cyan-400/[0.12]
-        "
-      >
-        <Icon size={15} />
+      <div className="flex items-center justify-between mb-3">
+        <div
+          className="
+            flex
+            h-10
+            w-10
+            items-center
+            justify-center
+            rounded-xl
+            border
+            border-emerald-300/40
+            bg-emerald-500/10
+            text-emerald-600
+            transition-all
+            duration-300
+            group-hover:border-emerald-400
+            group-hover:bg-emerald-500/20
+            dark:text-emerald-400
+          "
+        >
+          <Icon size={16} />
+        </div>
+        {trend && (
+          <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+            {trend}
+          </span>
+        )}
       </div>
 
-      <h4 className="relative text-xl font-black text-white">
+      <h4 className="relative text-2xl font-black text-slate-900 dark:text-white">
         {value}
       </h4>
 
-      <p className="relative mt-1 text-[10px] text-slate-500 sm:text-xs">
+      <p className="relative mt-1 text-xs font-medium text-slate-500 dark:text-slate-400">
         {label}
       </p>
-    </div>
-  );
-};
-
-/* =========================================================
-   TECHNOLOGY CARD
-========================================================= */
-
-const TechCard = ({ icon: Icon, name, text }) => {
-  return (
-    <div
-      className="
-        group
-        flex
-        items-center
-        gap-3
-        rounded-xl
-        border
-        border-white/[0.08]
-        bg-[#0b192b]/80
-        p-3
-        backdrop-blur-xl
-        transition-all
-        duration-300
-        hover:-translate-y-1
-        hover:border-cyan-400/25
-        hover:bg-[#10233b]
-      "
-    >
-      <div
-        className="
-          flex
-          h-10
-          w-10
-          shrink-0
-          items-center
-          justify-center
-          rounded-xl
-          border
-          border-white/[0.08]
-          bg-white/[0.035]
-          transition-all
-          duration-300
-          group-hover:border-cyan-400/20
-          group-hover:bg-cyan-400/[0.06]
-        "
-      >
-        <Icon className="text-lg text-cyan-400" />
-      </div>
-
-      <div className="min-w-0">
-        <h4 className="truncate text-sm font-bold text-white">
-          {name}
-        </h4>
-
-        <p className="mt-0.5 truncate text-[10px] text-slate-500">
-          {text}
-        </p>
-      </div>
     </div>
   );
 };
@@ -169,60 +114,27 @@ const TechCard = ({ icon: Icon, name, text }) => {
 ========================================================= */
 
 const AboutMe = () => {
+  const [activeTab, setActiveTab] = useState("overview");
+
   const socials = [
-    {
-      icon: FaGithub,
-      href: "https://github.com/",
-      label: "GitHub",
-    },
-    {
-      icon: FaLinkedin,
-      href: "https://linkedin.com/",
-      label: "LinkedIn",
-    },
-    {
-      icon: FaTwitter,
-      href: "https://twitter.com/",
-      label: "Twitter",
-    },
-    {
-      icon: FaTelegram,
-      href: "https://telegram.org/",
-      label: "Telegram",
-    },
+    { icon: FaGithub, href: "https://github.com/", label: "GitHub" },
+    { icon: FaLinkedin, href: "https://linkedin.com/", label: "LinkedIn" },
+    { icon: FaTwitter, href: "https://twitter.com/", label: "Twitter" },
+    { icon: FaTelegram, href: "https://telegram.org/", label: "Telegram" },
   ];
 
-  const technologies = [
-    {
-      icon: SiMongodb,
-      name: "MongoDB",
-      text: "Database",
-    },
-    {
-      icon: SiExpress,
-      name: "Express.js",
-      text: "Backend",
-    },
-    {
-      icon: SiReact,
-      name: "React.js",
-      text: "Frontend",
-    },
-    {
-      icon: SiNodedotjs,
-      name: "Node.js",
-      text: "Runtime",
-    },
-    {
-      icon: SiJavascript,
-      name: "JavaScript",
-      text: "Language",
-    },
-    {
-      icon: SiTailwindcss,
-      name: "Tailwind CSS",
-      text: "UI Design",
-    },
+  const techPills = ["React.js", "Node.js", "Next.js", "MongoDB", "TypeScript", "Tailwind CSS", "GraphQL", "Docker"];
+
+  const highlights = [
+    "Clean & Maintainable Code Architecture",
+    "High-Performance API & State Optimization",
+    "Responsive UI/UX with Modern Frameworks",
+  ];
+
+  const careerTimeline = [
+    { year: "2023 - Present", role: "Senior Full Stack MERN Developer", company: "Freelance & Agency Projects" },
+    { year: "2021 - 2023", role: "Frontend & Backend Engineer", company: "Tech Solutions Inc." },
+    { year: "2020 - 2021", role: "Junior Web Developer", company: "Open Source Contributor" },
   ];
 
   return (
@@ -232,670 +144,282 @@ const AboutMe = () => {
         relative
         min-h-screen
         overflow-hidden
-        bg-[#081525]
+        bg-emerald-50/50
         px-4
         py-16
-        text-white
+        text-slate-900
+        transition-colors
+        duration-500
         sm:px-6
         sm:py-20
         md:px-8
         md:py-24
         lg:px-10
         lg:py-28
+        dark:bg-[#061a14]
+        dark:text-slate-100
       "
     >
-      {/* =====================================================
-          STATIC BACKGROUND
-      ====================================================== */}
-
+      {/* Background Glows & Grid */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-
-        {/* Top Left Cyan Glow */}
-
-        <div
-          className="
-            absolute
-            -left-40
-            -top-40
-            h-[450px]
-            w-[450px]
-            rounded-full
-            bg-cyan-500/[0.10]
-            blur-[130px]
-          "
-        />
-
-        {/* Right Indigo Glow */}
+        <div className="absolute -left-32 -top-32 h-[450px] w-[450px] rounded-full bg-emerald-500/10 blur-[130px] dark:bg-emerald-500/10" />
+        <div className="absolute -right-32 top-[30%] h-[450px] w-[450px] rounded-full bg-teal-600/10 blur-[140px] dark:bg-teal-600/10" />
 
         <div
-          className="
-            absolute
-            -right-40
-            top-[25%]
-            h-[500px]
-            w-[500px]
-            rounded-full
-            bg-indigo-500/[0.10]
-            blur-[140px]
-          "
-        />
-
-        {/* Bottom Violet Glow */}
-
-        <div
-          className="
-            absolute
-            bottom-[-220px]
-            left-[30%]
-            h-[500px]
-            w-[500px]
-            rounded-full
-            bg-violet-600/[0.09]
-            blur-[140px]
-          "
-        />
-
-        {/* Center Blue Glow */}
-
-        <div
-          className="
-            absolute
-            left-1/2
-            top-1/2
-            h-[350px]
-            w-[350px]
-            -translate-x-1/2
-            -translate-y-1/2
-            rounded-full
-            bg-blue-500/[0.035]
-            blur-[120px]
-          "
-        />
-
-        {/* Static Grid */}
-
-        <div
-          className="absolute inset-0 opacity-[0.035]"
+          className="absolute inset-0 opacity-[0.035] dark:opacity-[0.05]"
           style={{
             backgroundImage: `
-              linear-gradient(
-                rgba(103,232,249,.35) 1px,
-                transparent 1px
-              ),
-              linear-gradient(
-                90deg,
-                rgba(103,232,249,.35) 1px,
-                transparent 1px
-              )
+              linear-gradient(rgba(16,185,129,0.8) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(16,185,129,0.8) 1px, transparent 1px)
             `,
             backgroundSize: "60px 60px",
           }}
         />
-
-        {/* Header Transition */}
-
-        <div
-          className="
-            absolute
-            left-0
-            right-0
-            top-0
-            h-32
-            bg-gradient-to-b
-            from-[#07111f]
-            to-transparent
-          "
-        />
-
-        {/* Bottom Transition */}
-
-        <div
-          className="
-            absolute
-            bottom-0
-            left-0
-            right-0
-            h-32
-            bg-gradient-to-t
-            from-[#07111f]/60
-            to-transparent
-          "
-        />
       </div>
 
-      {/* =====================================================
-          CONTENT
-      ====================================================== */}
-
       <div className="relative z-10 mx-auto max-w-6xl">
-
-        {/* ===================================================
-            SECTION HEADER
-        ==================================================== */}
-
-        <div className="mb-12 sm:mb-16">
-
-          {/* Label */}
-
+        
+        {/* SECTION HEADER BADGE & LIVE AVAILABILITY */}
+        <div className="mb-12 flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center gap-3">
-            <span
-              className="
-                h-[2px]
-                w-12
-                bg-gradient-to-r
-                from-cyan-400
-                to-indigo-500
-              "
-            />
-
-            <span
-              className="
-                text-[9px]
-                font-bold
-                uppercase
-                tracking-[0.3em]
-                text-cyan-400
-                sm:text-xs
-              "
-            >
-              About Developer
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-r from-emerald-400 to-teal-600 text-white text-xs font-bold shadow-sm shadow-emerald-500/40">
+              ⚡
             </span>
+            <span className="text-xs font-black uppercase tracking-[0.25em] text-emerald-600 dark:text-emerald-400">
+              About Me
+            </span>
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              Available for Hire
+            </div>
           </div>
 
-          {/* Heading */}
-
-          <h2
-            className="
-              mt-4
-              text-4xl
-              font-black
-              tracking-tight
-              sm:text-5xl
-              md:text-6xl
-            "
-          >
-            About{" "}
-            <span
-              className="
-                bg-gradient-to-r
-                from-cyan-400
-                via-indigo-400
-                to-violet-400
-                bg-clip-text
-                text-transparent
-              "
+          {/* Interactive Navigation Tabs */}
+          <div className="flex items-center gap-1.5 rounded-xl border border-emerald-200/80 bg-white/80 p-1 backdrop-blur-md dark:border-emerald-500/20 dark:bg-slate-900/80">
+            <button
+              onClick={() => setActiveTab("overview")}
+              className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[11px] font-bold transition-all ${
+                activeTab === "overview"
+                  ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-sm"
+                  : "text-slate-600 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-white"
+              }`}
             >
-              Me
-            </span>
-          </h2>
-
-          {/* Description */}
-
-          <p
-            className="
-              mt-4
-              max-w-xl
-              text-sm
-              leading-7
-              text-slate-400
-              sm:text-base
-            "
-          >
-            Passionate about creating modern, scalable and
-            user-friendly web applications.
-          </p>
+              <FaUserCheck size={11} /> Overview
+            </button>
+            <button
+              onClick={() => setActiveTab("background")}
+              className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[11px] font-bold transition-all ${
+                activeTab === "background"
+                  ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-sm"
+                  : "text-slate-600 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-white"
+              }`}
+            >
+              <FaGraduationCap size={11} /> Timeline
+            </button>
+            <button
+              onClick={() => setActiveTab("philosophy")}
+              className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[11px] font-bold transition-all ${
+                activeTab === "philosophy"
+                  ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-sm"
+                  : "text-slate-600 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-white"
+              }`}
+            >
+              <FaLightbulb size={11} /> Philosophy
+            </button>
+          </div>
         </div>
 
-        {/* ===================================================
-            MAIN CONTENT
-        ==================================================== */}
+        {/* MAIN GRID */}
+        <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-14">
+          
+          {/* LEFT: IMAGE & FLOATING TAGS */}
+          <div className="relative flex items-center justify-center">
+            <div className="absolute h-[380px] w-[320px] rounded-[32px] bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 shadow-2xl shadow-emerald-500/20 sm:h-[430px] sm:w-[370px] opacity-90 rotate-[-3deg]" />
 
-        <div
-          className="
-            grid
-            items-center
-            gap-12
-            lg:grid-cols-[0.8fr_1.2fr]
-            lg:gap-16
-          "
-        >
-
-          {/* =================================================
-              IMAGE AREA
-          ================================================== */}
-
-          <div className="flex justify-center">
-            <div className="relative">
-
-              {/* Main Image Glow */}
-
-              <div
-                className="
-                  absolute
-                  inset-5
-                  rounded-full
-                  bg-cyan-400/20
-                  blur-[70px]
-                "
+            <div className="relative z-10 my-4 h-[300px] w-[260px] overflow-hidden rounded-[28px] border-4 border-white shadow-2xl sm:h-[360px] sm:w-[310px] dark:border-slate-900">
+              <img
+                src={Image}
+                alt="Amit Gupta"
+                className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
               />
-
-              {/* Static Outer Ring */}
-
-              <div
-                className="
-                  absolute
-                  -inset-4
-                  rounded-full
-                  border
-                  border-dashed
-                  border-cyan-400/20
-                "
-              />
-
-              {/* Image */}
-
-              <div
-                className="
-                  group
-                  relative
-                  h-[230px]
-                  w-[230px]
-                  overflow-hidden
-                  rounded-full
-                  border-[5px]
-                  border-[#0d1b2e]
-                  shadow-[0_20px_80px_rgba(34,211,238,0.18)]
-                  sm:h-[300px]
-                  sm:w-[300px]
-                  md:h-[330px]
-                  md:w-[330px]
-                "
-              >
-                <img
-                  src={Image}
-                  alt="Amit Gupta"
-                  className="
-                    h-full
-                    w-full
-                    object-cover
-                    transition-transform
-                    duration-500
-                    group-hover:scale-105
-                  "
-                />
-
-                {/* Image Overlay */}
-
-                <div
-                  className="
-                    absolute
-                    inset-0
-                    bg-gradient-to-t
-                    from-[#07111f]/40
-                    via-transparent
-                    to-cyan-300/[0.06]
-                  "
-                />
-              </div>
-
-              {/* Available Badge */}
-
-              <div
-                className="
-                  absolute
-                  right-[-5px]
-                  top-[10%]
-                  flex
-                  items-center
-                  gap-2
-                  rounded-full
-                  border
-                  border-emerald-400/20
-                  bg-[#0b192b]/95
-                  px-3
-                  py-1.5
-                  shadow-[0_10px_30px_rgba(0,0,0,.25)]
-                  backdrop-blur-xl
-                  sm:right-[-10px]
-                  sm:px-4
-                  sm:py-2
-                "
-              >
-                <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_12px_#34d399]" />
-
-                <span
-                  className="
-                    text-[9px]
-                    font-semibold
-                    text-emerald-300
-                    sm:text-xs
-                  "
-                >
-                  Available
-                </span>
-              </div>
-
-              {/* MERN Badge */}
-
-              <div
-                className="
-                  absolute
-                  bottom-[5%]
-                  left-[-5px]
-                  rounded-xl
-                  border
-                  border-white/[0.08]
-                  bg-[#0b192b]/95
-                  px-3
-                  py-2
-                  shadow-[0_10px_30px_rgba(0,0,0,.3)]
-                  backdrop-blur-xl
-                  sm:left-[-10px]
-                  sm:px-4
-                  sm:py-3
-                "
-              >
-                <p
-                  className="
-                    text-[7px]
-                    uppercase
-                    tracking-[0.25em]
-                    text-slate-500
-                    sm:text-[9px]
-                  "
-                >
-                  Specialization
-                </p>
-
-                <p
-                  className="
-                    mt-1
-                    text-xs
-                    font-bold
-                    text-white
-                    sm:text-sm
-                  "
-                >
-                  MERN Stack
-                </p>
-              </div>
             </div>
+
+            <motion.div
+              animate={{ y: [-4, 4, -4] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute left-2 top-8 z-25 rounded-full border border-emerald-300 bg-white/95 px-3.5 py-1.5 text-[11px] font-black text-slate-800 shadow-xl backdrop-blur-md dark:bg-slate-900 dark:text-white dark:border-emerald-500/40"
+            >
+              🚀 Full Stack Dev
+            </motion.div>
+
+            <motion.div
+              animate={{ y: [4, -4, 4] }}
+              transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute bottom-10 right-2 z-25 rounded-full bg-slate-900 px-4 py-1.5 text-[11px] font-black text-emerald-400 shadow-2xl border border-emerald-400/30 dark:bg-emerald-500 dark:text-slate-950"
+            >
+              💻 3+ Years Exp
+            </motion.div>
           </div>
 
-          {/* =================================================
-              INFORMATION
-          ================================================== */}
-
+          {/* RIGHT: TAB CONTENT */}
           <div>
+            <h2 className="text-3xl font-black tracking-tight text-slate-900 sm:text-4xl md:text-5xl dark:text-white">
+              Who is <span className="bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-600 bg-clip-text text-transparent">Amit Gupta</span>?
+            </h2>
 
-            {/* Small Heading */}
+            {/* Dynamic Content Based on Tab Switcher */}
+            <div className="mt-5 min-h-[160px]">
+              <AnimatePresence mode="wait">
+                {activeTab === "overview" && (
+                  <motion.div
+                    key="overview"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <p className="text-base leading-8 text-slate-600 sm:text-lg dark:text-slate-300">
+                      Hey there, I'm Amit Gupta — a passionate full stack MERN developer dedicated to creating intuitive digital experiences that blend clean aesthetics with robust functionality.
+                    </p>
+                    <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      {highlights.map((item, index) => (
+                        <div key={index} className="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-300">
+                          <FaCheckCircle className="text-emerald-500 shrink-0" />
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
 
-            <p
-              className="
-                text-[10px]
-                font-bold
-                uppercase
-                tracking-[0.3em]
-                text-cyan-400
-                sm:text-xs
-              "
-            >
-              Hello, I'm
-            </p>
+                {activeTab === "background" && (
+                  <motion.div
+                    key="background"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="space-y-3"
+                  >
+                    {careerTimeline.map((item, index) => (
+                      <div key={index} className="flex items-start gap-3 rounded-xl border border-emerald-200/60 bg-white/60 p-2.5 dark:border-emerald-500/20 dark:bg-slate-900/60 backdrop-blur-md">
+                        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                          <FaBriefcase size={12} />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h4 className="text-xs font-extrabold text-slate-900 dark:text-white">{item.role}</h4>
+                            <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">{item.year}</span>
+                          </div>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400">{item.company}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </motion.div>
+                )}
 
-            {/* Name */}
-
-            <h3
-              className="
-                mt-2
-                text-3xl
-                font-black
-                sm:text-4xl
-                md:text-5xl
-              "
-            >
-              Amit{" "}
-              <span
-                className="
-                  bg-gradient-to-r
-                  from-cyan-400
-                  via-indigo-400
-                  to-violet-400
-                  bg-clip-text
-                  text-transparent
-                "
-              >
-                Gupta
-              </span>
-            </h3>
-
-            {/* Role */}
-
-            <div className="mt-3 flex items-center gap-2">
-              <FaCheckCircle
-                className="text-cyan-400"
-                size={14}
-              />
-
-              <span
-                className="
-                  text-sm
-                  font-semibold
-                  text-slate-300
-                "
-              >
-                Full Stack MERN Developer
-              </span>
+                {activeTab === "philosophy" && (
+                  <motion.div
+                    key="philosophy"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div className="rounded-2xl border border-emerald-300/40 bg-emerald-500/10 p-4 backdrop-blur-md dark:border-emerald-500/30">
+                      <FaQuoteLeft className="text-emerald-500 mb-2 opacity-60" size={16} />
+                      <p className="text-sm font-semibold italic text-slate-700 dark:text-emerald-300 leading-relaxed">
+                        "Simplicity is the prerequisite for reliability. I believe in writing modular, readable, and future-proof code that scales gracefully as products grow."
+                      </p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
-            {/* Description */}
-
-            <div
-              className="
-                mt-6
-                space-y-4
-                text-sm
-                leading-7
-                text-slate-400
-                sm:text-[15px]
-                sm:leading-8
-              "
-            >
-              <p>
-                I build{" "}
-                <span className="font-semibold text-white">
-                  modern full-stack web applications
-                </span>{" "}
-                using MongoDB, Express.js, React.js and Node.js.
-              </p>
-
-              <p>
-                I focus on clean architecture, responsive
-                interfaces, smooth user experiences and scalable
-                backend systems.
-              </p>
-            </div>
-
-            {/* =================================================
-                STATS
-            ================================================== */}
-
-            <div
-              className="
-                mt-7
-                grid
-                grid-cols-2
-                gap-2.5
-                sm:grid-cols-4
-                sm:gap-3
-              "
-            >
-              <StatCard
-                icon={FaCode}
-                value="20+"
-                label="Projects"
-              />
-
-              <StatCard
-                icon={FaServer}
-                value="15+"
-                label="APIs"
-              />
-
-              <StatCard
-                icon={FaDatabase}
-                value="10+"
-                label="Technologies"
-              />
-
-              <StatCard
-                icon={FaRocket}
-                value="100%"
-                label="Passion"
-              />
-            </div>
-
-            {/* =================================================
-                TECHNOLOGIES
-            ================================================== */}
-
-            <div className="mt-7">
-
-              <div className="mb-4 flex items-center gap-3">
+            {/* Tech Stack Pills Badge Row */}
+            <div className="mt-6 flex flex-wrap gap-2">
+              {techPills.map((tech) => (
                 <span
-                  className="
-                    h-px
-                    w-7
-                    bg-cyan-400/50
-                  "
-                />
-
-                <span
-                  className="
-                    text-[9px]
-                    font-bold
-                    uppercase
-                    tracking-[0.25em]
-                    text-slate-500
-                  "
+                  key={tech}
+                  className="rounded-lg border border-emerald-200/80 bg-white/80 px-2.5 py-1 text-[11px] font-bold text-slate-700 shadow-sm transition-all hover:border-emerald-400 hover:bg-emerald-50 dark:border-emerald-500/20 dark:bg-slate-900/60 dark:text-slate-300 dark:hover:bg-emerald-500/10"
                 >
-                  Core Technologies
+                  {tech}
                 </span>
-              </div>
-
-              <div
-                className="
-                  grid
-                  grid-cols-2
-                  gap-2
-                  sm:grid-cols-3
-                "
-              >
-                {technologies.map((tech) => (
-                  <TechCard
-                    key={tech.name}
-                    {...tech}
-                  />
-                ))}
-              </div>
+              ))}
             </div>
 
-            {/* =================================================
-                ACTION BUTTONS
-            ================================================== */}
-
-            <div
-              className="
-                mt-7
-                flex
-                flex-col
-                gap-3
-                sm:flex-row
-              "
-            >
-              {/* Work Button */}
-
+            {/* ACTION BUTTONS */}
+            <div className="mt-8 flex flex-col gap-3.5 sm:flex-row">
               <a
-                href="mailto:amitgupta99393@gmail.com"
+                href="#contact"
                 className="
                   group
-                  flex
+                  inline-flex
                   items-center
                   justify-center
-                  gap-2
-                  rounded-xl
+                  gap-3
+                  rounded-2xl
                   bg-gradient-to-r
-                  from-cyan-500
-                  via-indigo-600
-                  to-violet-600
-                  px-5
-                  py-3
+                  from-emerald-500
+                  via-teal-500
+                  to-cyan-600
+                  px-6
+                  py-3.5
                   text-sm
                   font-bold
                   text-white
-                  shadow-[0_10px_35px_rgba(34,211,238,.16)]
+                  shadow-[0_10px_25px_rgba(52,211,153,0.35)]
                   transition-all
                   duration-300
-                  hover:-translate-y-1
-                  hover:shadow-[0_15px_40px_rgba(34,211,238,.25)]
+                  hover:scale-105
+                  hover:shadow-[0_15px_30px_rgba(52,211,153,0.5)]
                 "
               >
-                <span>Let's Work Together</span>
-
-                <FaArrowRight
-                  size={12}
-                  className="
-                    transition-transform
-                    duration-300
-                    group-hover:translate-x-1
-                  "
-                />
+                Let's Work Together
+                <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
               </a>
-
-              {/* Resume Button */}
 
               <a
                 href="/resume.pdf"
                 download
                 className="
-                  flex
+                  inline-flex
                   items-center
                   justify-center
-                  gap-2
-                  rounded-xl
+                  gap-2.5
+                  rounded-2xl
                   border
-                  border-white/[0.10]
-                  bg-white/[0.035]
-                  px-5
-                  py-3
+                  border-emerald-300/80
+                  bg-white/90
+                  px-6
+                  py-3.5
                   text-sm
                   font-bold
-                  text-white
+                  text-slate-800
+                  shadow-sm
                   backdrop-blur-xl
                   transition-all
                   duration-300
-                  hover:-translate-y-1
-                  hover:border-cyan-400/30
-                  hover:bg-cyan-400/[0.06]
+                  hover:border-emerald-400
+                  hover:bg-emerald-50
+                  hover:text-emerald-700
+                  dark:border-emerald-500/30
+                  dark:bg-slate-900/60
+                  dark:text-white
+                  dark:hover:bg-slate-800/80
                 "
               >
-                <FaDownload
-                  size={13}
-                  className="text-cyan-400"
-                />
-
+                <FaDownload size={13} className="text-emerald-400" />
                 Download Resume
               </a>
             </div>
 
-            {/* =================================================
-                SOCIAL LINKS
-            ================================================== */}
-
-            <div className="mt-6 flex gap-2.5">
+            {/* SOCIAL LINKS */}
+            <div className="mt-8 flex items-center gap-3">
+              <span className="text-xs font-semibold text-slate-400">Connect:</span>
               {socials.map((item) => {
                 const Icon = item.icon;
-
                 return (
                   <a
                     key={item.label}
@@ -911,16 +435,19 @@ const AboutMe = () => {
                       justify-center
                       rounded-xl
                       border
-                      border-white/[0.08]
-                      bg-white/[0.035]
-                      text-slate-400
-                      backdrop-blur-xl
+                      border-emerald-200
+                      bg-white/90
+                      text-slate-600
+                      shadow-sm
                       transition-all
-                      duration-300
-                      hover:-translate-y-1
-                      hover:border-cyan-400/30
-                      hover:bg-cyan-400/[0.07]
-                      hover:text-cyan-300
+                      hover:border-emerald-400
+                      hover:bg-emerald-50
+                      hover:text-emerald-600
+                      dark:border-emerald-500/30
+                      dark:bg-slate-900/60
+                      dark:text-slate-300
+                      dark:hover:bg-emerald-500/10
+                      dark:hover:text-emerald-300
                     "
                   >
                     <Icon size={15} />
@@ -930,29 +457,16 @@ const AboutMe = () => {
             </div>
           </div>
         </div>
+
+        {/* STATS GRID */}
+        <div className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6">
+          <StatCard icon={FaCode} value="25+" label="Successful Projects" trend="+12% this year" />
+          <StatCard icon={FaServer} value="15+" label="Industry APIs" trend="Optimized" />
+          <StatCard icon={FaDatabase} value="150+" label="Happy Customers" trend="100% Satisfied" />
+          <StatCard icon={FaRocket} value="3+" label="Years Experience" trend="Expert Level" />
+        </div>
+
       </div>
-
-      {/* =====================================================
-          CUSTOM STYLE
-      ====================================================== */}
-
-      <style>{`
-        html {
-          scroll-behavior: smooth;
-          scroll-padding-top: 100px;
-        }
-
-        @media (max-width: 767px) {
-          html {
-            scroll-padding-top: 85px;
-          }
-        }
-
-        ::selection {
-          background: rgba(34, 211, 238, 0.2);
-          color: white;
-        }
-      `}</style>
     </section>
   );
 };
