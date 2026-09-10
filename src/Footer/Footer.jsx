@@ -437,7 +437,7 @@ const Footer = () => {
         )}
       </AnimatePresence>
 
-      {/* Floating Back-to-Top Button */}
+      {/* Floating Back-to-Top Button (Moved to Left Side) */}
       <AnimatePresence>
         {showScrollTop && (
           <motion.button
@@ -448,7 +448,7 @@ const Footer = () => {
             whileTap={{ scale: 0.9 }}
             onClick={scrollToTop}
             aria-label="Scroll to top"
-            className="fixed bottom-6 right-6 z-[99999] flex h-11 w-11 items-center justify-center rounded-xl border border-emerald-400/60 bg-gradient-to-r from-emerald-400 to-teal-500 text-white shadow-[0_8px_25px_rgba(16,185,129,0.4)] backdrop-blur-md transition-colors"
+            className="fixed bottom-6 left-6 z-[99999] flex h-11 w-11 items-center justify-center rounded-xl border border-emerald-400/60 bg-gradient-to-r from-emerald-400 to-teal-500 text-white shadow-[0_8px_25px_rgba(16,185,129,0.4)] backdrop-blur-md transition-colors"
           >
             <FaArrowUp className="text-xs" />
           </motion.button>

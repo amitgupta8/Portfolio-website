@@ -126,4 +126,9 @@ body {
     background-color 0.5s ease,
     color 0.5s ease;
 }
+@import "tailwindcss";
+
+/* Tailwind v4 Dark Mode Custom Variant */
+@custom-variant dark (&:where(.dark, .dark *));
+
 
