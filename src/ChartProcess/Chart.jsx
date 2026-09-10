@@ -4,630 +4,332 @@ import {
   MessageCircle,
   X,
   Send,
-  Bot,
+  BotMessageSquare,
   Minus,
+  User,
+  LoaderCircle
 } from "lucide-react";
 
-export default function Chart() {
+export default function Chat() {
   const [isOpen, setIsOpen] = useState(false);
   const [text, setText] = useState("");
-
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      type: "bot",
-      text: "👋 Hi! Welcome to my portfolio.",
-      time: "Now",
-    },
-    {
-      id: 2,
-      type: "bot",
-      text: "How can I help you?",
-      time: "Now",
-    },
-  ]);
+  const [isBotTyping, setIsBotTyping] = useState(false);
+  
+  const [messages, setMessages] = useState(() => {
+    try {
+      const savedMessages = localStorage.getItem("amit_portfolio_chat");
+      if (savedMessages) {
+        return JSON.parse(savedMessages);
+      }
+    } catch (error) {
+      console.error("Failed to load chat history", error);
+    }
+    return [
+      {
+        id: 1,
+        type: "bot",
+        text: "👋 Hello! I'm Amit's AI assistant. You can ask me about Amit's skills and projects, or ask me anything else like weather, news, or coding questions!",
+        time: "Now",
+      },
+    ];
+  });
 
   const messagesRef = useRef(null);
-
-  /* =========================
-     AUTO SCROLL CHAT
-  ========================= */
+  const inputRef = useRef(null);
 
   useEffect(() => {
-    if (messagesRef.current) {
-      messagesRef.current.scrollTop =
-        messagesRef.current.scrollHeight;
+    try {
+      localStorage.setItem("amit_portfolio_chat", JSON.stringify(messages));
+    } catch (error) {
+      console.error("Failed to save chat history", error);
     }
   }, [messages]);
 
-  /* =========================
-     SEND MESSAGE
-  ========================= */
+  useEffect(() => {
+    if (messagesRef.current) {
+      messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+    }
+  }, [messages, isBotTyping]);
 
-  const sendMessage = () => {
-    const value = text.trim();
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => inputRef.current?.focus(), 300);
+    }
+  }, [isOpen]);
 
-    if (!value) return;
+  // =========================
+  //  GEMINI API CALL LOGIC
+  // =========================
+  const fetchGeminiReply = async (userInput) => {
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    
+    if (!apiKey) {
+      return {
+        text: "⚠️ API Key missing! Please configure VITE_GEMINI_API_KEY in your .env file.",
+        options: ["My Skills", "Projects", "Contact Me"]
+      };
+    }
 
-    const userMessage = {
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [
+                  {
+                    text: `You are a helpful portfolio assistant for a Full-Stack Developer named Amit. You can answer questions about Amit's skills, projects, and resume, but you can also answer general questions about anything (weather, news, coding, India data, etc.). Keep answers concise and friendly.\n\nUser Question: ${userInput}`
+                  }
+                ]
+              }
+            ]
+          }),
+        }
+      );
+
+      const data = await response.json();
+      const aiReply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't process that right now.";
+
+      return {
+        text: aiReply,
+        options: ["My Skills", "Projects", "Download Resume", "Contact Me"]
+      };
+    } catch (error) {
+      console.error("Gemini API Error:", error);
+      return {
+        text: "Oops! Something went wrong while connecting to the AI. Please try again later.",
+        options: ["Projects", "Contact Me"]
+      };
+    }
+  };
+
+  // Handle Send Message
+  const handleSend = async (textToProcess = text) => {
+    const finalMessage = textToProcess.trim();
+    if (!finalMessage) return;
+
+    const newUserMsg = {
       id: Date.now(),
       type: "user",
-      text: value,
-      time: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
+      text: finalMessage,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
 
-    setMessages((prev) => [...prev, userMessage]);
+    setMessages((prev) => [...prev, newUserMsg]);
     setText("");
+    setIsBotTyping(true);
 
-    /* Simple demo reply */
+    const replyData = await fetchGeminiReply(finalMessage);
 
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now() + 1,
-          type: "bot",
-          text: getReply(value),
-          time: "Now",
-        },
-      ]);
-    }, 700);
+    setIsBotTyping(false);
+    setMessages((prev) => [...prev, {
+      id: Date.now() + 1,
+      type: "bot",
+      text: replyData.text,
+      options: replyData.options,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    }]);
   };
-
-  /* =========================
-     SIMPLE AUTO REPLY
-  ========================= */
-
-  const getReply = (message) => {
-    const msg = message.toLowerCase();
-
-    if (
-      msg.includes("hello") ||
-      msg.includes("hi") ||
-      msg.includes("hey")
-    ) {
-      return "Hey 👋 Nice to meet you!";
-    }
-
-    if (
-      msg.includes("project") ||
-      msg.includes("projects")
-    ) {
-      return "🚀 You can check my Projects section to see my work.";
-    }
-
-    if (
-      msg.includes("skill") ||
-      msg.includes("skills")
-    ) {
-      return "💻 I work with React, Node.js, Express, MongoDB and modern web technologies.";
-    }
-
-    if (
-      msg.includes("contact") ||
-      msg.includes("email")
-    ) {
-      return "📩 You can contact me from the Contact section.";
-    }
-
-    if (
-      msg.includes("resume") ||
-      msg.includes("cv")
-    ) {
-      return "📄 You can download my resume using the Resume button.";
-    }
-
-    return "Thanks for your message! 😊 I'll get back to you soon.";
-  };
-
-  /* =========================
-     ENTER KEY
-  ========================= */
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      sendMessage();
+      handleSend();
     }
+  };
+
+  const handleOptionClick = (optionText) => {
+    if (optionText === "Contact Me" || optionText === "Go to Contact Section") {
+      const section = document.querySelector('#contact');
+      section?.scrollIntoView({ behavior: 'smooth' });
+      setIsOpen(false);
+    } else if (optionText === "Projects" || optionText === "View Projects") {
+      const section = document.querySelector('#projects');
+      section?.scrollIntoView({ behavior: 'smooth' });
+      setIsOpen(false);
+    } else if (optionText === "Download Resume") {
+      window.open('/resume.pdf', '_blank');
+    }
+    handleSend(optionText);
+  };
+
+  const MessageBubble = ({ message }) => {
+    const isUser = message.type === "user";
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className={`flex gap-3 mb-5 ${isUser ? "justify-end" : "justify-start"}`}
+      >
+        {!isUser && (
+          <div className="w-9 h-9 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center shrink-0 mt-1 shadow-lg">
+            <BotMessageSquare size={20} className="text-emerald-400" />
+          </div>
+        )}
+        <div className={`flex flex-col ${isUser ? "items-end" : "items-start"}`}>
+          <div className={`px-5 py-3.5 rounded-[20px] max-w-[280px] shadow-xl ${
+            isUser 
+            ? "rounded-br-none bg-gradient-to-r from-emerald-600 to-teal-600 text-white" 
+            : "rounded-bl-none bg-gray-800 text-gray-200 border border-gray-700"
+          }`}>
+            <p className="text-[13px] leading-relaxed whitespace-pre-line select-text">{message.text}</p>
+          </div>
+          
+          {!isUser && message.options && (
+            <div className="flex flex-wrap gap-2 mt-3 max-w-[280px]">
+              {message.options.map((option, index) => (
+                <motion.button
+                  key={index}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handleOptionClick(option)}
+                  className="bg-gray-700 hover:bg-gray-600 text-emerald-300 text-[10px] font-medium px-3.5 py-1.5 rounded-full border border-gray-600 transition-colors shadow-sm cursor-pointer"
+                >
+                  {option}
+                </motion.button>
+              ))}
+            </div>
+          )}
+          
+          <span className="text-[10px] text-gray-500 mt-2 px-2">
+            {isUser ? "You" : "Amit's AI"} • {message.time}
+          </span>
+        </div>
+        {isUser && (
+           <div className="w-9 h-9 rounded-full bg-gray-700 flex items-center justify-center shrink-0 mt-1 border border-gray-600 shadow">
+             <User size={18} className="text-gray-300" />
+           </div>
+        )}
+      </motion.div>
+    );
   };
 
   return (
     <>
-      {/* =====================================================
-          FLOATING CHAT BUTTON
-      ===================================================== */}
-
       <AnimatePresence>
         {!isOpen && (
           <motion.div
-            initial={{
-              opacity: 0,
-              scale: 0.7,
-              y: 20,
-            }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-              y: 0,
-            }}
-            exit={{
-              opacity: 0,
-              scale: 0.7,
-              y: 20,
-            }}
-            className="
-              fixed
-              bottom-5
-              right-5
-              sm:bottom-7
-              sm:right-7
-              z-[999]
-            "
+            initial={{ opacity: 0, scale: 0, rotate: -180 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            exit={{ opacity: 0, scale: 0, rotate: 180 }}
+            transition={{ type: "spring", stiffness: 200, damping: 25 }}
+            className="fixed bottom-5 right-5 md:bottom-7 md:right-7 z-[999]"
           >
-            {/* Hover Label */}
-
-            <div
-              className="
-                pointer-events-none
-                absolute
-                right-0
-                -top-10
-                whitespace-nowrap
-                rounded-full
-                border
-                border-white/10
-                bg-[#0b1422]
-                px-3
-                py-1.5
-                text-[10px]
-                font-medium
-                text-white/70
-                opacity-0
-                transition
-                duration-300
-                group-hover:opacity-100
-              "
-            >
-              Chat with me 💬
-            </div>
-
             <motion.button
-              type="button"
               onClick={() => setIsOpen(true)}
-              whileHover={{
-                scale: 1.08,
-              }}
-              whileTap={{
-                scale: 0.92,
-              }}
-              className="
-                group
-                relative
-                flex
-                h-14
-                w-14
-                sm:h-16
-                sm:w-16
-                items-center
-                justify-center
-                rounded-full
-                border
-                border-cyan-300/20
-                bg-gradient-to-br
-                from-cyan-500
-                via-blue-500
-                to-violet-600
-                text-white
-                shadow-[0_10px_40px_rgba(34,211,238,0.3)]
-              "
+              className="group relative flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-2xl shadow-emerald-500/30 hover:shadow-emerald-500/50 transition-all duration-300"
+              whileHover={{ y: -5 }}
             >
-              {/* Pulse */}
-
               <motion.span
-                animate={{
-                  scale: [1, 1.45, 1],
-                  opacity: [0.35, 0, 0.35],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                }}
-                className="
-                  absolute
-                  inset-0
-                  rounded-full
-                  border
-                  border-cyan-300/40
-                "
+                animate={{ scale: [1, 1.4, 1], opacity: [0.5, 0, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="absolute inset-0 rounded-full bg-emerald-400"
               />
-
-              <MessageCircle
-                size={25}
-                className="relative z-10"
-              />
-
-              {/* Notification */}
-
-              <span
-                className="
-                  absolute
-                  right-0.5
-                  top-0.5
-                  h-3.5
-                  w-3.5
-                  rounded-full
-                  border-2
-                  border-[#07101d]
-                  bg-red-500
-                "
-              />
+              <MessageCircle size={28} className="relative z-10" />
+              <span className="absolute right-20 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-xl bg-gray-900 px-4 py-2 text-xs font-semibold text-gray-100 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none border border-gray-700">
+                Chat with Amit's AI 👋
+              </span>
             </motion.button>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* =====================================================
-          CHAT CARD
-      ===================================================== */}
-
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{
-              opacity: 0,
-              y: 25,
-              scale: 0.95,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-              scale: 1,
-            }}
-            exit={{
-              opacity: 0,
-              y: 25,
-              scale: 0.95,
-            }}
-            transition={{
-              duration: 0.25,
-            }}
-            className="
-              fixed
-              z-[1000]
-              bottom-4
-              right-4
-              left-4
-
-              sm:left-auto
-              sm:right-6
-              sm:bottom-6
-
-              w-auto
-              sm:w-[350px]
-
-              h-[480px]
-
-              overflow-hidden
-
-              rounded-[24px]
-
-              border
-              border-white/[0.09]
-
-              bg-[#07101c]
-
-              shadow-[0_25px_90px_rgba(0,0,0,0.65)]
-
-              backdrop-blur-2xl
-            "
+            initial={{ opacity: 0, y: 50, scale: 0.3 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 50, scale: 0.3 }}
+            transition={{ type: "spring", stiffness: 250, damping: 25 }}
+            className="fixed z-[1000] bottom-3 right-3 left-3 md:left-auto md:w-[360px] h-[600px] max-h-[85vh] overflow-hidden rounded-3xl border border-gray-700 bg-[#0c111d] shadow-[0_30px_100px_rgba(0,0,0,0.5)] flex flex-col"
           >
-            {/* =================================================
-                HEADER
-            ================================================= */}
-
-            <div
-              className="
-                flex
-                h-[62px]
-                items-center
-                justify-between
-                border-b
-                border-white/[0.07]
-                bg-gradient-to-r
-                from-cyan-500/[0.10]
-                via-blue-500/[0.08]
-                to-violet-500/[0.10]
-                px-4
-              "
-            >
-              {/* Profile */}
-
+            <div className="flex h-16 shrink-0 items-center justify-between border-b border-gray-700 bg-[#111827] px-5 shadow-md">
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <div
-                    className="
-                      flex
-                      h-9
-                      w-9
-                      items-center
-                      justify-center
-                      rounded-full
-                      bg-gradient-to-br
-                      from-cyan-400
-                      to-violet-600
-                      text-white
-                    "
-                  >
-                    <Bot size={18} />
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-800 border border-gray-700 text-emerald-400">
+                    <BotMessageSquare size={20} />
                   </div>
-
-                  <span
-                    className="
-                      absolute
-                      bottom-0
-                      right-0
-                      h-2.5
-                      w-2.5
-                      rounded-full
-                      border-2
-                      border-[#07101c]
-                      bg-emerald-400
-                    "
-                  />
+                  <span className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-emerald-400 border-2 border-[#111827] animate-pulse" />
                 </div>
-
                 <div>
-                  <p className="text-sm font-bold text-white">
-                    Amit.dev
-                  </p>
-
-                  <p className="text-[9px] text-emerald-400">
-                    ● Online
+                  <h3 className="font-bold text-gray-50 text-sm tracking-tight">Amit's Gemini AI</h3>
+                  <p className="text-xs text-emerald-400 font-medium flex items-center gap-1">
+                     <span className="block h-2 w-2 rounded-full bg-emerald-500"></span>
+                    Online
                   </p>
                 </div>
               </div>
-
-              {/* Actions */}
-
-              <div className="flex items-center gap-1">
+              
+              <div className="flex items-center gap-1.5">
                 <button
-                  type="button"
                   onClick={() => setIsOpen(false)}
-                  className="
-                    flex
-                    h-8
-                    w-8
-                    items-center
-                    justify-center
-                    rounded-full
-                    text-white/40
-                    transition
-                    hover:bg-white/[0.06]
-                    hover:text-white
-                  "
+                  className="p-2 rounded-xl text-gray-400 hover:bg-gray-700 hover:text-white transition-colors"
                   aria-label="Minimize chat"
                 >
-                  <Minus size={17} />
+                  <Minus size={18} />
                 </button>
-
                 <button
-                  type="button"
                   onClick={() => setIsOpen(false)}
-                  className="
-                    flex
-                    h-8
-                    w-8
-                    items-center
-                    justify-center
-                    rounded-full
-                    text-white/40
-                    transition
-                    hover:bg-red-500/10
-                    hover:text-red-400
-                  "
+                  className="p-2 rounded-xl text-gray-400 hover:bg-red-500/10 hover:text-red-400 transition-colors"
                   aria-label="Close chat"
                 >
-                  <X size={17} />
+                  <X size={18} />
                 </button>
               </div>
             </div>
-
-            {/* =================================================
-                CHAT MESSAGES
-            ================================================= */}
 
             <div
               ref={messagesRef}
-              className="
-                h-[350px]
-                overflow-y-auto
-                overscroll-contain
-                px-4
-                py-4
-
-                scrollbar-thin
-                scrollbar-thumb-white/10
-              "
+              className="flex-1 overflow-y-auto p-6 bg-[#0c111d] scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent"
             >
-              {/* Welcome */}
-
-              <div className="mb-4 text-center">
-                <span
-                  className="
-                    rounded-full
-                    bg-white/[0.035]
-                    px-3
-                    py-1
-                    text-[9px]
-                    text-white/25
-                  "
-                >
-                  Today
-                </span>
-              </div>
-
-              {messages.map((message) => {
-                const isUser =
-                  message.type === "user";
-
-                return (
-                  <motion.div
-                    key={message.id}
-                    initial={{
-                      opacity: 0,
-                      y: 8,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                    }}
-                    className={`mb-3 flex ${
-                      isUser
-                        ? "justify-end"
-                        : "justify-start"
-                    }`}
-                  >
-                    <div
-                      className={`
-                        max-w-[78%]
-                        rounded-[18px]
-                        px-3.5
-                        py-2.5
-
-                        ${
-                          isUser
-                            ? `
-                              rounded-br-md
-                              bg-gradient-to-r
-                              from-cyan-500
-                              to-blue-600
-                              text-white
-                            `
-                            : `
-                              rounded-bl-md
-                              bg-white/[0.055]
-                              text-white/80
-                            `
-                        }
-                      `}
-                    >
-                      <p
-                        className="
-                          break-words
-                          text-[12px]
-                          leading-relaxed
-                        "
-                      >
-                        {message.text}
-                      </p>
-
-                      <p
-                        className={`
-                          mt-1
-                          text-right
-                          text-[8px]
-
-                          ${
-                            isUser
-                              ? "text-white/45"
-                              : "text-white/25"
-                          }
-                        `}
-                      >
-                        {message.time}
-                      </p>
+              {messages.map((message) => (
+                <MessageBubble key={message.id} message={message} />
+              ))}
+              
+              {isBotTyping && (
+                <div className="flex gap-3 justify-start mb-5">
+                  <div className="w-9 h-9 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center shrink-0 mt-1">
+                    <BotMessageSquare size={20} className="text-emerald-400" />
+                  </div>
+                  <div className="px-5 py-3.5 rounded-[20px] rounded-bl-none bg-gray-800 border border-gray-700 shadow-lg">
+                    <div className="flex items-center gap-2.5">
+                      <LoaderCircle size={16} className="animate-spin text-emerald-400" />
+                      <span className="text-xs text-gray-400 italic">Gemini is thinking...</span>
                     </div>
-                  </motion.div>
-                );
-              })}
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* =================================================
-                INPUT
-            ================================================= */}
-
-            <div
-              className="
-                border-t
-                border-white/[0.06]
-                bg-[#060e19]
-                p-3
-              "
-            >
-              <div
-                className="
-                  flex
-                  items-center
-                  gap-2
-                  rounded-2xl
-                  border
-                  border-white/[0.07]
-                  bg-white/[0.035]
-                  p-1.5
-
-                  focus-within:border-cyan-400/20
-                  focus-within:bg-white/[0.05]
-                "
-              >
+            <div className="border-t border-gray-700 bg-[#111827] p-4 mt-auto">
+              <div className="relative flex items-center">
                 <input
+                  ref={inputRef}
+                  type="text"
                   value={text}
-                  onChange={(e) =>
-                    setText(e.target.value)
-                  }
+                  onChange={(e) => setText(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="Type a message..."
-                  className="
-                    min-w-0
-                    flex-1
-                    bg-transparent
-                    px-3
-                    text-xs
-                    text-white
-                    outline-none
-                    placeholder:text-white/25
-                  "
+                  placeholder="Ask anything or about Amit..."
+                  className="w-full rounded-full border border-gray-700 bg-[#1f2937] py-3 pl-5 pr-14 text-sm text-white placeholder:text-gray-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition"
                 />
-
                 <motion.button
-                  type="button"
-                  onClick={sendMessage}
-                  whileHover={{
-                    scale: 1.06,
-                  }}
-                  whileTap={{
-                    scale: 0.9,
-                  }}
-                  className="
-                    flex
-                    h-9
-                    w-9
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-xl
-                    bg-gradient-to-br
-                    from-cyan-500
-                    to-blue-600
-                    text-white
-                    shadow-[0_5px_20px_rgba(34,211,238,0.2)]
-                  "
+                  onClick={() => handleSend()}
+                  disabled={isBotTyping || !text.trim()}
+                  className="absolute right-1.5 top-1.5 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg disabled:opacity-50 disabled:cursor-not-allowed hover:brightness-110 transition-all cursor-pointer"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  aria-label="Send message"
                 >
-                  <Send size={15} />
+                  <Send size={18} />
                 </motion.button>
               </div>
-
-              <p
-                className="
-                  mt-1.5
-                  text-center
-                  text-[8px]
-                  text-white/15
-                "
-              >
-                Press Enter to send
+              <p className="text-center text-[10px] text-gray-500 mt-2.5">
+                Powered by Google Gemini API
               </p>
             </div>
           </motion.div>
