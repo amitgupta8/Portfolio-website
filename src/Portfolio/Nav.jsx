@@ -112,6 +112,7 @@ const Nav = ({ darkMode, setDarkMode }) => {
         initial={{ y: -30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
+        
         className={`
           fixed left-1/2 top-4 z-[9999] -translate-x-1/2
           w-[calc(100%-16px)] sm:w-[calc(100%-24px)] lg:w-[calc(100%-36px)]
@@ -123,6 +124,7 @@ const Nav = ({ darkMode, setDarkMode }) => {
           }
           ${scrolled ? "shadow-2xl py-0.5" : "py-1"}
         `}
+        
       >
         {/* Top Emerald Neon Accent Line */}
         <div className="pointer-events-none absolute left-1/2 top-0 h-[2px] w-[55%] -translate-x-1/2 rounded-full bg-gradient-to-r from-transparent via-emerald-400 to-transparent opacity-95 shadow-[0_0_18px_rgba(52,211,153,0.9)]" />

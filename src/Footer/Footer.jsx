@@ -18,10 +18,37 @@ import {
   FaRegClock,
   FaRegCopy,
   FaTerminal,
-  FaShieldAlt,
   FaCircle,
+  FaFileDownload,
+  FaBriefcase,
+  FaGraduationCap,
 } from "react-icons/fa";
 import Chart from "../ChartProcess/Chart";
+
+const resumeData = {
+  experience: [
+    {
+      role: "Full Stack Developer",
+      company: "Tech Solutions Inc.",
+      period: "2024 - Present",
+      desc: "Building scalable web applications using React, Node.js, and Tailwind CSS.",
+    },
+    {
+      role: "Frontend Developer Intern",
+      company: "Digital Labs",
+      period: "2023 - 2024",
+      desc: "Optimized UI components and improved page performance scores by 35%.",
+    },
+  ],
+  education: [
+    {
+      degree: "B.Tech in Computer Science & Engineering",
+      institution: "University Institute",
+      period: "2020 - 2024",
+    },
+  ],
+  resumeLink: "#", // Replace with your actual Google Drive link or imported file path
+};
 
 const Footer = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -30,6 +57,7 @@ const Footer = () => {
   const [currentTime, setCurrentTime] = useState("");
   const [copiedField, setCopiedField] = useState("");
   const [showTerminalModal, setShowTerminalModal] = useState(false);
+  const [showResumeModal, setShowResumeModal] = useState(false);
   
   const phoneNumber = "9654496209";
   const email = "amitgupta99393@gmail.com";
@@ -128,22 +156,13 @@ const Footer = () => {
 
   return (
     <footer className="relative w-full overflow-hidden bg-emerald-50/50 px-4 pt-10 pb-8 text-slate-900 transition-colors duration-500 sm:px-6 sm:pt-14 lg:px-12 dark:bg-[#061a14] dark:text-white">
-      {/* Background Subtle Grid & Neon Glow Accents */}
+      {/* Background Glow Accents */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute left-1/2 top-[-280px] h-[500px] w-[750px] -translate-x-1/2 rounded-full bg-emerald-500/10 blur-[150px]" />
         <div className="absolute left-[-200px] top-[30%] h-[350px] w-[350px] rounded-full bg-teal-500/10 blur-[120px]" />
         <div className="absolute bottom-[-200px] right-[-200px] h-[450px] w-[450px] rounded-full bg-cyan-500/10 blur-[130px]" />
-        <div
-          className="absolute inset-0 opacity-[0.04] dark:opacity-[0.06]"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, rgba(16,185,129,0.8) 1px, transparent 1px), linear-gradient(to bottom, rgba(16,185,129,0.8) 1px, transparent 1px)",
-            backgroundSize: "56px 56px",
-          }}
-        />
       </div>
 
-      {/* Main Container */}
       <div className="relative z-10 mx-auto flex flex-col gap-6 w-full max-w-7xl">
         
         {/* Chart Component */}
@@ -151,7 +170,7 @@ const Footer = () => {
           <Chart />
         </div>
 
-        {/* Full Width Wrapper Card */}
+        {/* Main Wrapper Card */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -159,10 +178,9 @@ const Footer = () => {
           transition={{ duration: 0.6 }}
           className="relative w-full overflow-hidden rounded-[2.2rem] border border-emerald-200/80 bg-white/85 p-6 shadow-[0_20px_60px_rgba(16,185,129,.1)] backdrop-blur-2xl transition-colors duration-500 sm:p-8 lg:p-12 dark:border-emerald-500/20 dark:bg-[#0a261d]/90 dark:shadow-[0_20px_60px_rgba(0,0,0,.4)]"
         >
-          {/* Top Edge Neon Border Highlight */}
           <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500 opacity-90 shadow-[0_0_15px_rgba(16,185,129,0.7)]" />
 
-          {/* ULTRA-COMPACT & SLEEK CTA BANNER WITH QUICK INPUT */}
+          {/* CTA Banner */}
           <div className="relative mb-10 overflow-hidden rounded-2xl border border-emerald-200/80 bg-gradient-to-br from-emerald-50/80 via-white/50 to-teal-50/40 p-5 shadow-inner sm:p-6 lg:p-7 dark:border-emerald-500/20 dark:from-emerald-500/[0.04] dark:via-[#0c3327] dark:to-teal-500/[0.02]">
             <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               
@@ -193,8 +211,8 @@ const Footer = () => {
                 </p>
               </div>
 
-              {/* Quick Message / Newsletter Form */}
-              <div className="w-full lg:w-auto">
+              {/* Form & Quick Resume Button */}
+              <div className="w-full lg:w-auto flex flex-col sm:flex-row gap-3">
                 {isSubscribed ? (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -232,7 +250,7 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Modern Capabilities Showcase Section */}
+          {/* Capabilities Showcase */}
           <div className="mb-10">
             <h4 className="mb-4 text-[10px] font-black uppercase tracking-[0.25em] text-slate-700 dark:text-slate-300">
               Core Capabilities & Expertise
@@ -253,10 +271,10 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Expanded 3-Column Grid */}
+          {/* Main Footer Grid */}
           <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 items-start">
             
-            {/* BRAND */}
+            {/* BRAND & RESUME QUICK PREVIEW TRIGGER */}
             <div className="space-y-4">
               <button onClick={scrollToTop} className="group flex items-center gap-1.5 text-left">
                 <span className="text-3xl font-black tracking-[-0.08em] text-slate-900 dark:text-white">
@@ -268,7 +286,6 @@ const Footer = () => {
                 A passionate Full-Stack Developer focused on building robust, scalable, and user-centric digital products.
               </p>
 
-              {/* Social Icons & Interactive Terminal Trigger */}
               <div className="flex flex-wrap items-center gap-3 pt-1">
                 {socials.map((item, idx) => (
                   <motion.a
@@ -285,6 +302,18 @@ const Footer = () => {
                   </motion.a>
                 ))}
                 
+                {/* Resume View Modal Trigger */}
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setShowResumeModal(true)}
+                  className="flex items-center gap-1.5 rounded-xl border border-teal-300/80 bg-teal-100/60 px-3.5 py-2.5 text-[10px] font-mono font-bold text-teal-800 shadow-sm transition-colors hover:bg-teal-200/80 dark:border-teal-500/30 dark:bg-teal-500/15 dark:text-teal-300 dark:hover:bg-teal-500/25"
+                >
+                  <FaBriefcase className="text-xs text-teal-600 dark:text-teal-400" />
+                  <span>View Resume</span>
+                </motion.button>
+
+                {/* CLI Trigger */}
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -292,7 +321,7 @@ const Footer = () => {
                   className="flex items-center gap-1.5 rounded-xl border border-emerald-300/80 bg-emerald-100/60 px-3.5 py-2.5 text-[10px] font-mono font-bold text-emerald-800 shadow-sm transition-colors hover:bg-emerald-200/80 dark:border-emerald-500/30 dark:bg-emerald-500/15 dark:text-emerald-300 dark:hover:bg-emerald-500/25"
                 >
                   <FaTerminal className="text-xs text-emerald-600 dark:text-emerald-400" />
-                  <span>CLI V3</span>
+                  <span>CLI</span>
                 </motion.button>
               </div>
             </div>
@@ -317,7 +346,7 @@ const Footer = () => {
               </ul>
             </div>
 
-            {/* GET IN TOUCH WITH COPY FEATURE */}
+            {/* GET IN TOUCH */}
             <div className="space-y-4">
               <h4 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-700 dark:text-slate-300">
                 Get in Touch
@@ -371,7 +400,7 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* BOTTOM BAR / COPYRIGHT & LIVE STATUS */}
+          {/* BOTTOM BAR */}
           <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-slate-200/80 pt-6 sm:flex-row dark:border-emerald-500/15">
             <div className="flex items-center gap-3">
               <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
@@ -392,7 +421,82 @@ const Footer = () => {
         </motion.div>
       </div>
 
-      {/* Interactive Terminal Easter Egg Modal */}
+      {/* Resume Highlights Modal */}
+      <AnimatePresence>
+        {showResumeModal && (
+          <div className="fixed inset-0 z-[999999] flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="w-full max-w-xl overflow-hidden rounded-2xl border border-teal-500/40 bg-slate-900 shadow-2xl max-h-[90vh] flex flex-col"
+            >
+              <div className="flex items-center justify-between border-b border-slate-800 bg-slate-950 px-5 py-4">
+                <div className="flex items-center gap-2">
+                  <FaBriefcase className="text-teal-400 text-sm" />
+                  <span className="font-bold text-sm text-white">Amit Gupta - Resume Overview</span>
+                </div>
+                <button
+                  onClick={() => setShowResumeModal(false)}
+                  className="font-mono text-xs text-slate-400 hover:text-white"
+                >
+                  [ESC]
+                </button>
+              </div>
+
+              <div className="p-6 overflow-y-auto space-y-6 text-xs text-slate-300">
+                <div>
+                  <h5 className="flex items-center gap-2 text-teal-400 font-bold uppercase tracking-wider mb-3">
+                    <FaBriefcase className="text-xs" /> Experience
+                  </h5>
+                  <div className="space-y-4">
+                    {resumeData.experience.map((exp, i) => (
+                      <div key={i} className="border-l-2 border-teal-500/40 pl-3 space-y-1">
+                        <div className="font-bold text-white text-sm">{exp.role}</div>
+                        <div className="text-teal-300 font-medium">{exp.company} • <span className="text-slate-400">{exp.period}</span></div>
+                        <p className="text-slate-400 leading-relaxed">{exp.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h5 className="flex items-center gap-2 text-teal-400 font-bold uppercase tracking-wider mb-3">
+                    <FaGraduationCap className="text-xs" /> Education
+                  </h5>
+                  <div className="space-y-3">
+                    {resumeData.education.map((edu, i) => (
+                      <div key={i} className="border-l-2 border-emerald-500/40 pl-3 space-y-1">
+                        <div className="font-bold text-white text-sm">{edu.degree}</div>
+                        <div className="text-emerald-300 font-medium">{edu.institution} • <span className="text-slate-400">{edu.period}</span></div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t border-slate-800 bg-slate-950 px-5 py-4 flex items-center justify-between">
+                <a
+                  href={resumeData.resumeLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-teal-400 to-emerald-500 px-4 py-2 text-xs font-bold text-slate-950 shadow hover:brightness-110"
+                >
+                  <FaFileDownload /> Download Full CV / PDF
+                </a>
+                <button
+                  onClick={() => setShowResumeModal(false)}
+                  className="rounded-lg bg-slate-800 px-4 py-2 text-xs font-bold text-white hover:bg-slate-700"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Terminal Modal */}
       <AnimatePresence>
         {showTerminalModal && (
           <div className="fixed inset-0 z-[999999] flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm">
@@ -422,7 +526,7 @@ const Footer = () => {
                 <p className="text-slate-500 pt-2">$ cat status.txt</p>
                 <p className="text-emerald-300">Status: Available for full-time roles and high-impact freelance contracts.</p>
                 <p className="text-slate-500 pt-2">$ contact --email</p>
-                <p className="text-cyan-300">amitgupta99393@gmail.com</p>
+                <p className="text-cyan-300">{email}</p>
                 <div className="pt-4 flex justify-end">
                   <button
                     onClick={() => setShowTerminalModal(false)}
@@ -437,7 +541,7 @@ const Footer = () => {
         )}
       </AnimatePresence>
 
-      {/* Floating Back-to-Top Button (Moved to Left Side) */}
+      {/* Floating Back-to-Top Button */}
       <AnimatePresence>
         {showScrollTop && (
           <motion.button

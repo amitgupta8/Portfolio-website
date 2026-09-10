@@ -22,26 +22,56 @@ const ITSkills = () => {
   const [sortBy, setSortBy] = useState("default");
 
   const skills = [
+    // Frontend
     { name: "React.js", icon: "⚛", category: "Frontend", level: 95, experience: "Advanced", featured: true, description: "Component-based UI development & Hooks" },
     { name: "Next.js", icon: "N", category: "Frontend", level: 91, experience: "Advanced", featured: true, description: "Full-stack SSR/SSG React apps" },
-    { name: "JavaScript", icon: "JS", category: "Frontend", level: 96, experience: "Advanced", featured: true, description: "Modern ES6+ asynchronous programming" },
     { name: "TypeScript", icon: "TS", category: "Frontend", level: 88, experience: "Advanced", description: "Type-safe robust scalable frontend code" },
+    { name: "Redux", icon: "R", category: "Frontend", level: 90, experience: "Advanced", description: "Global application state management" },
+    { name: "Context API", icon: "C", category: "Frontend", level: 90, experience: "Advanced", description: "Prop drilling elimination & state sharing" },
+    { name: "JavaScript (ES6+)", icon: "JS", category: "Frontend", level: 96, experience: "Advanced", featured: true, description: "Modern asynchronous programming & ES6+" },
+    { name: "HTML5 / CSS3", icon: "HTML", category: "Frontend", level: 95, experience: "Advanced", description: "Semantic markup & modern styling foundations" },
     { name: "Tailwind CSS", icon: "TW", category: "Frontend", level: 94, experience: "Advanced", description: "Utility-first modern responsive UI systems" },
-    { name: "Redux Toolkit", icon: "R", category: "Frontend", level: 90, experience: "Advanced", description: "Global application state management" },
+    { name: "Material UI", icon: "MUI", category: "Frontend", level: 89, experience: "Advanced", description: "Pre-styled component library integration" },
+    { name: "Bootstrap", icon: "BS", category: "Frontend", level: 88, experience: "Intermediate", description: "Responsive layout framework" },
+
+    // Backend
     { name: "Node.js", icon: "JS", category: "Backend", level: 93, experience: "Advanced", featured: true, description: "Scalable runtime backend environments" },
     { name: "Express.js", icon: "EX", category: "Backend", level: 91, experience: "Advanced", description: "REST API architecture & middleware" },
-    { name: "GraphQL", icon: "GQL", category: "Backend", level: 84, experience: "Intermediate", description: "Efficient data querying language" },
+    { name: "REST APIs", icon: "API", category: "Backend", level: 94, experience: "Advanced", featured: true, description: "Secure API design and integration" },
+    { name: "JWT", icon: "JWT", category: "Backend", level: 90, experience: "Advanced", description: "Token-based user authentication" },
+    { name: "WebSockets", icon: "WS", category: "Backend", level: 85, experience: "Intermediate", description: "Real-time bi-directional communication" },
+    { name: "Microservices", icon: "MS", category: "Backend", level: 82, experience: "Intermediate", description: "Distributed service architecture basics" },
+
+    // Database
     { name: "MongoDB", icon: "DB", category: "Database", level: 94, experience: "Advanced", featured: true, description: "NoSQL schema design & aggregation" },
-    { name: "PostgreSQL", icon: "PG", category: "Database", level: 85, experience: "Intermediate", description: "Relational database querying & joins" },
+    { name: "Pinecone", icon: "PC", category: "Database", level: 88, experience: "Advanced", description: "Vector database for AI embeddings & RAG" },
+    { name: "FAISS", icon: "FS", category: "Database", level: 86, experience: "Advanced", description: "Library for efficient similarity search" },
+    { name: "MySQL", icon: "SQL", category: "Database", level: 85, experience: "Intermediate", description: "Relational database querying & management" },
     { name: "Redis", icon: "RDS", category: "Database", level: 80, experience: "Intermediate", description: "In-memory caching & session stores" },
-    { name: "AI / LLM", icon: "AI", category: "AI", level: 87, experience: "Advanced", featured: true, description: "Prompt engineering, APIs & Langchain" },
-    { name: "OpenAI API", icon: "GPT", category: "AI", level: 89, experience: "Advanced", description: "Custom GPTs & automated workflows" },
-    { name: "Docker", icon: "D", category: "DevOps", level: 82, experience: "Intermediate", description: "Containerization & image builds" },
-    { name: "AWS", icon: "AWS", category: "DevOps", level: 78, experience: "Intermediate", description: "Cloud EC2, S3 & serverless setup" },
-    { name: "CI/CD Pipelines", icon: "CI", category: "DevOps", level: 81, experience: "Intermediate", description: "Automated test and deploy workflows" },
-    { name: "Git / GitHub", icon: "G", category: "Tools", level: 95, experience: "Advanced", description: "Version control, branching & PR reviews" },
+
+    // AI
+    { name: "OpenAI API", icon: "GPT", category: "AI", level: 92, experience: "Advanced", featured: true, description: "GPT-4o, GPT-3.5, DALL-E, Whisper integrations" },
+    { name: "LangChain", icon: "LC", category: "AI", level: 90, experience: "Advanced", featured: true, description: "LLM application orchestration & chains" },
+    { name: "LlamaIndex", icon: "LI", category: "AI", level: 88, experience: "Advanced", description: "Data frameworks for custom LLM apps" },
+    { name: "RAG Architecture", icon: "RAG", category: "AI", level: 91, experience: "Advanced", featured: true, description: "Retrieval-Augmented Generation pipelines" },
+    { name: "Vector Databases", icon: "VDB", category: "AI", level: 89, experience: "Advanced", description: "Pinecone, FAISS, ChromaDB integrations" },
+    { name: "Hugging Face", icon: "HF", category: "AI", level: 87, experience: "Advanced", description: "Transformers, BART, and model deployment" },
+    { name: "Prompt Engineering", icon: "PE", category: "AI", level: 93, experience: "Advanced", description: "Optimized context and instruction design" },
+    { name: "Embeddings", icon: "EMB", category: "AI", level: 90, experience: "Advanced", description: "Vector generation & cosine similarity matching" },
+    { name: "TensorFlow.js", icon: "TF", category: "AI", level: 78, experience: "Intermediate", description: "Machine learning models in JavaScript" },
+    { name: "Python (for AI)", icon: "PY", category: "AI", level: 82, experience: "Intermediate", description: "Scripting & AI pipeline support" },
+    { name: "Generative AI", icon: "GEN", category: "AI", level: 94, experience: "Advanced", featured: true, description: "LLMs, fine-tuning basics & generative solutions" },
+
+    // DevOps
+    { name: "AWS", icon: "AWS", category: "DevOps", level: 80, experience: "Intermediate", description: "Cloud EC2, S3 & Lambda setup" },
+    { name: "Docker", icon: "D", category: "DevOps", level: 84, experience: "Intermediate", description: "Containerization & image builds" },
+    { name: "Linux", icon: "LX", category: "DevOps", level: 85, experience: "Intermediate", description: "Environment management & command line" },
+
+    // Tools
+    { name: "Git / GitHub", icon: "G", category: "Tools", level: 95, experience: "Advanced", featured: true, description: "Version control, branching & PR reviews" },
+    { name: "Vercel", icon: "VC", category: "Tools", level: 92, experience: "Advanced", description: "Seamless web application deployments" },
     { name: "Postman", icon: "PM", category: "Tools", level: 92, experience: "Advanced", description: "API endpoint testing & documentation" },
-    { name: "Vite / Webpack", icon: "V", category: "Tools", level: 88, experience: "Advanced", description: "High-performance module bundlers" },
+    { name: "VS Code", icon: "VS", category: "Tools", level: 95, experience: "Advanced", description: "Primary code editor & extension tuning" },
   ];
 
   const categories = ["All", "Frontend", "Backend", "Database", "AI", "DevOps", "Tools"];
@@ -96,7 +126,6 @@ const ITSkills = () => {
         dark:text-slate-100
       "
     >
-      {/* Background Ambient Glows */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute left-1/2 top-0 h-[300px] w-full max-w-[600px] -translate-x-1/2 rounded-full bg-gradient-to-tr from-emerald-500/10 via-teal-600/10 to-cyan-600/10 blur-[100px]" />
         <div 
@@ -110,11 +139,10 @@ const ITSkills = () => {
 
       <div className="relative z-10 mx-auto w-full max-w-7xl">
         
-        {/* Header */}
         <div className="mx-auto mb-8 max-w-xl text-center px-2">
           <div className="mb-2.5 inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-white/80 px-3 py-1 text-[10px] sm:text-[11px] font-bold tracking-widest text-emerald-700 shadow-md backdrop-blur-md dark:border-emerald-500/30 dark:bg-slate-900/80 dark:text-emerald-300">
             <Sparkles size={11} className="text-emerald-500 animate-bounce shrink-0" />
-            TECH STACK & SKILLS
+            TECHNICAL SKILLS & EXPERTISE
           </div>
 
           <h2 className="text-xl font-black tracking-tight text-slate-900 sm:text-3xl md:text-4xl dark:text-white">
@@ -126,11 +154,7 @@ const ITSkills = () => {
           </p>
         </div>
 
-        {/* =========================================================
-           IMPROVED RESPONSIVE CATEGORY TABS (Scrollable & Touch Friendly)
-        ========================================================= */}
         <div className="relative mb-6 w-full">
-          {/* Subtle fade edges to indicate horizontal scrolling on mobile */}
           <div className="absolute left-0 top-0 bottom-2 w-6 bg-gradient-to-r from-emerald-50/80 to-transparent pointer-events-none z-10 dark:from-[#061a14]/80 md:hidden" />
           <div className="absolute right-0 top-0 bottom-2 w-6 bg-gradient-to-l from-emerald-50/80 to-transparent pointer-events-none z-10 dark:from-[#061a14]/80 md:hidden" />
 
@@ -163,24 +187,19 @@ const ITSkills = () => {
           </div>
         </div>
 
-        {/* Secondary Controls Bar: Search + Filters */}
         <div className="mb-6 flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
-          
-          {/* Search Bar */}
           <div className="relative w-full sm:w-60 md:w-72">
             <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
             <input
               type="text"
-              placeholder="Search framework..."
+              placeholder="Search skill..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full rounded-xl border border-emerald-200/80 bg-white/90 py-2.5 sm:py-2 pl-9 pr-3 text-xs font-medium text-slate-800 shadow-sm backdrop-blur-md focus:border-emerald-500 focus:outline-none dark:border-emerald-500/20 dark:bg-[#0a261d]/95 dark:text-slate-100"
             />
           </div>
 
-          {/* Filters & Sorting Action Row */}
           <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center">
-            {/* Experience Level Quick Filter */}
             <div className="flex items-center justify-between sm:justify-start gap-1.5 rounded-xl border border-emerald-200/80 bg-white/90 px-3 py-2 sm:py-1.5 text-[11px] font-bold text-slate-700 shadow-sm backdrop-blur-md dark:border-emerald-500/20 dark:bg-[#0a261d]/95 dark:text-slate-300">
               <div className="flex items-center gap-1">
                 <SlidersHorizontal size={12} className="text-emerald-500 shrink-0" />
@@ -197,7 +216,6 @@ const ITSkills = () => {
               </select>
             </div>
 
-            {/* Sorting Select */}
             <div className="flex items-center justify-between sm:justify-start gap-1.5 rounded-xl border border-emerald-200/80 bg-white/90 px-3 py-2 sm:py-1.5 text-[11px] font-bold text-slate-700 shadow-sm backdrop-blur-md dark:border-emerald-500/20 dark:bg-[#0a261d]/95 dark:text-slate-300">
               <div className="flex items-center gap-1">
                 <ArrowUpDown size={12} className="text-emerald-500 shrink-0" />
@@ -216,7 +234,6 @@ const ITSkills = () => {
           </div>
         </div>
 
-        {/* Compact & Ultra-Responsive Skills Grid */}
         <div className="grid grid-cols-1 gap-3.5 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {filteredAndSortedSkills.map((skill) => (
             <article
@@ -248,11 +265,9 @@ const ITSkills = () => {
                 dark:hover:border-emerald-500/50
               "
             >
-              {/* Top Accent Line */}
               <div className="absolute inset-x-0 top-0 h-1 rounded-t-2xl bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-600" />
 
               <div>
-                {/* Header row inside card */}
                 <div className="flex items-center justify-between mb-2.5">
                   <div className="flex items-center gap-2.5 min-w-0">
                     <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-500/10 text-xs font-black text-emerald-600 shadow-inner group-hover:scale-105 dark:border-emerald-500/30 dark:text-emerald-400">
@@ -275,13 +290,11 @@ const ITSkills = () => {
                   )}
                 </div>
 
-                {/* Description */}
                 <p className="text-[11px] leading-relaxed text-slate-600 dark:text-slate-300 line-clamp-2">
                   {skill.description}
                 </p>
               </div>
 
-              {/* Footer specs (Level & Experience) */}
               <div className="mt-3.5 pt-2.5 border-t border-emerald-100 dark:border-emerald-500/10 flex items-center justify-between text-[10px]">
                 <span className="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[9px]">
                   {skill.experience}
@@ -301,7 +314,6 @@ const ITSkills = () => {
           ))}
         </div>
 
-        {/* Empty State */}
         {filteredAndSortedSkills.length === 0 && (
           <div className="py-12 text-center">
             <BookOpen size={24} className="mx-auto text-emerald-500/50 mb-2" />

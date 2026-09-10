@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -13,15 +12,17 @@ import {
   FaBrain 
 } from "react-icons/fa";
 
+import Image from "../assets/man.jpeg";
+
 const Header = () => {
   const [roleIndex, setRoleIndex] = useState(0);
 
   const roles = [
-    "AI MERN Developer",
-    "Full Stack Architect",
-    "React & Next.js Pro",
-    "Node.js Backend Master",
-    "AI Integration Engineer",
+    "Full Stack Developer",
+    "React & Node.js Specialist",
+    "UI/UX Implementation Expert",
+    "Scalable Web Architect",
+    "MERN Stack Developer",
   ];
 
   const scrollToSection = (link) => {
@@ -72,7 +73,6 @@ const Header = () => {
         dark:text-slate-100
       "
     >
-      {/* Background 3D Dynamic Glows & Tech Grid */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -left-1/4 -top-1/4 h-[400px] w-[400px] sm:h-[750px] sm:w-[750px] rounded-full bg-emerald-500/15 blur-[120px] sm:blur-[160px] dark:bg-emerald-500/10" />
         <div className="absolute -right-1/3 top-1/3 h-[350px] w-[350px] sm:h-[650px] sm:w-[650px] rounded-full bg-teal-600/15 blur-[130px] sm:blur-[170px] dark:bg-teal-600/10" />
@@ -116,16 +116,8 @@ const Header = () => {
           {/* Left Content */}
           <div className="text-center lg:text-left relative flex flex-col items-center lg:items-start">
             
-            {/* Floating code snippet tag - hidden on very small screens to avoid clutter */}
-            <motion.div
-              animate={{ y: [-6, 6, -6], x: [-3, 3, -3] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -left-4 -top-8 hidden md:flex items-center gap-2 rounded-xl border border-emerald-300/60 bg-white/80 px-3 py-1.5 text-[11px] font-bold text-slate-700 shadow-sm backdrop-blur-md dark:bg-slate-900/60 dark:text-emerald-300 dark:border-emerald-500/30"
-            >
-              <FaCode className="text-emerald-500" /> const developer = "Amit";
-            </motion.div>
+           
 
-            {/* Top Badges Row */}
             <motion.div variants={itemVariants} className="mb-5 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 lg:justify-start">
               <div
                 className="
@@ -154,7 +146,7 @@ const Header = () => {
                 "
               >
                 <FaStar className="text-emerald-400 animate-spin" style={{ animationDuration: "6s" }} />
-                KAIZEN AI INNOVATOR
+                FULL STACK & MERN INNOVATOR
               </div>
 
               <div
@@ -179,7 +171,7 @@ const Header = () => {
                 "
               >
                 <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
-                Open for Projects
+                Available for Hire
               </div>
             </motion.div>
 
@@ -203,7 +195,6 @@ const Header = () => {
               </span>
             </motion.h1>
 
-            {/* Dynamic Role Switcher */}
             <motion.div variants={itemVariants} className="mt-4 sm:mt-6 min-h-[40px] sm:min-h-[48px]">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -224,17 +215,15 @@ const Header = () => {
               variants={itemVariants}
               className="mt-4 sm:mt-6 max-w-xl text-sm sm:text-base lg:text-lg leading-7 sm:leading-8 text-slate-600 dark:text-slate-400"
             >
-              Building next-gen intelligent web architectures, scalable full-stack applications, and high-performance AI integrations with <span className="font-bold text-slate-900 dark:text-white">React, Node.js & Machine Learning workflows</span>.
+              Building scalable web applications, robust REST APIs, and optimized user interfaces using <span className="font-bold text-slate-900 dark:text-white">React.js, Node.js, and modern JavaScript toolchains</span>.
             </motion.p>
 
-            {/* Quick Skill Highlights Checklist */}
             <motion.div variants={itemVariants} className="mt-5 sm:mt-6 flex flex-wrap items-center justify-center gap-3 sm:gap-4 lg:justify-start text-xs font-bold text-slate-600 dark:text-slate-300">
-              <span className="flex items-center gap-1.5"><FaCheckCircle className="text-emerald-500" /> Clean Code</span>
-              <span className="flex items-center gap-1.5"><FaCheckCircle className="text-emerald-500" /> Real-time APIs</span>
-              <span className="flex items-center gap-1.5"><FaCheckCircle className="text-emerald-500" /> UI/UX Expert</span>
+              <span className="flex items-center gap-1.5"><FaCheckCircle className="text-emerald-500" /> React & Redux</span>
+              <span className="flex items-center gap-1.5"><FaCheckCircle className="text-emerald-500" /> Express & MongoDB</span>
+              <span className="flex items-center gap-1.5"><FaCheckCircle className="text-emerald-500" /> Clean Architecture</span>
             </motion.div>
 
-            {/* Action Buttons */}
             <motion.div
               variants={itemVariants}
               className="mt-7 sm:mt-8 flex w-full flex-col items-center justify-center gap-3.5 sm:flex-row sm:w-auto lg:justify-start"
@@ -312,101 +301,128 @@ const Header = () => {
             </motion.div>
           </div>
 
-          {/* Right Profile Photo & Interactive Floating Tech Orbit (Fully Responsive Box) */}
+          {/* Right Profile Card Custom-Styled for Standing Developer Holding Laptop Pose */}
           <motion.div
             variants={itemVariants}
             className="relative mx-auto flex h-[380px] xs:h-[420px] sm:h-[460px] w-full max-w-sm sm:max-w-md items-center justify-center lg:h-[500px] lg:max-w-none"
           >
-            <div className="absolute inset-0 rounded-[30px] sm:rounded-[40px] bg-gradient-to-tr from-emerald-500/20 via-teal-500/20 to-cyan-500/20 blur-2xl -z-10" />
+            {/* Ambient Background Glow */}
+            <div className="absolute inset-0 rounded-[30px] sm:rounded-[40px] bg-gradient-to-tr from-emerald-500/30 via-teal-500/20 to-cyan-500/20 blur-3xl -z-10 animate-pulse" />
 
-            <div className="relative h-[300px] w-[260px] xs:h-[350px] xs:w-[300px] sm:h-[400px] sm:w-[340px] overflow-hidden rounded-[28px] sm:rounded-[36px] border-[5px] sm:border-[6px] border-white bg-white shadow-2xl backdrop-blur-xl dark:border-slate-900 dark:bg-slate-900">
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-100 via-teal-50 to-cyan-100 dark:from-[#061a14] dark:via-slate-900 dark:to-slate-950" />
-
-              <img
-                src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=600&auto=format&fit=crop"
-                alt="Amit Gupta, AI MERN Developer"
-                className="
-                  relative
-                  z-10
-                  h-full
-                  w-full
-                  object-cover
-                  object-center
-                  scale-105
-                  opacity-90
-                  transition-transform
-                  duration-700
-                  hover:scale-110
-                "
+            {/* Premium Dynamic Container Frame */}
+            <motion.div
+              animate={{ y: [-8, 8, -8] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="relative h-[330px] w-[290px] xs:h-[380px] xs:w-[330px] sm:h-[430px] sm:w-[380px] rounded-[36px] p-3 border-2 border-emerald-400/40 bg-gradient-to-b from-white/80 to-emerald-50/50 shadow-[0_20px_50px_rgba(16,185,129,0.2)] backdrop-blur-xl dark:from-slate-900/90 dark:to-[#09261d]/90 dark:border-emerald-500/30 flex flex-col items-center justify-center overflow-hidden group"
+            >
+              {/* Subtle Tech Grid Pattern Overlay */}
+              <div 
+                className="absolute inset-0 opacity-[0.07] pointer-events-none rounded-[36px]"
                 style={{
-                  filter: "grayscale(100%) brightness(1.05) contrast(1.1)",
+                  backgroundImage: `radial-gradient(#10b981 1px, transparent 1px)`,
+                  backgroundSize: `16px 16px`
                 }}
               />
 
-              <div className="absolute inset-0 z-20 bg-gradient-to-t from-emerald-950/60 via-transparent to-transparent" />
-            </div>
+              {/* Glowing Inner Border Effect */}
+              <div className="absolute inset-0 rounded-[36px] border border-emerald-400/20 pointer-events-none" />
 
-            {/* Floating Orbit Tech Badges around Image */}
+              {/* Image Frame Wrapper with Depth */}
+              <div className="relative h-full w-full rounded-[28px] overflow-hidden flex items-center justify-center bg-gradient-to-b from-emerald-500/10 to-transparent">
+                <img
+                  src={Image}
+                  alt="Amit Gupta - Standing with Laptop"
+                  className="
+                    relative
+                    z-20
+                    h-full
+                    w-full
+                    object-cover
+                    object-top
+                    scale-100
+                    transition-transform
+                    duration-700
+                    group-hover:scale-105
+                    filter contrast-[1.05]
+                  "
+                />
+
+                {/* Bottom Lighting Gradient for integration */}
+                <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-emerald-950/70 via-emerald-950/20 to-transparent z-25 pointer-events-none" />
+                
+                {/* Live Status Badge on Image */}
+                <div className="absolute bottom-4 left-4 z-30 flex items-center gap-2 rounded-xl bg-slate-900/80 px-3 py-1.5 border border-emerald-500/40 backdrop-blur-md shadow-lg">
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 animate-ping" />
+                  <span className="text-[11px] font-bold text-emerald-300 tracking-wide">Coding Live</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Floating Tech Stack Badges */}
             <motion.div
               animate={{ rotate: 360 }}
-              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+              transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
               className="absolute inset-0 pointer-events-none z-30"
             >
-              {/* React Badge */}
-              <div className="absolute -top-1 left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-full border border-cyan-400/50 bg-white/95 px-2.5 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-[11px] font-bold text-cyan-700 shadow-lg backdrop-blur-md dark:bg-slate-900 dark:text-cyan-300">
-                <FaReact className="text-cyan-500 animate-spin" style={{ animationDuration: "8s" }} /> React
+              <div className="absolute -top-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 rounded-full border border-cyan-400/50 bg-white/95 px-3.5 py-1.5 text-[11px] font-bold text-cyan-700 shadow-xl backdrop-blur-md dark:bg-slate-900 dark:text-cyan-300">
+                <FaReact className="text-cyan-500 animate-spin" style={{ animationDuration: "8s" }} /> React.js
               </div>
 
-              {/* Node Badge */}
-              <div className="absolute top-1/2 -right-3 sm:-right-6 -translate-y-1/2 flex items-center gap-1 rounded-full border border-emerald-400/50 bg-white/95 px-2.5 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-[11px] font-bold text-emerald-700 shadow-lg backdrop-blur-md dark:bg-slate-900 dark:text-emerald-300">
+              <div className="absolute top-1/2 -right-4 sm:-right-8 -translate-y-1/2 flex items-center gap-1.5 rounded-full border border-emerald-400/50 bg-white/95 px-3.5 py-1.5 text-[11px] font-bold text-emerald-700 shadow-xl backdrop-blur-md dark:bg-slate-900 dark:text-emerald-300">
                 <FaNodeJs className="text-emerald-500" /> Node.js
               </div>
 
-              {/* AI Badge */}
-              <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-full border border-teal-400/50 bg-white/95 px-2.5 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-[11px] font-bold text-teal-700 shadow-lg backdrop-blur-md dark:bg-slate-900 dark:text-teal-300">
-                <FaBrain className="text-teal-500" /> AI Flow
+              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 rounded-full border border-teal-400/50 bg-white/95 px-3.5 py-1.5 text-[11px] font-bold text-teal-700 shadow-xl backdrop-blur-md dark:bg-slate-900 dark:text-teal-300">
+                <FaBrain className="text-teal-500" /> MERN Stack
               </div>
             </motion.div>
 
-            {/* Static Card Tags */}
+            {/* Floating Detail Pill 1 */}
             <motion.div
-              animate={{ y: [-5, 5, -5] }}
+              animate={{ y: [-6, 6, -6] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -left-2 sm:-left-4 top-8 sm:top-10 z-40 flex items-center gap-1.5 sm:gap-2 rounded-xl sm:rounded-2xl border border-emerald-400/40 bg-white/90 px-3 py-2 sm:px-3.5 sm:py-2.5 text-[11px] sm:text-xs font-bold text-slate-800 shadow-xl backdrop-blur-md dark:bg-slate-900/90 dark:text-white"
+              className="absolute -left-3 sm:-left-6 top-12 z-40 flex items-center gap-2 rounded-2xl border border-emerald-400/40 bg-white/90 px-3.5 py-2.5 text-xs font-bold text-slate-800 shadow-2xl backdrop-blur-md dark:bg-slate-900/90 dark:text-white"
             >
-              <FaLaptopCode className="text-emerald-500" /> Full Stack Pro
+              <div className="p-1.5 rounded-xl bg-emerald-500/10 text-emerald-500">
+                <FaLaptopCode />
+              </div>
+              <span>Clean Code</span>
             </motion.div>
 
+            {/* Floating Detail Pill 2 */}
             <motion.div
-              animate={{ y: [5, -5, 5] }}
+              animate={{ y: [6, -6, 6] }}
               transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -right-2 sm:-right-4 bottom-8 sm:bottom-10 z-40 flex items-center gap-1.5 sm:gap-2 rounded-xl sm:rounded-2xl border border-emerald-400/40 bg-gradient-to-r from-emerald-500 to-teal-600 px-3 py-2 sm:px-3.5 sm:py-2.5 text-[11px] sm:text-xs font-bold text-white shadow-xl backdrop-blur-md"
+              className="absolute -right-3 sm:-right-6 bottom-16 z-40 flex items-center gap-2 rounded-2xl border border-emerald-400/40 bg-gradient-to-r from-emerald-500 to-teal-600 px-3.5 py-2.5 text-xs font-bold text-white shadow-2xl backdrop-blur-md"
             >
-              <FaTerminal /> 3+ Yrs Exp
+              <div className="p-1.5 rounded-xl bg-white/20 text-white">
+                <FaTerminal />
+              </div>
+              <span>3+ Yrs Exp</span>
             </motion.div>
           </motion.div>
         </motion.div>
 
-        {/* Bottom Glassmorphic Stats Strip */}
+        {/* Stats Strip */}
         <motion.div
           variants={itemVariants}
           className="mt-12 sm:mt-16 grid w-full max-w-5xl grid-cols-2 gap-3 sm:gap-4 rounded-2xl sm:rounded-3xl border border-emerald-300/60 bg-white/60 p-4 sm:p-6 shadow-xl backdrop-blur-xl sm:grid-cols-4 dark:border-emerald-500/20 dark:bg-slate-900/60"
         >
           <div className="text-center p-2">
-            <h4 className="text-xl xs:text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">30+</h4>
-            <p className="text-[11px] sm:text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mt-1">Projects Completed</p>
+            <h4 className="text-xl xs:text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">10M+</h4>
+            <p className="text-[11px] sm:text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mt-1">Users Scaled</p>
           </div>
           <div className="text-center p-2">
-            <h4 className="text-xl xs:text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">100%</h4>
-            <p className="text-[11px] sm:text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mt-1">Client Satisfaction</p>
+            <h4 className="text-xl xs:text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">50K+</h4>
+            <p className="text-[11px] sm:text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mt-1">Daily API Requests</p>
           </div>
           <div className="text-center p-2">
             <h4 className="text-xl xs:text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">3+</h4>
             <p className="text-[11px] sm:text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mt-1">Years Experience</p>
           </div>
           <div className="text-center p-2">
-            <h4 className="text-xl xs:text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">24/7</h4>
-            <p className="text-[11px] sm:text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mt-1">Support & Scaling</p>
+            <h4 className="text-xl xs:text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">98%</h4>
+            <p className="text-[11px] sm:text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mt-1">Lighthouse Score</p>
           </div>
         </motion.div>
       </div>

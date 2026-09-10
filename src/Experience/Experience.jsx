@@ -9,7 +9,6 @@ import {
   FaTimes,
   FaCheckCircle,
   FaExternalLinkAlt,
-  FaUsers,
   FaShieldAlt,
   FaChartLine,
   FaRocket,

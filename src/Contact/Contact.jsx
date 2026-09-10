@@ -10,13 +10,12 @@ import {
   FaEnvelopeOpenText,
   FaPhoneAlt,
   FaMapMarkerAlt,
-  FaClock,
-  FaGithub,
-  FaLinkedinIn,
-  FaTwitter,
   FaStar,
   FaCopy,
   FaCheckCircle,
+  FaGithub,
+  FaLinkedinIn,
+  FaTwitter,
 } from "react-icons/fa";
 
 import toast, { Toaster } from "react-hot-toast";
@@ -154,9 +153,9 @@ const Contact = () => {
 
             <div className="grid grid-cols-1 gap-3">
               {[
-                { icon: FaEnvelope, title: "Direct Email", value: "hello@yourdomain.com", copyable: true },
-                { icon: FaPhoneAlt, title: "Quick Call", value: "+1 (555) 019-2834", copyable: true },
-                { icon: FaMapMarkerAlt, title: "Location", value: "San Francisco, CA (Remote)", copyable: false },
+                { icon: FaEnvelope, title: "Direct Email", value: "amitgupta99393@gmail.com", copyable: true },
+                { icon: FaPhoneAlt, title: "Quick Call", value: "+91 9654496209", copyable: true },
+                { icon: FaMapMarkerAlt, title: "Location", value: "Kishanganj, Bihar, India", copyable: false },
               ].map((card, idx) => (
                 <div
                   key={idx}

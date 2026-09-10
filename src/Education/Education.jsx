@@ -22,64 +22,45 @@ const Education = () => {
       degree: "Bachelor of Computer Applications",
       short: "BCA",
       type: "Degree",
-      college: "NIET, Greater Noida",
-      year: "2020 - 2023",
+      college: "Chaudhary Charan Singh University, Noida",
+      year: "July 2020 - July 2023",
       status: "Completed",
-      score: "76%",
+      score: "65%",
       image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=90",
       badgeBg: "bg-emerald-500/15 text-emerald-700 border-emerald-300 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/30",
       description:
-        "Focused heavily on advanced software engineering principles, dynamic web technologies, and database architecture.",
-      keySubjects: ["DSA", "DBMS", "OOPs", "Web Eng.", "Software Testing"],
+        "Focused heavily on core computer applications, software development fundamentals, and data structures.",
+      keySubjects: ["DSA", "OOPs", "Software Engineering", "Web Tech", "Database Management"],
       achievements: [
-        "Secured 1st position in Inter-College Web Dev Hackathon 2022.",
-        "Completed 5+ full-stack capstone projects with grade A distinction."
+        "Completed graduation with 65% aggregate score[cite: 2].",
+        "Built core foundations in programming and full-stack development."
       ],
-      credentialId: "NIET/BCA/2023/9482",
+      credentialId: "CCSU/BCA/2023/AI-DEV",
     },
     {
-      id: "12th",
-      degree: "Intermediate Senior Secondary",
-      short: "12th",
-      type: "Schooling",
-      college: "Aapke School Ka Naam",
-      year: "2018 - 2020",
+      id: "certs",
+      degree: "Professional Certifications & GenAI Specializations",
+      short: "Certifications",
+      type: "Certification",
+      college: "DeepLearning.AI & Udemy",
+      year: "2024 - Present",
       status: "Completed",
-      score: "65%",
-      image: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=90",
-      badgeBg: "bg-emerald-500/15 text-emerald-700 border-emerald-300 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/30",
+      score: "Distinction",
+      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=90",
+      badgeBg: "bg-teal-500/15 text-teal-700 border-teal-300 dark:bg-teal-500/10 dark:text-teal-300 dark:border-teal-500/30",
       description:
-        "Strengthened core mathematical proficiency, logical reasoning, and physical sciences foundation.",
-      keySubjects: ["Mathematics", "Physics", "Chemistry", "Computer Sci."],
+        "Acquired specialized industry certifications focusing on Generative AI, Large Language Models, and modern application development.",
+      keySubjects: ["Generative AI", "LangChain", "LLM Apps", "OpenAI API", "Prompt Engineering"],
       achievements: [
-        "Awarded certificate of merit for excellence in Mathematics.",
-        "Active participant in regional science exhibitions."
+        "Generative AI for Developers by DeepLearning.AI[cite: 2].",
+        "LangChain for LLM Apps by Udemy[cite: 2].",
+        "OpenAI API Mastery[cite: 2]."
       ],
-      credentialId: "CBSE/12TH/2020/7812",
-    },
-    {
-      id: "10th",
-      degree: "High School Secondary Education",
-      short: "10th",
-      type: "Schooling",
-      college: "Aapke School Ka Naam",
-      year: "2016 - 2018",
-      status: "Completed",
-      score: "60%",
-      image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=90",
-      badgeBg: "bg-emerald-500/15 text-emerald-700 border-emerald-300 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/30",
-      description:
-        "Built a well-rounded academic foundation, participating actively in science fairs and exhibitions.",
-      keySubjects: ["Science", "Mathematics", "Social Studies", "IT"],
-      achievements: [
-        "Maintained top quartile standing in academic assessments.",
-        "Recognized for team coordination in project presentations."
-      ],
-      credentialId: "CBSE/10TH/2018/5541",
+      credentialId: "CERT/GENAI/2026/AMIT",
     },
   ];
 
-  const categories = ["All", "Degree", "Schooling"];
+  const categories = ["All", "Degree", "Certification"];
 
   const filteredEducation = useMemo(() => {
     if (activeTab === "All") return EDUCATION_DATA;
@@ -87,7 +68,6 @@ const Education = () => {
   }, [activeTab]);
 
   const toggleExpand = (id) => {
-    // Fixed: Now comparing with unique `edu.id` instead of `edu.degree`
     setExpandedId(expandedId === id ? null : id);
   };
 
@@ -111,7 +91,6 @@ const Education = () => {
         dark:text-slate-100
       "
     >
-      {/* Background Glows & Grid */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute left-1/2 top-0 h-[400px] w-[600px] -translate-x-1/2 rounded-full bg-gradient-to-tr from-emerald-500/10 via-teal-600/10 to-cyan-600/10 blur-[120px]" />
         <div
@@ -125,7 +104,6 @@ const Education = () => {
 
       <div className="relative z-10 mx-auto max-w-7xl">
         
-        {/* Section Header */}
         <div className="mx-auto mb-10 max-w-2xl text-center">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -155,7 +133,7 @@ const Education = () => {
             "
           >
             <FaGraduationCap className="text-emerald-500 text-xs" />
-            ACADEMIC CREDENTIALS
+            ACADEMIC CREDENTIALS & CERTS
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.9)]" />
           </motion.div>
 
@@ -168,7 +146,7 @@ const Education = () => {
           >
             Educational{" "}
             <span className="bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-600 bg-clip-text text-transparent">
-              Milestones
+              Milestones & Certifications
             </span>
           </motion.h2>
 
@@ -179,11 +157,10 @@ const Education = () => {
             transition={{ duration: 0.4, delay: 0.15 }}
             className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-600 dark:text-slate-400"
           >
-            Explore academic qualifications, core syllabi, and verified records seamlessly inside each card view.
+            Explore academic qualifications, specialized GenAI certificates, and professional development milestones.
           </motion.p>
         </div>
 
-        {/* Category Filter Tabs */}
         <motion.div 
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -216,8 +193,7 @@ const Education = () => {
           </div>
         </motion.div>
 
-        {/* Cards Grid */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2 max-w-4xl mx-auto">
           {filteredEducation.map((edu, index) => {
             const isExpanded = expandedId === edu.id;
 
@@ -252,10 +228,8 @@ const Education = () => {
                     dark:hover:border-emerald-500/50
                   "
                 >
-                  {/* Top Glow Accent Line */}
                   <div className="absolute inset-x-0 top-0 h-1 rounded-t-[24px] bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-600" />
 
-                  {/* Compact Image Banner */}
                   <div className="relative h-32 w-full overflow-hidden rounded-xl bg-slate-100 mb-4 border border-emerald-200/60 shadow-sm dark:bg-slate-900 dark:border-emerald-500/20">
                     <img
                       src={edu.image}
@@ -265,7 +239,6 @@ const Education = () => {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent opacity-85 dark:from-[#061a14]" />
 
-                    {/* Year Tag */}
                     <div className="absolute right-2.5 top-2.5 z-10">
                       <div className="flex items-center gap-1 rounded-lg border border-emerald-300/40 bg-white/95 px-2.5 py-1 text-[10px] font-extrabold text-slate-800 backdrop-blur-md shadow-md dark:border-emerald-500/30 dark:bg-slate-900/80 dark:text-white">
                         <FaCalendarAlt className="text-emerald-500 text-[9px]" />
@@ -273,7 +246,6 @@ const Education = () => {
                       </div>
                     </div>
 
-                    {/* Short Tag */}
                     <div className="absolute left-2.5 top-2.5 z-10">
                       <div className={`rounded-lg border px-2.5 py-1 text-[10px] font-black uppercase tracking-wider ${edu.badgeBg} shadow-md bg-white/95 dark:bg-slate-900/80`}>
                         {edu.short}
@@ -281,12 +253,10 @@ const Education = () => {
                     </div>
                   </div>
 
-                  {/* Degree Title */}
                   <h3 className="text-base sm:text-lg font-extrabold leading-snug text-slate-900 transition-colors duration-300 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
                     {edu.degree}
                   </h3>
 
-                  {/* Institution & Status Row */}
                   <div className="mt-3 flex items-center justify-between rounded-xl border border-emerald-200/60 bg-emerald-50/40 px-3.5 py-2.5 shadow-sm dark:border-emerald-500/25 dark:bg-slate-900/40">
                     <div className="flex items-center gap-2.5 min-w-0">
                       <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-500 text-white shadow-sm font-bold text-xs">
@@ -300,12 +270,10 @@ const Education = () => {
                     </div>
                   </div>
 
-                  {/* Description */}
                   <p className="mt-3 text-xs leading-relaxed text-slate-600 dark:text-slate-300">
                     {edu.description}
                   </p>
 
-                  {/* Expandable Inline Content Section */}
                   <AnimatePresence>
                     {isExpanded && (
                       <motion.div
@@ -317,33 +285,30 @@ const Education = () => {
                       >
                         <div className="mt-4 space-y-3.5 pt-4 border-t border-emerald-200/60 dark:border-emerald-500/20">
                           
-                          {/* Credential ID badge */}
                           <div className="flex items-center gap-2 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 px-2.5 py-2 border border-emerald-200 dark:border-emerald-500/20 text-[11px] font-bold text-emerald-800 dark:text-emerald-300">
                             <FaCertificate className="text-emerald-500 shrink-0 text-xs" />
                             <span className="truncate">ID: {edu.credentialId}</span>
                           </div>
 
-                          {/* Core Subjects */}
                           <div>
                             <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-1.5 flex items-center gap-1">
-                              <FaStar className="text-[10px]" /> Coursework
+                              <FaStar className="text-[10px]" /> Core Focus
                             </h4>
                             <div className="flex flex-wrap gap-1">
                               {edu.keySubjects.map((subject, idx) => (
-                                <span key={idx} className="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] فهم-semibold text-emerald-800 dark:text-emerald-300">
+                                <span key={idx} className="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-800 dark:text-emerald-300">
                                   {subject}
                                 </span>
                               ))}
                             </div>
                           </div>
 
-                          {/* Achievements */}
                           <div>
                             <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-1.5 flex items-center gap-1">
-                              <FaAward className="text-[10px]" /> Milestones
+                              <FaAward className="text-[10px]" /> Highlights
                             </h4>
                             <div className="space-y-1.5">
-                              {edu.yaml || edu.achievements.map((ach, idx) => (
+                              {edu.achievements.map((ach, idx) => (
                                 <div key={idx} className="flex items-start gap-1.5 text-[11px] text-slate-600 dark:text-slate-300">
                                   <FaCheckCircle className="text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5 text-[10px]" />
                                   <span>{ach}</span>
@@ -359,7 +324,6 @@ const Education = () => {
 
                   <div className="my-4 h-px bg-gradient-to-r from-transparent via-emerald-200 to-transparent dark:via-emerald-500/25" />
 
-                  {/* Footer Action */}
                   <div className="flex items-center justify-between pt-1 mt-auto">
                     <div className="flex items-center gap-1.5">
                       <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400">
