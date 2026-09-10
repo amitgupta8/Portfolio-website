@@ -12,37 +12,29 @@ import Footer from "./Footer/Footer";
 
 const App = () => {
   // ==========================================
-  // GLOBAL THEME STATE
+  // GLOBAL THEME STATE (Universal Fix)
   // ==========================================
   const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window === "undefined") return true;
     const savedTheme = localStorage.getItem("theme");
-
-    if (savedTheme === "light") return false;
-    if (savedTheme === "dark") return true;
-
-    return true;
+    if (savedTheme) {
+      return savedTheme === "dark";
+    }
+    // Fallback to system preference if no local storage exists
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
   });
 
   // ==========================================
-  // APPLY THEME TO ENTIRE WEBSITE
+  // APPLY THEME TO HTML & BODY GOBALLY
   // ==========================================
   useEffect(() => {
-    const html = document.documentElement;
-    const body = document.body;
-
+    const root = document.documentElement;
+    
     if (darkMode) {
-      html.classList.add("dark");
-
-      body.classList.remove("bg-white");
-      body.classList.add("bg-[#030712]");
-
+      root.classList.add("dark");
       localStorage.setItem("theme", "dark");
     } else {
-      html.classList.remove("dark");
-
-      body.classList.remove("bg-[#030712]");
-      body.classList.add("bg-white");
-
+      root.classList.remove("dark");
       localStorage.setItem("theme", "light");
     }
   }, [darkMode]);
@@ -56,55 +48,23 @@ const App = () => {
         text-slate-900
         transition-colors
         duration-500
-
         dark:bg-[#030712]
         dark:text-white
       "
     >
       {/* NAVBAR */}
-      <Nav
-        darkMode={darkMode}
-        setDarkMode={setDarkMode}
-      />
+      <Nav darkMode={darkMode} setDarkMode={setDarkMode} />
 
       <main>
-        {/* HOME */}
-        <section id="home">
-          <Header />
-        </section>
-
-        {/* SKILLS */}
-        <section id="skills">
-          <CoreSkills />
-        </section>
-
-        {/* STACK */}
-        <section id="stack">
-          <ITSkills />
-        </section>
-
-        {/* EDUCATION */}
-        <section id="education">
-          <Education />
-        </section>
-
-        {/* EXPERIENCE */}
-        <section id="experience">
-          <Experience />
-        </section>
-
-        {/* PROJECTS */}
-        <section id="projects">
-          <ProjectShow />
-        </section>
-
-        {/* CONTACT */}
-        <section id="contact">
-          <Contact />
-        </section>
+        <section id="home"><Header /></section>
+        <section id="skills"><CoreSkills /></section>
+        <section id="stack"><ITSkills /></section>
+        <section id="education"><Education /></section>
+        <section id="experience"><Experience /></section>
+        <section id="projects"><ProjectShow /></section>
+        <section id="contact"><Contact /></section>
       </main>
 
-      {/* FOOTER */}
       <Footer />
     </div>
   );
