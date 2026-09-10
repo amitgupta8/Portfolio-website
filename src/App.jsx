@@ -12,19 +12,19 @@ import Footer from "./Footer/Footer";
 
 const App = () => {
   // ==========================================
-  // GLOBAL THEME STATE
+  // GLOBAL THEME STATE (Supports LocalStorage & System Preference)
   // ==========================================
   const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window === "undefined") return true;
     const savedTheme = localStorage.getItem("theme");
-
     if (savedTheme === "light") return false;
     if (savedTheme === "dark") return true;
-
-    return true;
+    // Fallback to system preference if no explicit choice saved
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
   });
 
   // ==========================================
-  // APPLY THEME TO ENTIRE WEBSITE
+  // APPLY THEME TO ENTIRE WEBSITE & DOCUMENT ROOT
   // ==========================================
   useEffect(() => {
     const html = document.documentElement;
@@ -32,17 +32,13 @@ const App = () => {
 
     if (darkMode) {
       html.classList.add("dark");
-
       body.classList.remove("bg-white");
       body.classList.add("bg-[#030712]");
-
       localStorage.setItem("theme", "dark");
     } else {
       html.classList.remove("dark");
-
       body.classList.remove("bg-[#030712]");
       body.classList.add("bg-white");
-
       localStorage.setItem("theme", "light");
     }
   }, [darkMode]);
@@ -56,16 +52,12 @@ const App = () => {
         text-slate-900
         transition-colors
         duration-500
-
         dark:bg-[#030712]
         dark:text-white
       "
     >
       {/* NAVBAR */}
-      <Nav
-        darkMode={darkMode}
-        setDarkMode={setDarkMode}
-      />
+      <Nav darkMode={darkMode} setDarkMode={setDarkMode} />
 
       <main>
         {/* HOME */}
@@ -83,8 +75,6 @@ const App = () => {
           <ITSkills />
         </section>
 
-       
-
         {/* EXPERIENCE */}
         <section id="experience">
           <Experience />
@@ -95,7 +85,7 @@ const App = () => {
           <ProjectShow />
         </section>
 
-         {/* EDUCATION */}
+        {/* EDUCATION */}
         <section id="education">
           <Education />
         </section>
@@ -111,5 +101,6 @@ const App = () => {
     </div>
   );
 };
+
 
 export default App;
