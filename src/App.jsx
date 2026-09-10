@@ -65,11 +65,7 @@ const App = () => {
           <Header />
         </section>
 
-        {/* SKILLS */}
-        <section id="skills">
-          <CoreSkills />
-        </section>
-
+       
         {/* STACK */}
         <section id="stack">
           <ITSkills />

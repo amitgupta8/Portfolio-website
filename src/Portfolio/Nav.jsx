@@ -15,17 +15,29 @@ import {
   MessageSquare,
 } from "lucide-react";
 
-const Nav = ({ darkMode, setDarkMode }) => {
+// --- UPDATE: Hardcoded Light Mode State ---
+// Dark mode ko permanently disable karne ke liye useState ko false par set karein
+const Nav = ({ darkMode: initialDarkMode, setDarkMode: initialSetDarkMode }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [scrolled, setScrolled] = useState(false);
 
-  // 🎨 Perfect Matching Emerald & Cyber Neon Theme Config
-  const customBg = {
-    dark: "bg-[#061a14]/90 backdrop-blur-3xl", 
-    light: "bg-emerald-50/90 backdrop-blur-2xl",    
-    mobileDark: "bg-[#061a14]/95 backdrop-blur-3xl",
-    mobileLight: "bg-emerald-50/98 backdrop-blur-3xl",
+  // --- UPDATE: Force Light Mode Config ---
+  // Dark mode ke liye defined values ko hata diya gaya hai taaki website hamesha light rahe.
+  const themeConfig = {
+    bg: "bg-emerald-50/90 backdrop-blur-2xl",
+    mobileBg: "bg-emerald-50/98 backdrop-blur-3xl",
+    border: "border-emerald-200/80",
+    shadow: "shadow-[0_20px_40px_rgba(16,185,129,0.08),inset_0_1px_0_rgba(255,255,255,0.8)]",
+    text: "text-slate-900",
+    textDim: "text-slate-700",
+    accent: "text-emerald-600",
+    hoverText: "hover:text-emerald-800",
+    // Theme toggle button ke liye specific styles jo hamesha light mode ko reflect karein
+    btnBg: "bg-white",
+    btnBorder: "border-emerald-300",
+    btnText: "text-emerald-600",
+    btnHover: "hover:bg-emerald-50"
   };
 
   const navItems = [
@@ -38,23 +50,21 @@ const Nav = ({ darkMode, setDarkMode }) => {
     { name: "Contact", id: "contact", icon: Mail },
   ];
 
-  const toggleTheme = () => {
-    const nextTheme = !darkMode;
-    setDarkMode(nextTheme);
-    document.documentElement.classList.toggle("dark", nextTheme);
-    localStorage.setItem("theme", nextTheme ? "dark" : "light");
+  // --- UPDATE: Disabled Theme Toggle Logic ---
+  // Yeh function abhi bhi exist karta hai (icon hataya nahi gaya hai), lekin ise khali chod diya gaya hai.
+  // State update nahi hogi, aur localStorage mein bhi save nahi hoga.
+  const toggleThemeDisabled = () => {
+    // Do nothing - Theme toggle is disabled.
+    // Example: console.log("Theme toggle is disabled");
   };
 
+  // --- UPDATE: Force Light Mode on Load ---
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") {
-      setDarkMode(true);
-      document.documentElement.classList.add("dark");
-    } else if (savedTheme === "light") {
-      setDarkMode(false);
-      document.documentElement.classList.remove("dark");
-    }
-  }, [setDarkMode]);
+    // Ensure document does not have 'dark' class on mount
+    document.documentElement.classList.remove("dark");
+    // Optional: Set initial state to false if it was somehow true
+    if(initialSetDarkMode) initialSetDarkMode(false);
+  }, [initialSetDarkMode]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -74,7 +84,7 @@ const Nav = ({ darkMode, setDarkMode }) => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [navItems]); // Added dependency
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -117,11 +127,7 @@ const Nav = ({ darkMode, setDarkMode }) => {
           fixed left-1/2 top-4 z-[9999] -translate-x-1/2
           w-[calc(100%-16px)] sm:w-[calc(100%-24px)] lg:w-[calc(100%-36px)]
           max-w-7xl rounded-2xl border transition-all duration-300
-          ${
-            darkMode
-              ? `border-emerald-500/30 ${customBg.dark} shadow-[0_20px_50px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.08)]`
-              : `border-emerald-200/80 ${customBg.light} shadow-[0_20px_40px_rgba(16,185,129,0.08),inset_0_1px_0_rgba(255,255,255,0.8)]`
-          }
+          ${themeConfig.border} ${themeConfig.bg} ${themeConfig.shadow}
           ${scrolled ? "shadow-2xl py-0.5" : "py-1"}
         `}
         
@@ -137,10 +143,10 @@ const Nav = ({ darkMode, setDarkMode }) => {
               <span className="relative text-sm font-black text-slate-950">A</span>
             </div>
             <div className="flex flex-col leading-none text-left">
-              <span className={`text-[16px] font-black tracking-tight ${darkMode ? "text-white" : "text-slate-900"}`}>
-                Amit<span className="text-emerald-400">.</span>dev
+              <span className={`text-[16px] font-black tracking-tight ${themeConfig.text}`}>
+                Amit<span className="text-emerald-600">.</span>dev
               </span>
-              <span className={`mt-1 hidden sm:block text-[8px] font-bold uppercase tracking-[0.18em] ${darkMode ? "text-emerald-400/80" : "text-emerald-600"}`}>
+              <span className={`mt-1 hidden sm:block text-[8px] font-bold uppercase tracking-[0.18em] ${themeConfig.accent}`}>
                 AI • MERN • Full Stack
               </span>
             </div>
@@ -148,7 +154,7 @@ const Nav = ({ darkMode, setDarkMode }) => {
 
           {/* Desktop Nav Items */}
           <div className="hidden lg:block">
-            <div className={`flex items-center gap-1 rounded-xl border p-1 ${darkMode ? "border-emerald-500/20 bg-[#0a261d]/80 shadow-inner" : "border-emerald-200/60 bg-emerald-100/50 shadow-inner"}`}>
+            <div className={`flex items-center gap-1 rounded-xl border p-1 ${themeConfig.border} bg-emerald-100/50 shadow-inner`}>
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const active = activeSection === item.id;
@@ -159,13 +165,7 @@ const Nav = ({ darkMode, setDarkMode }) => {
                     onClick={() => goToSection(item.id)}
                     className={`
                       relative group flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-[11px] font-extrabold transition-all duration-200
-                      ${
-                        active
-                          ? "text-white"
-                          : darkMode
-                          ? "text-emerald-100/70 hover:text-white"
-                          : "text-slate-700 hover:text-emerald-800"
-                      }
+                      ${active ? "text-white" : `${themeConfig.textDim} ${themeConfig.hoverText}`}
                     `}
                   >
                     {active && (
@@ -185,16 +185,22 @@ const Nav = ({ darkMode, setDarkMode }) => {
 
           {/* Controls */}
           <div className="flex items-center gap-2.5">
+            
+            {/* --- UPDATE: Icons Kept, Logic Disabled --- */}
             <button
               type="button"
-              onClick={toggleTheme}
-              aria-label="Switch theme"
+              // onClick={toggleTheme} // Functionality removed
+              aria-label="Switch theme (Disabled)"
               className={`
-                group relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border transition-all duration-300 active:scale-95 shadow-md
-                ${darkMode ? "border-emerald-500/30 bg-[#0a261d] text-emerald-400 hover:bg-[#11382b]" : "border-emerald-300 bg-white text-emerald-600 hover:bg-emerald-50"}
+                group relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border transition-all duration-300 cursor-not-allowed shadow-md
+                ${themeConfig.btnBorder} ${themeConfig.btnBg} ${themeConfig.btnText} ${themeConfig.btnHover}
               `}
+              // Disabled cursor visually
+              style={{ opacity: 0.7 }} 
             >
-              {darkMode ? <Sun size={15} className="transition-transform group-hover:rotate-45" /> : <Moon size={15} className="transition-transform group-hover:-rotate-12" />}
+              {/* Both icons kept, but Sun icon will always be visible in Light Mode setup */}
+              <Sun size={15} className="absolute transition-transform opacity-100" />
+              <Moon size={15} className="absolute transition-transform opacity-0" />
             </button>
 
             <button
@@ -214,7 +220,7 @@ const Nav = ({ darkMode, setDarkMode }) => {
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
               onClick={() => setMenuOpen((prev) => !prev)}
-              className={`flex h-9 w-9 items-center justify-center rounded-xl border transition-all duration-200 lg:hidden shadow-md ${darkMode ? "border-emerald-500/30 bg-[#0a261d] text-white" : "border-emerald-300 bg-white text-slate-800"}`}
+              className={`flex h-9 w-9 items-center justify-center rounded-xl border transition-all duration-200 lg:hidden shadow-md ${themeConfig.border} bg-white ${themeConfig.text}`}
             >
               {menuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
@@ -233,11 +239,7 @@ const Nav = ({ darkMode, setDarkMode }) => {
             transition={{ duration: 0.2 }}
             className={`
               fixed inset-x-3 top-20 z-[9998] rounded-2xl border p-3 lg:hidden
-              ${
-                darkMode
-                  ? `border-emerald-500/30 ${customBg.mobileDark} shadow-[0_25px_60px_rgba(0,0,0,0.85)]`
-                  : `border-emerald-200 ${customBg.mobileLight} shadow-2xl`
-              }
+              ${themeConfig.border} ${themeConfig.mobileBg} shadow-2xl
             `}
           >
             <div className="flex flex-col gap-1.5">
@@ -251,12 +253,9 @@ const Nav = ({ darkMode, setDarkMode }) => {
                     onClick={() => goToSection(item.id)}
                     className={`
                       flex items-center gap-3 rounded-xl px-4 py-3 text-xs font-extrabold transition-all
-                      ${
-                        active
-                          ? "bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-600 text-white shadow-md"
-                          : darkMode
-                          ? "text-emerald-100/70 hover:bg-white/[0.04]"
-                          : "text-slate-700 hover:bg-emerald-100/60"
+                      ${active 
+                        ? "bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-600 text-white shadow-md" 
+                        : `${themeConfig.textDim} hover:bg-emerald-100/60`
                       }
                     `}
                   >
